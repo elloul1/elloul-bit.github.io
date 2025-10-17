@@ -2,88 +2,145 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4f46e5">
     <title>ElLoul Inventory System</title>
-    
-    <meta name="theme-color" content="#ffffff">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-    <!-- Cache-busting query string ?v=1.5 is added -->
-    <link rel="manifest" href="manifest.json?v=1.5">
     <link rel="apple-touch-icon" href="https://placehold.co/192x192/4f46e5/ffffff?text=ElLoul">
-    <link rel="icon" href="https://placehold.co/64x64/4f46e5/ffffff?text=E">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRWxMb3VsIEludmVudG9yeSBTeXN0ZW0iLCJzaG9ydF9uYW1lIjoiRWxMb3VsIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiNmMGYyZjUiLCJ0aGVtZV9jb2xvciI6IiM0ZjQ2ZTUiLCJkZXNjcmlwdGlvbiI6IkEgc2ltcGxlIGludmVudG9yeSBtYW5hZ2VtZW50IGFwcGxpY2F0aW9uLiIsImljb25zIjpbeyJzcmMiOiJodHRwczovL3BsYWNlaG9sZC5jby8xOTJ4MTkyLzRmNDZlNS9mZmZmZmY/dGV4dD1FbExvdWwiLCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn0seyJzcmMiOiJodHRwczovL3BsYWNlaG9sZC5jby81MTJ4NTEyLzRmNDZlNS9mZmZmZmY_dGV4dD1FbExvdWwiLCJzaXplcyI6IjUxMng1MTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
 
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Tajawal -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SweetAlert2 for Interactive Alerts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Dexie.js for IndexedDB -->
     <script src="https://unpkg.com/dexie@3/dist/dexie.js"></script>
 
+    <!-- Custom Styles -->
     <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #f0f2f5; }
         :root { 
             --primary: #4f46e5; --primary-darker: #4338ca; --light-bg: #f0f2f5;
             --card-bg: #ffffff; --border-color: #e5e7eb; --text-dark: #111827; --text-muted: #6b7280;
-            --safe-area-inset-top: env(safe-area-inset-top, 0px);
-            --header-height: 5rem;
-            --header-total-height: calc(var(--header-height) + var(--safe-area-inset-top));
         }
-        body { 
-            font-family: 'Tajawal', sans-serif; 
-            background-color: var(--light-bg);
-            padding-top: var(--header-total-height);
-        }
-        .header-glass {
-            height: var(--header-total-height);
-            padding-top: var(--safe-area-inset-top);
-        }
-        .category-tabs-container-wrapper {
-            top: var(--header-total-height);
-        }
-        /* The rest of the styles remain unchanged */
         .text-primary { color: var(--primary); } .bg-primary { background-color: var(--primary); }
         .bg-primary-darker { background-color: var(--primary-darker); }
         .border-primary { border-color: var(--primary); } .ring-primary { --tw-ring-color: var(--primary); }
-        .product-card { --glow-color: var(--primary); background-color: var(--card-bg); border: 1px solid var(--border-color); border-top-width: 4px; transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); position: relative; }
-        .product-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.12), 0 0 25px -5px var(--glow-color); }
-        .card-actions { position: absolute; top: 170px; left: 1rem; display: flex; gap: 0.5rem; opacity: 0; transform: translateY(10px); transition: opacity 0.3s ease, transform 0.3s ease; }
-        .product-card:hover .card-actions { opacity: 1; transform: translateY(0); }
-        .action-btn { background-color: rgba(255, 255, 255, 0.9); color: var(--text-muted); width: 36px; height: 36px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: color 0.2s, background-color 0.2s; }
+
+        .header-glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); }
+        
+        .product-card { 
+            --glow-color: var(--primary);
+            background-color: var(--card-bg); 
+            border: 1px solid var(--border-color);
+            border-top-width: 4px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            overflow: hidden; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            position: relative; /* For action buttons positioning */
+        }
+        .product-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.12), 0 0 25px -5px var(--glow-color);
+        }
+        
+        /* Action buttons styling and hover effect */
+        .card-actions {
+            position: absolute;
+            top: 170px; /* Position below the image area */
+            left: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .product-card:hover .card-actions {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .action-btn {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: color 0.2s, background-color 0.2s;
+        }
         .action-btn:hover { color: white; }
         .action-btn.edit-btn:hover { background-color: var(--primary); }
         .action-btn.delete-btn:hover { background-color: #ef4444; }
+
         .custom-scrollbar::-webkit-scrollbar { height: 4px; } 
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; } 
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
         .swal2-popup { border-radius: 1rem !important; font-family: 'Tajawal', sans-serif; }
         .swal2-confirm { background-color: var(--primary) !important; box-shadow: none !important; }
         .swal2-deny { background-color: #ef4444 !important; box-shadow: none !important; }
-        @keyframes cardFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         .product-card-fade-in { animation: cardFadeIn 0.6s ease-out forwards; }
-        .image-placeholder { height: 160px; display: flex; align-items: center; justify-content: center; background-color: #f9fafb; border-bottom: 1px dashed var(--border-color); cursor: pointer; transition: background-color 0.3s, border-color 0.3s; }
+        
+        .image-placeholder {
+            height: 160px; display: flex; align-items: center; justify-content: center;
+            background-color: #f9fafb; border-bottom: 1px dashed var(--border-color);
+            cursor: pointer; transition: background-color 0.3s, border-color 0.3s;
+        }
         .image-placeholder:hover { background-color: #eef2ff; }
         .image-placeholder.dragover { border: 2px dashed var(--primary); background-color: #eef2ff; }
+        
         .product-image { height: 160px; width: 100%; object-fit: cover; }
-        .category-tabs-container { display: flex; overflow-x: auto; padding-bottom: 8px; white-space: nowrap; -webkit-overflow-scrolling: touch; }
-        .category-tab { flex-shrink: 0; display: inline-flex; align-items: center; cursor: pointer; padding: 0.5rem 1.25rem; margin: 0.25rem; border-radius: 9999px; background-color: #f3f4f6; color: #374151; font-weight: 600; transition: all 0.2s ease-in-out; }
+
+        .category-tabs-container {
+            display: flex; overflow-x: auto; padding-bottom: 8px; white-space: nowrap; -webkit-overflow-scrolling: touch;
+        }
+        .category-tab {
+            flex-shrink: 0; display: inline-flex; align-items: center; cursor: pointer;
+            padding: 0.5rem 1.25rem; margin: 0.25rem; border-radius: 9999px;
+            background-color: #f3f4f6; color: #374151; font-weight: 600;
+            transition: all 0.2s ease-in-out;
+        }
         .category-tab:hover { background-color: #e5e7eb; color: var(--primary); }
-        .category-tab.active { background-color: var(--primary); color: white; box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39); }
+        .category-tab.active {
+            background-color: var(--primary); color: white;
+            box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+        }
         .category-tab i { margin-left: 8px; }
         #current-category-title { transition: opacity 0.3s ease-in-out; }
-        @keyframes slideInUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .install-toast-show { display: flex !important; animation: slideInUp 0.5s ease-out forwards; }
+
+        /* Install Toast Styles */
+        @keyframes slideInUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .install-toast-show {
+            display: flex !important;
+            animation: slideInUp 0.5s ease-out forwards;
+        }
     </style>
 </head>
 <body class="text-text-dark bg-light-bg">
 
     <div id="app" class="min-h-screen flex flex-col">
         
-        <header class="header-glass fixed top-0 left-0 right-0 z-30">
-            <div class="flex items-center justify-center h-full max-w-7xl mx-auto px-4 sm:px-8 w-full">
+        <!-- Header -->
+        <header class="header-glass sticky top-0 z-30">
+            <div class="flex items-center justify-center h-20 max-w-7xl mx-auto px-4 sm:px-8 w-full">
                 <div class="relative w-full max-w-sm">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-4"><i class="fas fa-search text-gray-400"></i></span>
                     <input id="searchInput" type="text" placeholder="ابحث في كل الأصناف..." class="w-full pl-12 pr-10 py-3 bg-gray-100 border-2 border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-text-dark transition-all duration-300">
@@ -92,14 +149,18 @@
             </div>
         </header>
         
-        <div class="category-tabs-container-wrapper bg-white border-b border-border-color sticky z-20">
+        <!-- Category Tabs -->
+        <div class="bg-white border-b border-border-color sticky top-20 z-20">
             <div id="category-tabs-container" class="category-tabs-container max-w-7xl mx-auto px-2 sm:px-6 custom-scrollbar">
+                <!-- Tabs will be rendered here by JavaScript -->
             </div>
         </div>
 
+        <!-- Main Content -->
         <main class="flex-1 w-full max-w-7xl mx-auto p-4 sm:p-8">
             <div id="home-page">
-                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+                 <!-- Title and Sort Controls -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
                     <h2 id="current-category-title" class="text-3xl font-extrabold text-text-dark mb-4 sm:mb-0">كل الأصناف</h2>
                     <div id="sort-container" class="relative">
                         <button id="sort-btn" class="flex items-center gap-2 bg-white border border-border-color rounded-full px-4 py-2 text-sm font-semibold text-text-muted hover:border-primary hover:text-primary transition-colors">
@@ -119,17 +180,20 @@
                 <div id="loader" class="text-center py-20"><i class="fas fa-spinner fa-spin text-primary text-5xl"></i><p class="mt-4 text-text-muted text-xl">جاري تهيئة قاعدة البيانات...</p></div>
                 <div id="inventory-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6"></div>
                 <div id="no-results" class="hidden text-center text-text-muted py-20"><i class="far fa-surprise text-7xl mb-4"></i><p class="text-3xl font-semibold text-gray-500">لا توجد نتائج مطابقة</p></div>
+                <!-- Lazy Loading Indicators -->
                 <div id="lazy-loader" class="hidden text-center py-10"><i class="fas fa-spinner fa-spin text-primary text-3xl"></i></div>
                 <div id="sentinel" class="w-full h-10"></div>
             </div>
         </main>
         
+        <!-- Footer -->
         <footer class="text-center py-6 border-t border-border-color relative">
             <p class="text-text-muted">صنع بواسطة <span id="footer-brand-link" class="font-bold text-primary cursor-pointer hover:underline">ElLoul</span> &copy; <span id="current-year"></span></p>
+            
             <div id="social-popup" class="hidden absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 text-right">
                 <div class="p-2">
                     <ul class="space-y-1">
-                         <li><a href="https://www.facebook.com/AliMamdouhh369?mibextid=ZbWKwL" target="_blank" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"><i class="fab fa-facebook text-2xl w-8 text-center" style="color: #1877F2;"></i><span class="mr-3 font-semibold">فيسبوك</span></a></li>
+                        <li><a href="https://www.facebook.com/AliMamdouhh369?mibextid=ZbWKwL" target="_blank" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"><i class="fab fa-facebook text-2xl w-8 text-center" style="color: #1877F2;"></i><span class="mr-3 font-semibold">فيسبوك</span></a></li>
                         <li><a href="https://api.WhatsApp.com/send?phone=+201206796831&text=سـجـلـنـي%20『乇ㄥㄥㄖㄥㄥ』بـقـى%20يـصـاحـبـي.%20ᥫ᭡" target="_blank" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"><i class="fab fa-whatsapp text-2xl w-8 text-center" style="color: #25D366;"></i><span class="mr-3 font-semibold">واتساب</span></a></li>
                         <li><a href="https://m.me/AliMamdouhh369" target="_blank" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"><i class="fab fa-facebook-messenger text-2xl w-8 text-center" style="color: #00B2FF;"></i><span class="mr-3 font-semibold">مسنجر</span></a></li>
                         <li><a href="https://www.instagram.com/alimamdouhhh369/" target="_blank" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"><i class="fab fa-instagram text-2xl w-8 text-center" style="color: #E4405F;"></i><span class="mr-3 font-semibold">انستجرام</span></a></li>
@@ -140,10 +204,12 @@
             </div>
         </footer>
         
+        <!-- Floating Action Button -->
         <button id="addProductBtn" class="fixed bottom-8 right-8 bg-primary hover:bg-primary-darker text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-3xl z-40 transition-transform transform hover:scale-110">
             <i class="fas fa-plus"></i>
         </button>
 
+        <!-- Install Prompt Toast -->
         <div id="install-toast" class="hidden fixed bottom-4 right-4 lg:bottom-8 lg:right-8 bg-white rounded-2xl shadow-2xl p-4 w-[calc(100%-2rem)] max-w-sm z-50 items-start gap-4">
             <img src="https://placehold.co/64x64/4f46e5/ffffff?text=ElLoul" alt="App Icon" class="w-12 h-12 rounded-lg flex-shrink-0">
             <div class="flex-1">
@@ -159,18 +225,36 @@
     </div>
     
     <script>
+        // --- PWA Service Worker Registration ---
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js?v=1.5').then(registration => {
-                    console.log('SW registered: ', registration);
-                }).catch(registrationError => {
-                    console.log('SW registration failed: ', registrationError);
+            const swScript = `
+                self.addEventListener('install', event => {
+                    // console.log('Service Worker installing.');
                 });
-            });
+                self.addEventListener('fetch', event => {
+                    event.respondWith(
+                        caches.match(event.request).then(response => {
+                            return response || fetch(event.request);
+                        })
+                    );
+                });
+            `;
+            const blob = new Blob([swScript], { type: 'application/javascript' });
+            const swURL = URL.createObjectURL(blob);
+
+            navigator.serviceWorker.register(swURL)
+                .then(registration => {
+                    // console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch(error => {
+                    // console.log('Service Worker registration failed:', error);
+                });
         }
 
-       document.addEventListener('DOMContentLoaded', () => {
+
+        document.addEventListener('DOMContentLoaded', () => {
             const App = {
+                // --- Configuration & State ---
                 db: null,
                 observer: null,
                 state: {
@@ -179,7 +263,7 @@
                     currentFilteredList: [],
                     displayOffset: 0,
                     currentSort: 'default',
-                    deferredPrompt: null,
+                    deferredPrompt: null, // For PWA install prompt
                 },
                 config: {
                     DATA_URL: 'https://raw.githubusercontent.com/elloul1/elloul-bit.github.io/refs/heads/main/json.json',
@@ -217,6 +301,8 @@
                     installBtn: document.getElementById('install-btn'),
                     dismissInstallBtn: document.getElementById('dismiss-install-btn'),
                 },
+
+                // --- App Initialization ---
                 async init() {
                     this.setupDatabase();
                     await this.loadData();
@@ -229,10 +315,12 @@
                     this.setupEventListeners();
                     this.setupObserver();
                 },
+                
                 setupDatabase() {
                     this.db = new Dexie('InventoryDB');
                     this.db.version(2).stores({ products: '++id, الصنف, السعر, صورة' });
                 },
+                
                 async loadData() {
                     const productCount = await this.db.products.count();
                     if (productCount === 0) {
@@ -249,7 +337,10 @@
                     }
                     this.state.fullInventory = await this.db.products.toArray();
                 },
+
+                // --- Event Listeners ---
                 setupEventListeners() {
+                    // Existing Listeners
                     this.elements.searchInput.addEventListener('input', this.handleSearchInput.bind(this));
                     this.elements.clearSearchBtn.addEventListener('click', this.clearSearch.bind(this));
                     this.elements.categoryTabsContainer.addEventListener('click', this.handleCategoryClick.bind(this));
@@ -265,30 +356,38 @@
                             this.elements.sortDropdown.classList.add('hidden');
                         }
                     });
+
+                    // PWA Install Listeners
                     window.addEventListener('beforeinstallprompt', (e) => {
                         e.preventDefault();
                         this.state.deferredPrompt = e;
+                        // Show prompt only if it hasn't been shown before
                         if (localStorage.getItem('installPromptShown') !== 'true') {
-                           setTimeout(() => {
-                                this.elements.installToast.classList.add('install-toast-show');
-                           }, 2000);
+                            this.elements.installToast.classList.add('install-toast-show');
                         }
                     });
+                    
                     this.elements.installBtn.addEventListener('click', this.handleInstallClick.bind(this));
                     this.elements.dismissInstallBtn.addEventListener('click', this.handleInstallDismiss.bind(this));
                 },
+                
+                // --- PWA Install Handlers ---
                 handleInstallDismiss() {
                     this.elements.installToast.classList.remove('install-toast-show');
                     localStorage.setItem('installPromptShown', 'true');
                 },
+
                 async handleInstallClick() {
-                    this.handleInstallDismiss();
+                    this.handleInstallDismiss(); // Hide toast and set flag
                     if (this.state.deferredPrompt) {
                         this.state.deferredPrompt.prompt();
                         const { outcome } = await this.state.deferredPrompt.userChoice;
+                        // console.log(`User response to the install prompt: ${outcome}`);
                         this.state.deferredPrompt = null;
                     }
                 },
+
+                // --- Rendering ---
                 renderProductBatch(items) {
                     const fragment = document.createDocumentFragment();
                     items.forEach((item, index) => {
@@ -298,20 +397,42 @@
                         card.style.borderTopColor = color;
                         card.style.setProperty('--glow-color', color + '99');
                         card.dataset.productId = item.id;
+                        
                         const category = this.getCategory(item['الصنف']);
                         const showCategory = this.elements.searchInput.value.trim().length > 0;
+
                         const imagePart = item.صورة 
                             ? `<img src="${item.صورة}" class="product-image" alt="${item['الصنف']}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/400x200/eef2ff/4f46e5?text=Invalid%20Image';">`
-                            : `<div class="image-placeholder" data-id="${item.id}"><div class="text-center text-text-muted pointer-events-none"><i class="fas fa-camera text-5xl"></i><p class="mt-2 text-sm font-semibold">إضافة صورة</p></div></div>`;
-                        card.innerHTML = `${imagePart}<div class="card-actions"><button class="action-btn edit-btn" data-id="${item.id}" title="تعديل"><i class="fas fa-edit"></i></button><button class="action-btn delete-btn" data-id="${item.id}" title="حذف"><i class="fas fa-trash-alt"></i></button></div><div class="p-4 flex flex-col flex-grow">${showCategory ? `<p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: ${color};">${category}</p>` : ''}<h3 class="font-bold text-text-dark text-lg h-14 leading-tight flex-grow">${this.escapeHtml(item['الصنف'])}</h3><div class="flex justify-between items-center mt-4"><p class="text-primary text-2xl font-black">${Number(item['السعر']).toFixed(2)} <span class="text-sm font-medium text-text-muted">جم</span></p></div></div>`;
+                            : `<div class="image-placeholder" data-id="${item.id}">
+                                    <div class="text-center text-text-muted pointer-events-none">
+                                        <i class="fas fa-camera text-5xl"></i>
+                                        <p class="mt-2 text-sm font-semibold">إضافة صورة</p>
+                                    </div>
+                                </div>`;
+
+                        card.innerHTML = `
+                            ${imagePart}
+                            <div class="card-actions">
+                                <button class="action-btn edit-btn" data-id="${item.id}" title="تعديل"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete-btn" data-id="${item.id}" title="حذف"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                            <div class="p-4 flex flex-col flex-grow">
+                                ${showCategory ? `<p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: ${color};">${category}</p>` : ''}
+                                <h3 class="font-bold text-text-dark text-lg h-14 leading-tight flex-grow">${this.escapeHtml(item['الصنف'])}</h3>
+                                <div class="flex justify-between items-center mt-4">
+                                    <p class="text-primary text-2xl font-black">${Number(item['السعر']).toFixed(2)} <span class="text-sm font-medium text-text-muted">جم</span></p>
+                                </div>
+                            </div>`;
                         fragment.appendChild(card);
                     });
                     this.elements.inventoryGrid.appendChild(fragment);
                 },
+
                 updateCategoryTabs() {
                     const categoryOrder = ['كل الأصناف', ...Object.keys(this.config.CATEGORY_KEYWORDS), 'متنوع'];
                     this.elements.categoryTabsContainer.innerHTML = '';
                     const activeCategory = this.elements.categoryTabsContainer.querySelector('.active')?.dataset.category || 'كل الأصناف';
+
                     categoryOrder.forEach(category => {
                         const products = this.state.categorizedProducts[category];
                         if (products && products.length > 0) {
@@ -320,18 +441,23 @@
                             tab.dataset.category = category;
                             const iconClass = this.config.CATEGORY_ICONS[category] || 'fa-tag';
                             tab.innerHTML = `<i class="fas ${iconClass}"></i><span>${category} (${products.length})</span>`;
-                            if (category === activeCategory) { tab.classList.add('active'); }
+                            if (category === activeCategory) {
+                               tab.classList.add('active');
+                            }
                             this.elements.categoryTabsContainer.appendChild(tab);
                         }
                     });
+
                     if (!this.elements.categoryTabsContainer.querySelector('.active')) {
                         this.elements.categoryTabsContainer.querySelector('.category-tab')?.classList.add('active');
                     }
                 },
+                
                 updateCategoryTitle() {
                     const searchTerm = this.elements.searchInput.value.trim();
                     const activeTab = this.elements.categoryTabsContainer.querySelector('.category-tab.active');
                     const activeCategory = activeTab?.dataset.category || 'كل الأصناف';
+                    
                     this.elements.currentCategoryTitle.style.opacity = 0;
                     setTimeout(() => {
                         if (searchTerm) {
@@ -342,15 +468,20 @@
                         this.elements.currentCategoryTitle.style.opacity = 1;
                     }, 300);
                 },
+
+                // --- Logic & Filtering ---
                 getCategory(productName) {
                     const lowerCaseName = productName.toLowerCase();
+                    // Specific overrides for ambiguous names
                     if (lowerCaseName.includes('كريم') && (lowerCaseName.includes('شعر') || lowerCaseName.includes('هير'))) return 'العناية بالشعر';
                     if (lowerCaseName.includes('جونسون') || lowerCaseName.includes('بامبرz') || lowerCaseName.includes('مولفكس')) return 'العناية بالطفل';
+                    
                     for (const category in this.config.CATEGORY_KEYWORDS) {
                         if (this.config.CATEGORY_KEYWORDS[category].some(keyword => lowerCaseName.includes(keyword))) return category;
                     }
                     return 'متنوع';
                 },
+
                 processAndCategorize(data) {
                     const categories = { 'كل الأصناف': [...data] };
                     Object.keys(this.config.CATEGORY_KEYWORDS).forEach(cat => categories[cat] = []);
@@ -361,29 +492,47 @@
                     });
                     this.state.categorizedProducts = categories;
                 },
+
                 handleFilter() {
                     const searchTerm = this.elements.searchInput.value.toLowerCase().trim();
                     const activeTab = this.elements.categoryTabsContainer.querySelector('.category-tab.active');
                     const activeCategory = activeTab?.dataset.category || 'كل الأصناف';
+                    
                     let sourceList;
                     if (searchTerm) {
                         sourceList = this.state.fullInventory.filter(item => item['الصنف'].toLowerCase().includes(searchTerm));
                     } else {
                         sourceList = this.state.categorizedProducts[activeCategory] || [];
                     }
+
                     let sortedList = [...sourceList]; 
                     switch (this.state.currentSort) {
-                        case 'price-desc': sortedList.sort((a, b) => Number(b['السعر']) - Number(a['السعر'])); break;
-                        case 'price-asc': sortedList.sort((a, b) => Number(a['السعر']) - Number(b['السعر'])); break;
-                        case 'name-asc': sortedList.sort((a, b) => a['الصنف'].localeCompare(b['الصنف'], 'ar')); break;
-                        case 'name-desc': sortedList.sort((a, b) => b['الصنف'].localeCompare(a['الصنف'], 'ar')); break;
-                        default: sortedList.sort((a, b) => a.id - b.id); break;
+                        case 'price-desc':
+                            sortedList.sort((a, b) => Number(b['السعر']) - Number(a['السعر']));
+                            break;
+                        case 'price-asc':
+                            sortedList.sort((a, b) => Number(a['السعر']) - Number(b['السعر']));
+                            break;
+                        case 'name-asc':
+                            sortedList.sort((a, b) => a['الصنف'].localeCompare(b['الصنف'], 'ar'));
+                            break;
+                        case 'name-desc':
+                            sortedList.sort((a, b) => b['الصنف'].localeCompare(a['الصنف'], 'ar'));
+                            break;
+                        case 'default':
+                        default:
+                            sortedList.sort((a, b) => a.id - b.id);
+                            break;
                     }
                     this.state.currentFilteredList = sortedList;
+
                     this.elements.inventoryGrid.innerHTML = '';
                     this.state.displayOffset = 0; 
+                    
                     this.elements.noResults.classList.toggle('hidden', this.state.currentFilteredList.length > 0);
+                    
                     this.updateCategoryTitle();
+
                     if (this.observer) {
                         this.observer.unobserve(this.elements.sentinel);
                         if (this.state.currentFilteredList.length > this.config.BATCH_SIZE) {
@@ -392,12 +541,16 @@
                     }
                     this.loadMoreItems();
                 },
+
+                // --- Lazy Loading ---
                 loadMoreItems() {
                     if (this.state.displayOffset >= this.state.currentFilteredList.length) {
-                        this.elements.lazyLoader.classList.add('hidden'); return;
+                        this.elements.lazyLoader.classList.add('hidden');
+                        return;
                     }
                     this.elements.lazyLoader.classList.remove('hidden');
                     const batch = this.state.currentFilteredList.slice(this.state.displayOffset, this.state.displayOffset + this.config.BATCH_SIZE);
+                    
                     if (batch.length > 0) {
                         this.renderProductBatch(batch);
                         this.state.displayOffset += this.config.BATCH_SIZE;
@@ -407,15 +560,20 @@
                     }
                     this.elements.lazyLoader.classList.add('hidden');
                 },
+                
                 setupObserver() {
                     const observerCallback = (entries) => {
-                        if (entries[0].isIntersecting) { this.loadMoreItems(); }
+                        if (entries[0].isIntersecting) {
+                            this.loadMoreItems();
+                        }
                     };
                     this.observer = new IntersectionObserver(observerCallback, { rootMargin: "0px 0px 400px 0px" });
                     if (this.state.currentFilteredList.length > this.config.BATCH_SIZE) {
                         this.observer.observe(this.elements.sentinel);
                     }
                 },
+                
+                // --- CRUD Operations ---
                 async addProduct(newProduct) {
                     const id = await this.db.products.add(newProduct);
                     const productWithId = { ...newProduct, id };
@@ -424,6 +582,7 @@
                     this.updateCategoryTabs();
                     this.handleFilter();
                 },
+
                 async updateProduct(updatedProduct) {
                     await this.db.products.put(updatedProduct);
                     this.state.fullInventory = await this.db.products.toArray();
@@ -431,6 +590,7 @@
                     this.updateCategoryTabs();
                     this.handleFilter();
                 },
+                
                 async deleteProduct(productId) {
                     const productToDelete = this.state.fullInventory.find(p => p.id === productId);
                     const result = await Swal.fire({
@@ -443,6 +603,7 @@
                         confirmButtonText: 'نعم، احذفه!',
                         cancelButtonText: 'إلغاء'
                     });
+
                     if (result.isConfirmed) {
                         await this.db.products.delete(productId);
                         this.state.fullInventory = this.state.fullInventory.filter(p => p.id !== productId);
@@ -452,17 +613,21 @@
                         Swal.fire({icon:'success', title:'تم الحذف!', text:'تم حذف الصنف بنجاح.', timer: 1500, showConfirmButton: false});
                     }
                 },
+
+                // --- Event Handlers ---
                 handleSearchInput(e) {
                     this.elements.clearSearchBtn.classList.toggle('hidden', e.target.value === '');
                     this.elements.categoryTabsContainer.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
                     this.handleFilter();
                 },
+
                 clearSearch() {
                     this.elements.searchInput.value = '';
                     this.elements.clearSearchBtn.classList.add('hidden');
                     this.elements.categoryTabsContainer.querySelector('.category-tab[data-category="كل الأصناف"]')?.classList.add('active');
                     this.handleFilter();
                 },
+                
                 handleCategoryClick(e) {
                     const target = e.target.closest('.category-tab');
                     if (target) {
@@ -474,21 +639,27 @@
                         this.handleFilter();
                     }
                 },
+                
                 handleGridClick(e) {
                     const editBtn = e.target.closest('.edit-btn');
                     const deleteBtn = e.target.closest('.delete-btn');
                     const imgPlaceholder = e.target.closest('.image-placeholder');
+                    
                     const id = parseInt(editBtn?.dataset.id || deleteBtn?.dataset.id || imgPlaceholder?.dataset.id);
                     if (!id) return;
+                    
                     const product = this.state.fullInventory.find(p => p.id === id);
                     if (!product) return;
+
                     if (editBtn) this.showProductModal(product);
                     else if (deleteBtn) this.deleteProduct(product.id);
                     else if (imgPlaceholder) this.showImageModal(product);
                 },
+                
                 toggleSortDropdown() {
                     this.elements.sortDropdown.classList.toggle('hidden');
                 },
+
                 handleSortSelection(e) {
                     e.preventDefault();
                     const target = e.target.closest('.sort-option');
@@ -499,14 +670,17 @@
                         this.handleFilter();
                     }
                 },
+
                 setupImageDropHandler() {
                      ['dragover', 'dragleave', 'drop'].forEach(eventName => {
                          this.elements.inventoryGrid.addEventListener(eventName, e => {
                              const imgPlaceholder = e.target.closest('.image-placeholder');
                              if (!imgPlaceholder) return;
+                             
                              e.preventDefault();
                              if (eventName === 'dragover') imgPlaceholder.classList.add('dragover');
                              if (eventName === 'dragleave' || eventName === 'drop') imgPlaceholder.classList.remove('dragover');
+                             
                              if (eventName === 'drop') {
                                  const product = this.state.fullInventory.find(p => p.id === parseInt(imgPlaceholder.dataset.id));
                                  if (product && e.dataTransfer.files.length) {
@@ -525,6 +699,7 @@
                          });
                      });
                 },
+
                 setupSocialPopup() {
                     this.elements.footerBrandLink.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -536,6 +711,8 @@
                         }
                     });
                 },
+
+                // --- Modals ---
                 async showProductModal(product = null) {
                     const isEditing = product !== null;
                     const { value: formValues } = await Swal.fire({
@@ -552,11 +729,13 @@
                             'السعر': parseFloat(document.getElementById('swal-input-price').value)
                         })
                     });
+
                     if (formValues) {
                         if (!formValues['الصنف'] || isNaN(formValues['السعر']) || formValues['السعر'] < 0) {
                             Swal.fire('خطأ', 'الرجاء إدخال اسم وسعر صحيحين.', 'error');
                             return;
                         }
+
                         if (isEditing) {
                             await this.updateProduct({ ...product, ...formValues });
                             Swal.fire({icon:'success', title:'تم!', text:'تم تحديث بيانات الصنف بنجاح.', timer: 1500, showConfirmButton: false});
@@ -566,6 +745,7 @@
                         }
                     }
                 },
+                
                 async showImageModal(product) {
                     const { isConfirmed, isDenied, value: result } = await Swal.fire({
                         title: `صورة: ${this.escapeHtml(product['الصنف'])}`,
@@ -589,6 +769,7 @@
                             const fileInput = document.getElementById('swal-file');
                             const urlInput = document.getElementById('swal-url');
                             const preview = document.getElementById('image-preview');
+
                             const handleFile = (file) => {
                                 if (!file || !file.type.startsWith('image/')) return;
                                 const reader = new FileReader();
@@ -598,6 +779,7 @@
                                 };
                                 reader.readAsDataURL(file);
                             };
+                            
                             dropZone.onclick = () => fileInput.click();
                             dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('border-primary', 'bg-indigo-50'); };
                             dropZone.ondragleave = () => dropZone.classList.remove('border-primary', 'bg-indigo-50');
@@ -616,6 +798,7 @@
                             url: document.getElementById('swal-url').value,
                         })
                     });
+
                     if (isConfirmed && result) {
                         const newImage = result.imageSrc.startsWith('data:image') ? result.imageSrc : result.url;
                         if (newImage && newImage !== product.صورة) {
@@ -627,12 +810,15 @@
                         Swal.fire({icon:'success', title:'تم!', text:'تمت إزالة الصورة بنجاح.', timer: 1500, showConfirmButton: false});
                     }
                 },
+
+                // --- Utilities ---
                 escapeHtml(str) {
                     const div = document.createElement('div');
                     div.textContent = str;
                     return div.innerHTML;
                 },
             };
+
             App.init();
         });
     </script>
