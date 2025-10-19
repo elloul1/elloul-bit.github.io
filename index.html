@@ -6,33 +6,47 @@
     <title>ElLoul Inventory System</title>
     <!-- Assets and Styles -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body { font-family: 'Tajawal', sans-serif; background-color: #f0f2f5; }
-        :root { --primary: #4f46e5; --primary-darker: #4338ca; }
-        .bg-primary { background-color: var(--primary); }
+        :root { 
+            --primary: #4f46e5; --primary-darker: #4338ca; --light-bg: #f0f2f5;
+            --card-bg: #ffffff; --border-color: #e5e7eb; --text-dark: #111827; --text-muted: #6b7280;
+        }
+        .text-primary { color: var(--primary); } .bg-primary { background-color: var(--primary); }
         .bg-primary-darker { background-color: var(--primary-darker); }
-        .text-primary { color: var(--primary); }
-        .border-primary { border-color: var(--primary); }
-        .ring-primary { --tw-ring-color: var(--primary); }
+        .border-primary { border-color: var(--primary); } .ring-primary { --tw-ring-color: var(--primary); }
         [v-cloak] { display: none; }
         .password-icon { position: absolute; top: 50%; transform: translateY(-50%); left: 1rem; cursor: pointer; color: #9ca3af; }
+        .product-card { --glow-color: var(--primary); background-color: var(--card-bg); border: 1px solid var(--border-color); border-top-width: 4px; transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); position: relative; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.12), 0 0 25px -5px var(--glow-color); }
+        .card-actions { position: absolute; top: 170px; left: 1rem; display: flex; gap: 0.5rem; opacity: 0; transform: translateY(10px); transition: opacity 0.3s ease, transform 0.3s ease; }
+        .product-card:hover .card-actions { opacity: 1; transform: translateY(0); }
+        .action-btn { background-color: rgba(255, 255, 255, 0.9); color: var(--text-muted); width: 36px; height: 36px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: color 0.2s, background-color 0.2s; }
+        .action-btn:hover { color: white; }
+        .action-btn.edit-btn:hover { background-color: var(--primary); }
+        .action-btn.delete-btn:hover { background-color: #ef4444; }
+        .custom-scrollbar::-webkit-scrollbar { height: 4px; } 
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; } 
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .product-image { height: 160px; width: 100%; object-fit: cover; }
+        .category-tabs-container { display: flex; overflow-x: auto; padding-bottom: 8px; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+        .category-tab { flex-shrink: 0; display: inline-flex; align-items: center; cursor: pointer; padding: 0.5rem 1.25rem; margin: 0.25rem; border-radius: 9999px; background-color: #f3f4f6; color: #374151; font-weight: 600; transition: all 0.2s ease-in-out; }
+        .category-tab:hover { background-color: #e5e7eb; color: var(--primary); }
+        .category-tab.active { background-color: var(--primary); color: white; box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39); }
     </style>
 </head>
 <body class="bg-gray-100">
 
     <div id="app" v-cloak>
         <!-- Auth Page (Login/Signup) -->
-        <div id="auth-page" v-if="!user.isLoggedIn && !user.isPending" class="flex items-center justify-center min-h-screen">
+        <div v-if="!user.isLoggedIn && !user.isPending" class="flex items-center justify-center min-h-screen">
             <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-2xl shadow-lg">
                 <div class="text-center">
-                    <h2 class="text-3xl font-extrabold text-gray-900">
-                        {{ authMode === 'login' ? 'تسجيل الدخول' : 'إنشاء حساب جديد' }}
-                    </h2>
+                    <h2 class="text-3xl font-extrabold text-gray-900">{{ authMode === 'login' ? 'تسجيل الدخول' : 'إنشاء حساب جديد' }}</h2>
                 </div>
-                <!-- Login Form -->
                 <form v-if="authMode === 'login'" @submit.prevent="handleLogin" class="space-y-6">
                     <input type="email" v-model="form.email" placeholder="البريد الإلكتروني" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
                     <div class="relative">
@@ -53,7 +67,6 @@
                         {{ isLoading ? 'جاري الدخول...' : 'دخول' }}
                     </button>
                 </form>
-                <!-- Signup Form -->
                 <form v-if="authMode === 'signup'" @submit.prevent="handleSignup" class="space-y-6">
                     <input type="text" v-model="form.name" placeholder="الاسم الكامل" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
                     <input type="email" v-model="form.email" placeholder="البريد الإلكتروني" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
@@ -66,18 +79,15 @@
                         {{ isLoading ? 'جاري الإنشاء...' : 'إنشاء الحساب' }}
                     </button>
                 </form>
-
                 <p class="text-center">
-                    <a @click="toggleAuthMode" href="#" class="font-medium text-primary hover:underline">
-                        {{ authMode === 'login' ? 'ليس لديك حساب؟ أنشئ واحدًا' : 'لديك حساب بالفعل؟ سجل الدخول' }}
-                    </a>
+                    <a @click="toggleAuthMode" href="#" class="font-medium text-primary hover:underline">{{ authMode === 'login' ? 'ليس لديك حساب؟ أنشئ واحدًا' : 'لديك حساب بالفعل؟ سجل الدخول' }}</a>
                 </p>
             </div>
         </div>
 
         <!-- Pending Approval Page -->
-        <div id="pending-page" v-if="user.isPending" class="flex flex-col items-center justify-center min-h-screen text-center p-4">
-             <div class="bg-white p-10 rounded-2xl shadow-lg">
+        <div v-if="user.isPending" class="flex flex-col items-center justify-center min-h-screen text-center p-4">
+            <div class="bg-white p-10 rounded-2xl shadow-lg">
                 <i class="fas fa-clock fa-4x text-yellow-500 mb-4"></i>
                 <h1 class="text-3xl font-bold text-gray-800">حسابك قيد المراجعة</h1>
                 <p class="mt-2 text-gray-600">شكرًا لتسجيلك! سيقوم الأدمن بمراجعة حسابك وتفعيله قريبًا.</p>
@@ -85,9 +95,8 @@
             </div>
         </div>
 
-        <!-- Inventory Page (The Main App) -->
-        <div id="inventory-page" v-if="user.isLoggedIn" class="min-h-screen flex flex-col">
-            <!-- Header with user info and logout -->
+        <!-- ################## INVENTORY APP UI ################## -->
+        <div v-if="user.isLoggedIn" class="min-h-screen flex flex-col">
             <header class="bg-white shadow-md sticky top-0 z-30">
                 <div class="max-w-7xl mx-auto px-4 sm:px-8">
                     <div class="flex items-center justify-between h-16">
@@ -107,7 +116,6 @@
                 </div>
             </header>
             
-            <!-- Admin Panel (Modal) -->
             <div v-if="adminPanel.isOpen" class="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center" @click.self="closeAdminPanel">
                  <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col">
                     <div class="p-4 border-b flex justify-between items-center">
@@ -120,9 +128,7 @@
                             <li v-for="u in adminPanel.users" :key="u.uid" class="flex items-center justify-between p-2 hover:bg-gray-100 rounded">
                                 <div>
                                     <p class="font-semibold">{{ u.name }} ({{ u.email }})</p>
-                                    <p class="text-sm" :class="{'text-green-600': u.status === 'approved', 'text-yellow-600': u.status === 'pending', 'text-red-600': u.role === 'admin'}">
-                                        الحالة: {{ u.status }} | الصلاحية: {{ u.role || 'user' }}
-                                    </p>
+                                    <p class="text-sm" :class="{'text-green-600': u.status === 'approved', 'text-yellow-600': u.status === 'pending', 'text-red-600': u.role === 'admin'}">الحالة: {{ u.status }} | الصلاحية: {{ u.role || 'user' }}</p>
                                 </div>
                                 <div class="flex gap-2">
                                      <button v-if="u.status === 'pending'" @click="approveUser(u.uid)" class="px-2 py-1 text-xs text-white bg-green-500 rounded hover:bg-green-600">موافقة</button>
@@ -134,25 +140,36 @@
                 </div>
             </div>
 
-            <!-- The rest of the inventory app UI will be integrated here later -->
-             <main class="flex-1 w-full max-w-7xl mx-auto p-4 sm:p-8">
-                <div class="text-center py-20">
-                    <h1 class="text-4xl font-bold">مرحباً بك في نظام المخزن</h1>
-                    <p class="mt-4 text-lg text-gray-600">سيتم دمج واجهة المخزن هنا في الخطوات القادمة.</p>
+            <div class="header-glass sticky top-16 z-20">
+                <div class="flex items-center justify-center h-20 max-w-7xl mx-auto px-4 sm:px-8 w-full">
+                    <div class="relative w-full max-w-sm">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4"><i class="fas fa-search text-gray-400"></i></span>
+                        <input id="searchInput" v-model="inventoryApp.state.searchTerm" @input="inventoryApp.handleSearchInput" type="text" placeholder="ابحث في كل الأصناف..." class="w-full pl-12 pr-10 py-3 bg-gray-100 border-2 border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
                 </div>
-             </main>
-             <button id="addProductBtn" class="fixed bottom-8 right-8 bg-primary hover:bg-primary-darker text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-3xl z-20">
+            </div>
+
+            <div class="bg-white border-b border-gray-200 sticky top-36 z-20">
+                <div id="category-tabs-container" class="category-tabs-container max-w-7xl mx-auto px-2 sm:px-6 custom-scrollbar"></div>
+            </div>
+
+            <main class="flex-1 w-full max-w-7xl mx-auto p-4 sm:p-8">
+                <div id="loader" class="text-center py-20"><i class="fas fa-spinner fa-spin text-primary text-5xl"></i><p class="mt-4 text-gray-600 text-xl">جاري مزامنة البيانات...</p></div>
+                <div id="inventory-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6"></div>
+                <div id="no-results" class="hidden text-center text-gray-500 py-20"><p>لا توجد نتائج</p></div>
+            </main>
+
+            <button @click="inventoryApp.showProductModal()" v-if="user.role === 'admin'" class="fixed bottom-8 right-8 bg-primary hover:bg-primary-darker text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-3xl z-20 transition-transform transform hover:scale-110">
                 <i class="fas fa-plus"></i>
-             </button>
+            </button>
         </div>
     </div>
 
-    <!-- Vue.js and Firebase SDKs -->
     <script src="https://unpkg.com/vue@3"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, deleteDoc, enableIndexedDbPersistence, writeBatch, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBgzhSlzeVlqTrqefTP0rqAnlzBEKEDm6o",
@@ -162,111 +179,236 @@
             messagingSenderId: "190409612659",
             appId: "1:190409612659:web:cffcb1c4615502ee347906"
         };
-
+        
         const firebaseApp = initializeApp(firebaseConfig);
         const auth = getAuth(firebaseApp);
         const db = getFirestore(firebaseApp);
+        enableIndexedDbPersistence(db).catch(console.error);
+
+        const createInventoryApp = (vueApp) => {
+            const inventory = {
+                productsCollection: collection(db, "products"),
+                state: { fullInventory: [], categorizedProducts: {}, currentFilteredList: [], searchTerm: '', activeCategory: 'كل الأصناف', currentSort: 'default', unsubscribe: null },
+                config: {
+                    INITIAL_DATA_URL: 'https://elloul1.github.io/elloul-bit.github.io/json.json',
+                    CARD_COLORS: ['#3b82f6', '#22c55e', '#ef4444', '#a855f7', '#ec4899', '#f97316', '#14b8a6', '#6366f1'],
+                    CATEGORY_KEYWORDS: { 'العناية بالشعر': ['شامبو', 'بلسم', 'زيت', 'كريم شعر', 'صبغه', 'جل', 'جيل', 'حمام كريم', 'سيرم', 'هير', 'فاتيكا', 'صانسيلk', 'لوريال', 'بانتين', 'كلير', 'دابر املا', 'ترزمي', 'باليت', 'فرد شعر', 'ملمع', 'اي كرياتين', 'هيربال ايسنز', 'تريشوب', 'كازانوفا'], 'العناية بالبشرة': ['كريم', 'غسول', 'ماسك', 'صابون', 'لوشن', 'مرطب', 'تفتيح', 'واقي', 'صنفره', 'جلسرين', 'نيفيا', 'دوف', 'ايفا', 'غارنيه', 'فازلين', 'اسیتون', 'مزيل مكياج', 'بي وايت', 'سكين كلينيك', 'كولاجين', 'جليسوليد', 'سبوتليس', 'ديرما'], 'العناية بالطفل': ['بيبي', 'اطفال', 'نونو', 'بامبرز', 'مولفكس', 'فاين بيبي', 'ببرونه', 'سكاته', 'حفاضه', 'جونسون', 'بندولين', 'اي باتش اطفال', 'سانوسان', 'كيدز', 'سيتي بيبي'], 'العناية الشخصية': ['مزيل', 'سبراي', 'معجون', 'فرشاة اسنان', 'شفره', 'حلاقه', 'جيليت', 'لورد', 'اكس', 'ريكسونا', 'فا', 'سويت', 'واكس', 'فوط', 'الويز', 'سوفي', 'برايفت', 'مولبيد', 'بودره', 'ديتول', 'معطر فم', 'سيجنال', 'سنسوداين', 'كلوس اب', 'خيط اسنان', 'عازل طبي'], 'مستلزمات طبية': ['بلاستر', 'شاش', 'قطن', 'رباط', 'سرنجة', 'جهاز ضغط', 'ترمومتر', 'كمامة', 'كحول', 'بيتادين', 'قسطرة', 'جبيرة', 'حزام', 'انكل', 'ركبه', 'كوع', 'فيكريل', 'برولين', 'كانيولا', 'دريسنج', 'قربة', 'مبوله'], 'العطور': ['برفان', 'كولونيا', 'عطر', 'اسبلاش', 'فوج'], 'المنزل والمبيدات': ['بايجون', 'ريد', 'جليد', 'ملمع', 'مناديل', 'ديتول', 'راجون', 'كيروكس', 'لزقة فار', 'صراصير'] },
+                    CATEGORY_ICONS: {'كل الأصناف':'fa-boxes-stacked','العناية بالشعر':'fa-cut','العناية بالبشرة':'fa-spa','العناية بالطفل':'fa-baby','العناية الشخصية':'fa-user-shield','مستلزمات طبية':'fa-briefcase-medical','العطور':'fa-spray-can-sparkles','المنزل والمبيدات':'fa-bug-slash','متنوع':'fa-shapes'},
+                },
+                elements: {},
+                init() {
+                    this.elements.inventoryGrid = document.getElementById('inventory-grid');
+                    this.elements.loader = document.getElementById('loader');
+                    this.elements.noResults = document.getElementById('no-results');
+                    this.elements.categoryTabsContainer = document.getElementById('category-tabs-container');
+                    this.elements.categoryTabsContainer.addEventListener('click', this.handleCategoryClick.bind(this));
+                    this.elements.inventoryGrid.addEventListener('click', this.handleGridClick.bind(this));
+                    this.listenForData();
+                },
+                destroy() { if (this.state.unsubscribe) this.state.unsubscribe(); },
+                async listenForData() {
+                    const snapshot = await getDocs(this.productsCollection);
+                    if (snapshot.empty) this.populateInitialData();
+                    this.state.unsubscribe = onSnapshot(this.productsCollection, (querySnapshot) => {
+                        this.state.fullInventory = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                        this.processAndCategorize();
+                        this.filterAndRender();
+                        this.elements.loader.style.display = 'none';
+                    });
+                },
+                async populateInitialData() {
+                    try {
+                        const response = await fetch(this.config.INITIAL_DATA_URL);
+                        if (!response.ok) return;
+                        const initialData = await response.json();
+                        const batch = writeBatch(db);
+                        initialData.forEach(item => batch.set(doc(this.productsCollection), item));
+                        await batch.commit();
+                    } catch (e) { console.error("Failed to populate initial data:", e); }
+                },
+                processAndCategorize() {
+                    const data = this.state.fullInventory;
+                    const categories = { 'كل الأصناف': [...data] };
+                    Object.keys(this.config.CATEGORY_KEYWORDS).forEach(cat => categories[cat] = []);
+                    categories['متنوع'] = [];
+                    data.forEach(product => {
+                        const category = this.getCategory(product['الصنف']);
+                        categories[category].push(product);
+                    });
+                    this.state.categorizedProducts = categories;
+                },
+                filterAndRender() {
+                    let sourceList = this.state.searchTerm ? this.state.fullInventory.filter(item => item['الصنف'].toLowerCase().includes(this.state.searchTerm.toLowerCase())) : this.state.categorizedProducts[this.state.activeCategory] || [];
+                    this.state.currentFilteredList = sourceList;
+                    this.renderProductBatch(this.state.currentFilteredList);
+                    this.updateCategoryTabs();
+                    this.elements.noResults.style.display = sourceList.length === 0 ? 'block' : 'none';
+                },
+                renderProductBatch(items) {
+                    this.elements.inventoryGrid.innerHTML = '';
+                    const fragment = document.createDocumentFragment();
+                    items.forEach((item) => {
+                        const card = document.createElement('div');
+                        card.className = 'product-card flex flex-col rounded-lg';
+                        card.innerHTML = `
+                            <img src="${item.صورة || 'https://placehold.co/400x200/eef2ff/4f46e5?text=No%20Image'}" class="product-image" alt="${this.escapeHtml(item['الصنف'])}" loading="lazy">
+                            ${vueApp.user.role === 'admin' ? 
+                                `<div class="card-actions">
+                                    <button class="action-btn edit-btn" data-id="${item.id}" title="تعديل"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete-btn" data-id="${item.id}" title="حذف"><i class="fas fa-trash-alt"></i></button>
+                                </div>` : ''
+                            }
+                            <div class="p-4 flex flex-col flex-grow">
+                                <h3 class="font-bold text-lg h-14">${this.escapeHtml(item['الصنف'])}</h3>
+                                <p class="text-primary text-2xl font-black mt-4">${Number(item['السعر']).toFixed(2)} جم</p>
+                            </div>`;
+                        fragment.appendChild(card);
+                    });
+                    this.elements.inventoryGrid.appendChild(fragment);
+                },
+                updateCategoryTabs() {
+                    const categoryOrder = ['كل الأصناف', ...Object.keys(this.config.CATEGORY_KEYWORDS), 'متنوع'];
+                    this.elements.categoryTabsContainer.innerHTML = '';
+                    categoryOrder.forEach(category => {
+                        const products = this.state.categorizedProducts[category];
+                        if (products && products.length > 0) {
+                            const tab = document.createElement('button');
+                            tab.className = `category-tab ${this.state.activeCategory === category ? 'active' : ''}`;
+                            tab.dataset.category = category;
+                            tab.innerHTML = `<i class="fas ${this.config.CATEGORY_ICONS[category] || 'fa-tag'} mr-2"></i><span>${category} (${products.length})</span>`;
+                            this.elements.categoryTabsContainer.appendChild(tab);
+                        }
+                    });
+                },
+                getCategory(productName) {
+                    const lowerCaseName = String(productName || '').toLowerCase();
+                    if (lowerCaseName.includes('كريم') && (lowerCaseName.includes('شعر') || lowerCaseName.includes('هير'))) return 'العناية بالشعر';
+                    if (lowerCaseName.includes('جونسون') || lowerCaseName.includes('بامبرz') || lowerCaseName.includes('مولفكس')) return 'العناية بالطفل';
+                    for (const category in this.config.CATEGORY_KEYWORDS) {
+                        if (this.config.CATEGORY_KEYWORDS[category].some(keyword => lowerCaseName.includes(keyword))) return category;
+                    }
+                    return 'متنوع';
+                },
+                handleSearchInput(e) { this.state.searchTerm = e.target.value; this.state.activeCategory = 'كل الأصناف'; this.filterAndRender(); },
+                handleCategoryClick(e) {
+                    const target = e.target.closest('.category-tab');
+                    if (target) {
+                        this.state.activeCategory = target.dataset.category;
+                        this.state.searchTerm = '';
+                        document.getElementById('searchInput').value = '';
+                        this.filterAndRender();
+                    }
+                },
+                handleGridClick(e) {
+                    if (vueApp.user.role !== 'admin') return;
+                    const editBtn = e.target.closest('.edit-btn');
+                    const deleteBtn = e.target.closest('.delete-btn');
+                    if (!editBtn && !deleteBtn) return;
+                    const id = editBtn ? editBtn.dataset.id : deleteBtn.dataset.id;
+                    const product = this.state.fullInventory.find(p => p.id === id);
+                    if (product) {
+                        if (editBtn) this.showProductModal(product);
+                        else if (deleteBtn) this.deleteProduct(product.id);
+                    }
+                },
+                async showProductModal(product = null) {
+                     const isEditing = !!product;
+                     const { value: formValues } = await Swal.fire({
+                        title: isEditing ? 'تعديل الصنف' : 'إضافة صنف جديد',
+                        html: `<input id="swal-input-name" class="swal2-input" placeholder="اسم الصنف" value="${isEditing ? this.escapeHtml(product['الصنف']) : ''}"><input id="swal-input-price" class="swal2-input" type="number" step="0.01" placeholder="السعر" value="${isEditing ? product['السعر'] : ''}">`,
+                        focusConfirm: false, showCancelButton: true, confirmButtonText: isEditing ? 'حفظ التعديلات' : 'إضافة', cancelButtonText: 'إلغاء',
+                        preConfirm: () => ({ "الصنف": document.getElementById('swal-input-name').value, "السعر": parseFloat(document.getElementById('swal-input-price').value) })
+                    });
+                    if (!formValues || !formValues['الصنف'] || isNaN(formValues['السعر'])) return;
+                    Swal.fire({ title: 'جاري الحفظ...', didOpen: () => Swal.showLoading(), allowOutsideClick: false, showConfirmButton: false });
+                    if (isEditing) await this.updateProduct({ ...product, ...formValues });
+                    else await this.addProduct({ ...formValues, 'صورة': '' });
+                    Swal.close();
+                },
+                async addProduct(newProduct) { try { await addDoc(this.productsCollection, newProduct); } catch (e) { console.error(e); } },
+                async updateProduct(updatedProduct) { try { const data = { ...updatedProduct }; delete data.id; await setDoc(doc(db, "products", updatedProduct.id), data); } catch (e) { console.error(e); } },
+                async deleteProduct(productId) {
+                    const product = this.state.fullInventory.find(p => p.id === productId);
+                    const result = await Swal.fire({ title: 'هل أنت متأكد؟', text: `سيتم حذف "${this.escapeHtml(product['الصنف'])}" بشكل نهائي!`, icon: 'warning', showCancelButton: true, confirmButtonText: 'نعم، احذفه!', cancelButtonText: 'إلغاء' });
+                    if (result.isConfirmed) try { await deleteDoc(doc(db, "products", productId)); } catch (e) { console.error(e); }
+                },
+                escapeHtml(str) { const div = document.createElement('div'); div.textContent = str; return div.innerHTML; },
+            };
+            return inventory;
+        };
 
         const app = Vue.createApp({
             data() {
                 return {
-                    authMode: 'login', // 'login' or 'signup'
+                    authMode: 'login',
                     form: { name: '', email: '', password: '', rememberMe: false },
-                    user: { isLoggedIn: false, isPending: false, data: null, name: '', email: '', role: '', uid: ''},
+                    user: { isLoggedIn: false, isPending: false, data: null, name: '', email: '', role: ''},
                     adminPanel: { isOpen: false, users: [] },
-                    unsubscribeUsers: null,
                     passwordFieldType: 'password',
                     isLoading: false,
+                    inventoryApp: null,
                 }
             },
             methods: {
-                toggleAuthMode() {
-                    this.authMode = this.authMode === 'login' ? 'signup' : 'login';
-                    this.form = { name: '', email: '', password: '', rememberMe: false };
-                },
-                togglePasswordVisibility() {
-                    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
-                },
+                toggleAuthMode() { this.authMode = this.authMode === 'login' ? 'signup' : 'login'; this.form = { name: '', email: '', password: '', rememberMe: false }; },
+                togglePasswordVisibility() { this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password'; },
                 async handleLogin() {
                     this.isLoading = true;
                     try {
-                        const persistence = this.form.rememberMe ? browserLocalPersistence : browserSessionPersistence;
-                        await setPersistence(auth, persistence);
+                        await setPersistence(auth, this.form.rememberMe ? browserLocalPersistence : browserSessionPersistence);
                         await signInWithEmailAndPassword(auth, this.form.email, this.form.password);
-                    } catch (error) {
-                        Swal.fire('خطأ', 'البريد الإلكتروني أو كلمة المرور غير صحيحة.', 'error');
-                        console.error("Login Error:", error);
-                    } finally {
-                        this.isLoading = false;
-                    }
+                    } catch (error) { Swal.fire('خطأ', 'البريد الإلكتروني أو كلمة المرور غير صحيحة.', 'error'); } 
+                    finally { this.isLoading = false; }
                 },
                 async handleSignup() {
                     this.isLoading = true;
                     try {
-                        const userCredential = await createUserWithEmailAndPassword(auth, this.form.email, this.form.password);
-                        await setDoc(doc(db, "users", userCredential.user.uid), {
-                            name: this.form.name,
-                            email: this.form.email,
-                            uid: userCredential.user.uid,
-                            role: 'user',
-                            status: 'pending',
-                            createdAt: new Date()
-                        });
-                    } catch (error) {
-                        Swal.fire('خطأ', 'حدث خطأ أثناء إنشاء الحساب. تأكد أن كلمة المرور 6 حروف على الأقل.', 'error');
-                        console.error("Signup Error:", error);
-                    } finally {
-                        this.isLoading = false;
-                    }
+                        const cred = await createUserWithEmailAndPassword(auth, this.form.email, this.form.password);
+                        await setDoc(doc(db, "users", cred.user.uid), { name: this.form.name, email: this.form.email, uid: cred.user.uid, role: 'user', status: 'pending', createdAt: new Date() });
+                    } catch (error) { Swal.fire('خطأ', 'حدث خطأ أثناء إنشاء الحساب. تأكد أن كلمة المرور 6 حروف على الأقل.', 'error'); }
+                    finally { this.isLoading = false; }
                 },
                 async handlePasswordReset() {
-                    const { value: email } = await Swal.fire({
-                        title: 'إعادة تعيين كلمة المرور',
-                        input: 'email',
-                        inputLabel: 'البريد الإلكتروني المسجل به',
-                        inputPlaceholder: 'ادخل بريدك الإلكتروني',
-                        showCancelButton: true,
-                        confirmButtonText: 'إرسال رابط الاستعادة',
-                        cancelButtonText: 'إلغاء'
+                    const { value: email } = await Swal.fire({ title: 'إعادة تعيين كلمة المرور', input: 'email', inputLabel: 'البريد الإلكتروني المسجل به', inputPlaceholder: 'ادخل بريدك الإلكتروني', showCancelButton: true, confirmButtonText: 'إرسال رابط الاستعادة', cancelButtonText: 'إلغاء' });
+                    if (email) try { await sendPasswordResetEmail(auth, email); Swal.fire('تم الإرسال!', 'تفقد بريدك الإلكتروني.', 'success'); } catch (error) { Swal.fire('خطأ', 'لم نتمكن من إرسال البريد.', 'error'); }
+                },
+                handleLogout() { signOut(auth); },
+                showAdminPanel() {
+                    if (this.user.role !== 'admin') return;
+                    this.adminPanel.isOpen = true;
+                    this.unsubscribeUsers = onSnapshot(collection(db, 'users'), (snapshot) => {
+                         this.adminPanel.users = snapshot.docs.map(doc => doc.data());
                     });
-
-                    if (email) {
-                        try {
-                            await sendPasswordResetEmail(auth, email);
-                            Swal.fire('تم الإرسال!', 'تفقد بريدك الإلكتروني للحصول على رابط إعادة التعيين.', 'success');
-                        } catch (error) {
-                            Swal.fire('خطأ', 'لم نتمكن من إرسال البريد. تأكد من صحة العنوان.', 'error');
-                            console.error("Password Reset Error:", error);
-                        }
+                },
+                closeAdminPanel() {
+                     this.adminPanel.isOpen = false;
+                     if(this.unsubscribeUsers) this.unsubscribeUsers();
+                },
+                async approveUser(uid) { await setDoc(doc(db, "users", uid), { status: 'approved' }, { merge: true }); },
+                async deleteUser(uid) { await deleteDoc(doc(db, 'users', uid)); },
+                initInventory() {
+                    if (!this.inventoryApp) {
+                        this.inventoryApp = createInventoryApp(this);
+                        this.inventoryApp.init();
                     }
-                },
-                handleLogout() {
-                    signOut(auth);
-                },
-                async showAdminPanel() { /* ... unchanged ... */ },
-                closeAdminPanel() { /* ... unchanged ... */ },
-                async approveUser(uid) { /* ... unchanged ... */ },
-                async deleteUser(uid) { /* ... unchanged ... */ }
+                }
             },
             mounted() {
                 onAuthStateChanged(auth, async (firebaseUser) => {
                     if (firebaseUser) {
-                        const userDocRef = doc(db, "users", firebaseUser.uid);
-                        const userDoc = await getDoc(userDocRef);
-                        if (userDoc.exists()) {
+                        const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+                        if (userDoc.exists() && userDoc.data().status === 'approved') {
                             const userData = userDoc.data();
-                            if(userData.status === 'approved') {
-                                this.user = { isLoggedIn: true, isPending: false, data: firebaseUser, name: userData.name, email: userData.email, role: userData.role, uid: userData.uid };
-                            } else {
-                                this.user = { isLoggedIn: false, isPending: true, data: null, name: '', email: '', role: ''};
-                            }
+                            this.user = { isLoggedIn: true, isPending: false, data: firebaseUser, name: userData.name, email: userData.email, role: userData.role };
+                            this.$nextTick(() => this.initInventory());
                         } else {
-                             this.user.isPending = true;
-                             this.user.isLoggedIn = false;
+                            this.user.isLoggedIn = false;
+                            this.user.isPending = true;
                         }
                     } else {
-                        this.user = { isLoggedIn: false, isPending: false, data: null, name: '', email: '', role: '' };
-                        if (this.unsubscribeUsers) this.unsubscribeUsers();
+                        if (this.inventoryApp) this.inventoryApp.destroy();
+                        this.inventoryApp = null;
+                        this.user = { isLoggedIn: false, isPending: false, data: null };
                     }
                 });
             }
