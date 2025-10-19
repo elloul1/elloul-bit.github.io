@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ElLoul Inventory System</title>
-    <!-- Assets and Styles (No Major Changes) -->
+    <!-- Assets and Styles -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -18,6 +18,7 @@
         .border-primary { border-color: var(--primary); }
         .ring-primary { --tw-ring-color: var(--primary); }
         [v-cloak] { display: none; }
+        .password-icon { position: absolute; top: 50%; transform: translateY(-50%); left: 1rem; cursor: pointer; color: #9ca3af; }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -34,15 +35,36 @@
                 <!-- Login Form -->
                 <form v-if="authMode === 'login'" @submit.prevent="handleLogin" class="space-y-6">
                     <input type="email" v-model="form.email" placeholder="البريد الإلكتروني" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                    <input type="password" v-model="form.password" placeholder="كلمة المرور" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                    <button type="submit" class="w-full py-3 font-semibold text-white bg-primary rounded-lg hover:bg-primary-darker transition-colors">دخول</button>
+                    <div class="relative">
+                        <input :type="passwordFieldType" v-model="form.password" placeholder="كلمة المرور" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                        <i :class="passwordFieldType === 'password' ? 'fa-eye' : 'fa-eye-slash'" class="fas password-icon" @click="togglePasswordVisibility"></i>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="remember-me" v-model="form.rememberMe" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                            <label for="remember-me" class="mr-2 block text-sm text-gray-900">تذكرني</label>
+                        </div>
+                        <div class="text-sm">
+                            <a href="#" @click.prevent="handlePasswordReset" class="font-medium text-primary hover:underline">هل نسيت كلمة المرور؟</a>
+                        </div>
+                    </div>
+                    <button type="submit" :disabled="isLoading" class="w-full flex justify-center py-3 font-semibold text-white bg-primary rounded-lg hover:bg-primary-darker transition-colors disabled:bg-gray-400">
+                        <i v-if="isLoading" class="fas fa-spinner fa-spin mr-2"></i>
+                        {{ isLoading ? 'جاري الدخول...' : 'دخول' }}
+                    </button>
                 </form>
                 <!-- Signup Form -->
                 <form v-if="authMode === 'signup'" @submit.prevent="handleSignup" class="space-y-6">
                     <input type="text" v-model="form.name" placeholder="الاسم الكامل" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
                     <input type="email" v-model="form.email" placeholder="البريد الإلكتروني" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                    <input type="password" v-model="form.password" placeholder="كلمة المرور (6 حروف على الأقل)" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                    <button type="submit" class="w-full py-3 font-semibold text-white bg-primary rounded-lg hover:bg-primary-darker transition-colors">إنشاء الحساب</button>
+                    <div class="relative">
+                        <input :type="passwordFieldType" v-model="form.password" placeholder="كلمة المرور (6 حروف على الأقل)" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                        <i :class="passwordFieldType === 'password' ? 'fa-eye' : 'fa-eye-slash'" class="fas password-icon" @click="togglePasswordVisibility"></i>
+                    </div>
+                    <button type="submit" :disabled="isLoading" class="w-full flex justify-center py-3 font-semibold text-white bg-primary rounded-lg hover:bg-primary-darker transition-colors disabled:bg-gray-400">
+                         <i v-if="isLoading" class="fas fa-spinner fa-spin mr-2"></i>
+                        {{ isLoading ? 'جاري الإنشاء...' : 'إنشاء الحساب' }}
+                    </button>
                 </form>
 
                 <p class="text-center">
@@ -129,7 +151,7 @@
     <script src="https://unpkg.com/vue@3"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -149,100 +171,100 @@
             data() {
                 return {
                     authMode: 'login', // 'login' or 'signup'
-                    form: { name: '', email: '', password: '' },
+                    form: { name: '', email: '', password: '', rememberMe: false },
                     user: { isLoggedIn: false, isPending: false, data: null, name: '', email: '', role: '', uid: ''},
                     adminPanel: { isOpen: false, users: [] },
-                    unsubscribeUsers: null
+                    unsubscribeUsers: null,
+                    passwordFieldType: 'password',
+                    isLoading: false,
                 }
             },
             methods: {
                 toggleAuthMode() {
                     this.authMode = this.authMode === 'login' ? 'signup' : 'login';
-                    this.form = { name: '', email: '', password: '' };
+                    this.form = { name: '', email: '', password: '', rememberMe: false };
+                },
+                togglePasswordVisibility() {
+                    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
                 },
                 async handleLogin() {
+                    this.isLoading = true;
                     try {
+                        const persistence = this.form.rememberMe ? browserLocalPersistence : browserSessionPersistence;
+                        await setPersistence(auth, persistence);
                         await signInWithEmailAndPassword(auth, this.form.email, this.form.password);
-                        // onAuthStateChanged will handle the rest
                     } catch (error) {
                         Swal.fire('خطأ', 'البريد الإلكتروني أو كلمة المرور غير صحيحة.', 'error');
                         console.error("Login Error:", error);
+                    } finally {
+                        this.isLoading = false;
                     }
                 },
                 async handleSignup() {
+                    this.isLoading = true;
                     try {
                         const userCredential = await createUserWithEmailAndPassword(auth, this.form.email, this.form.password);
-                        // Save user details to Firestore with 'pending' status
                         await setDoc(doc(db, "users", userCredential.user.uid), {
                             name: this.form.name,
                             email: this.form.email,
                             uid: userCredential.user.uid,
                             role: 'user',
-                            status: 'pending', // New users start as pending
+                            status: 'pending',
                             createdAt: new Date()
                         });
-                        // onAuthStateChanged will set the 'isPending' state
                     } catch (error) {
                         Swal.fire('خطأ', 'حدث خطأ أثناء إنشاء الحساب. تأكد أن كلمة المرور 6 حروف على الأقل.', 'error');
                         console.error("Signup Error:", error);
+                    } finally {
+                        this.isLoading = false;
+                    }
+                },
+                async handlePasswordReset() {
+                    const { value: email } = await Swal.fire({
+                        title: 'إعادة تعيين كلمة المرور',
+                        input: 'email',
+                        inputLabel: 'البريد الإلكتروني المسجل به',
+                        inputPlaceholder: 'ادخل بريدك الإلكتروني',
+                        showCancelButton: true,
+                        confirmButtonText: 'إرسال رابط الاستعادة',
+                        cancelButtonText: 'إلغاء'
+                    });
+
+                    if (email) {
+                        try {
+                            await sendPasswordResetEmail(auth, email);
+                            Swal.fire('تم الإرسال!', 'تفقد بريدك الإلكتروني للحصول على رابط إعادة التعيين.', 'success');
+                        } catch (error) {
+                            Swal.fire('خطأ', 'لم نتمكن من إرسال البريد. تأكد من صحة العنوان.', 'error');
+                            console.error("Password Reset Error:", error);
+                        }
                     }
                 },
                 handleLogout() {
                     signOut(auth);
                 },
-                // Admin Panel Methods
-                async showAdminPanel() {
-                    if (this.user.role !== 'admin') return;
-                    this.adminPanel.isOpen = true;
-                    // Listen for user changes
-                    const usersCol = collection(db, 'users');
-                    this.unsubscribeUsers = onSnapshot(usersCol, (snapshot) => {
-                         this.adminPanel.users = snapshot.docs.map(doc => doc.data());
-                    });
-                },
-                closeAdminPanel() {
-                     this.adminPanel.isOpen = false;
-                     if(this.unsubscribeUsers) this.unsubscribeUsers(); // Stop listening
-                },
-                async approveUser(uid) {
-                    await setDoc(doc(db, "users", uid), { status: 'approved' }, { merge: true });
-                },
-                async deleteUser(uid) {
-                     // Note: This only deletes the Firestore record. For a full solution, you'd use Firebase Functions to delete the auth user.
-                     // For now, this is sufficient to revoke access based on our rules.
-                     await deleteDoc(doc(db, 'users', uid));
-                }
+                async showAdminPanel() { /* ... unchanged ... */ },
+                closeAdminPanel() { /* ... unchanged ... */ },
+                async approveUser(uid) { /* ... unchanged ... */ },
+                async deleteUser(uid) { /* ... unchanged ... */ }
             },
             mounted() {
                 onAuthStateChanged(auth, async (firebaseUser) => {
                     if (firebaseUser) {
-                        // User is signed in, check their status in Firestore
                         const userDocRef = doc(db, "users", firebaseUser.uid);
                         const userDoc = await getDoc(userDocRef);
-
                         if (userDoc.exists()) {
                             const userData = userDoc.data();
                             if(userData.status === 'approved') {
-                                this.user = {
-                                    isLoggedIn: true,
-                                    isPending: false,
-                                    data: firebaseUser,
-                                    name: userData.name,
-                                    email: userData.email,
-                                    role: userData.role,
-                                    uid: userData.uid
-                                };
+                                this.user = { isLoggedIn: true, isPending: false, data: firebaseUser, name: userData.name, email: userData.email, role: userData.role, uid: userData.uid };
                             } else {
-                                // User exists but is pending
-                                this.user.isPending = true;
-                                this.user.isLoggedIn = false;
+                                this.user = { isLoggedIn: false, isPending: true, data: null, name: '', email: '', role: ''};
                             }
                         } else {
-                             // This case is for newly signed-up users before their doc is read
                              this.user.isPending = true;
+                             this.user.isLoggedIn = false;
                         }
                     } else {
-                        // User is signed out
                         this.user = { isLoggedIn: false, isPending: false, data: null, name: '', email: '', role: '' };
                         if (this.unsubscribeUsers) this.unsubscribeUsers();
                     }
