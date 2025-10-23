@@ -6,21 +6,11 @@
     <meta name="theme-color" content="#4f46e5">
     <title>ElLoul Inventory System</title>
     <link rel="apple-touch-icon" href="https://placehold.co/192x192/4f46e5/ffffff?text=ElLoul">
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRWxMb3VsIEludmVudG9yeSBTeXN0ZW0iLCJzaG9ydF9uYW1lIjoiRWxMb3VsIiwic3RhcnRfdXJsIjoiLi8iLCJkaXNwbGF5Ijoic3RhbmRhbG95ZSIsImJhY2tncm91bmRfY29sb3IiOiIjZjBmMmY1IiwidGhlbWVfY29sb3IiOiIjNGY0NmU1IiwiZGVzY3JpcHRpb24iOiJBIHNpbXBsZSBpbnZlbnRvcnkgbWFuYWdlbWVudCBhcHBsaWNhdGlvbi4iLCJpY29ucyI6W3sic3JjIjoiaHR0cHM6Ly9wbGFjZWhvbGQuY28vMTkyeDE5Mi80ZjQ2ZTgvZmZmZmZmP3RleHQ9RWxMb3VsIiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3BuZyJ9LHsic3JjIjoiaHR0cHM6Ly9wbGFjZWhvbGQuY28vNTEyeDUxMi80ZjQ2ZTgvZmZmZmZmP3RleHQ9RWxMb3VsIiwic2l6ZXMiOiI1MTJ4NTEyIiwidHlwZSI6ImltYWdlL3BuZyJ9XX0=">
-
-    <!-- Tailwind CSS -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRWxMb3VsIEludmVudG9yeSBTeXN0ZW0iLCJzaG9ydF9uYW1lIjoiRWxMb3VsIiwic3RhcnRfdXJsIjoiLi8iLCJkaXNwbGF5Ijoic3RhbmRhbG95ZSIsImJhY2tncm91bmRfY29sb3IiOiIjZjBmMjY1IiwidGhlbWVfY29sb3IiOiIjNGY0NmU1IiwiZGVzY3JpcHRpb24iOiJBIHNpbXBsZSBpbnZlbnRvcnkgbWFuYWdlbWVudCBhcHBsaWNhdGlvbi4iLCJpY29ucyI6W3sic3JjIjoiaHR0cHM6Ly9wbGFjZWhvbGQuY28vMTkyeDE5Mi80ZjQ2ZTgvZmZmZmZmP3RleHQ9RWxMb3VsIiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3BuZyJ9LHsic3JjIjoiaHR0cHM6Ly9wbGFjZWhvbGQuY28vNTEyeDUxMi80ZjQ2ZTgvZmZmZmZmP3RleHQ9RWxMb3VsIiwic2l6ZXMiOiI1MTJ4NTEyIiwidHlwZSI6ImltYWdlL3BuZyJ9XX0=">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Tajawal -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- SweetAlert2 for Interactive Alerts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-    <!-- Custom Styles (No Changes Here) -->
     <style>
         body { font-family: 'Tajawal', sans-serif; background-color: #f0f2f5; }
         :root { 
@@ -29,8 +19,8 @@
         }
         .text-primary { color: var(--primary); } .bg-primary { background-color: var(--primary); }
         .bg-primary-darker { background-color: var(--primary-darker); }
-        .border-primary { border-color: var(--primary); } .ring-primary { --tw-ring-color: var(--primary); }
         .header-glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); }
+        .password-icon { position: absolute; top: 50%; transform: translateY(-50%); left: 1rem; cursor: pointer; color: #9ca3af; }
         .product-card { --glow-color: var(--primary); background-color: var(--card-bg); border: 1px solid var(--border-color); border-top-width: 4px; transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); position: relative; }
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.12), 0 0 25px -5px var(--glow-color); }
         .card-actions { position: absolute; top: 170px; left: 1rem; display: flex; gap: 0.5rem; opacity: 0; transform: translateY(10px); transition: opacity 0.3s ease, transform 0.3s ease; }
@@ -39,68 +29,217 @@
         .action-btn:hover { color: white; }
         .action-btn.edit-btn:hover { background-color: var(--primary); }
         .action-btn.delete-btn:hover { background-color: #ef4444; }
+        /* Quantity buttons styles */
+        .quantity-controls {
+            position: absolute;
+            bottom: 0.5rem;
+            left: 0.5rem;
+            display: flex;
+            gap: 0.25rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 9999px;
+            padding: 0.25rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .product-card:hover .quantity-controls {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.875rem;
+            transition: background-color 0.2s;
+        }
+        .qty-btn-minus { background-color: #ef4444; color: white; }
+        .qty-btn-minus:hover { background-color: #dc2626; }
+        .qty-btn-plus { background-color: #22c55e; color: white; }
+        .qty-btn-plus:hover { background-color: #16a34a; }
+
+        .low-stock-alert { border-top-color: #f59e0b !important; } /* Orange for low stock */
+        .out-of-stock-alert { border-top-color: #ef4444 !important; } /* Red for out of stock */
+
         .custom-scrollbar::-webkit-scrollbar { height: 4px; } 
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; } 
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        .swal2-popup { border-radius: 1rem !important; font-family: 'Tajawal', sans-serif; }
-        .swal2-confirm { background-color: var(--primary) !important; box-shadow: none !important; }
-        .swal2-deny { background-color: #ef4444 !important; box-shadow: none !important; }
-        @keyframes cardFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .product-card-fade-in { animation: cardFadeIn 0.6s ease-out forwards; }
+        .product-image { height: 160px; width: 100%; object-fit: cover; }
         .image-placeholder { height: 160px; display: flex; align-items: center; justify-content: center; background-color: #f9fafb; border-bottom: 1px dashed var(--border-color); cursor: pointer; transition: background-color 0.3s, border-color 0.3s; }
         .image-placeholder:hover { background-color: #eef2ff; }
         .image-placeholder.dragover { border: 2px dashed var(--primary); background-color: #eef2ff; }
-        .product-image { height: 160px; width: 100%; object-fit: cover; }
         .category-tabs-container { display: flex; overflow-x: auto; padding-bottom: 8px; white-space: nowrap; -webkit-overflow-scrolling: touch; }
         .category-tab { flex-shrink: 0; display: inline-flex; align-items: center; cursor: pointer; padding: 0.5rem 1.25rem; margin: 0.25rem; border-radius: 9999px; background-color: #f3f4f6; color: #374151; font-weight: 600; transition: all 0.2s ease-in-out; }
         .category-tab:hover { background-color: #e5e7eb; color: var(--primary); }
         .category-tab.active { background-color: var(--primary); color: white; box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39); }
         .category-tab i { margin-left: 8px; }
         #current-category-title { transition: opacity 0.3s ease-in-out; }
+        @keyframes cardFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .product-card-fade-in { animation: cardFadeIn 0.6s ease-out forwards; }
         @keyframes slideInUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .install-toast-show { display: flex !important; animation: slideInUp 0.5s ease-out forwards; }
+
+        /* Dashboard specific styles */
+        .dashboard-card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .dashboard-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        .dashboard-card .value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1;
+        }
+        .dashboard-card .label {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
-<body class="text-text-dark bg-light-bg">
-    <div id="app" class="min-h-screen flex flex-col">
+<body class="bg-gray-100">
+
+    <div id="auth-page" class="flex items-center justify-center min-h-screen">
+        <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-2xl shadow-lg">
+            <div class="text-center"><h2 id="auth-title" class="text-3xl font-extrabold text-gray-900">تسجيل الدخول</h2></div>
+            <form id="login-form" class="space-y-6">
+                <input type="email" id="login-email" placeholder="البريد الإلكتروني" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                <div class="relative"><input type="password" id="login-password" placeholder="كلمة المرور" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"><i class="fas fa-eye password-icon" data-target="login-password"></i></div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center"><input id="remember-me" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"><label for="remember-me" class="mr-2 block text-sm text-gray-900">تذكرني</label></div>
+                    <div class="text-sm"><a href="#" id="forgot-password-link" class="font-medium text-primary hover:underline">هل نسيت كلمة المرور؟</a></div>
+                </div>
+                <button type="submit" id="login-button" class="w-full flex justify-center py-3 font-semibold text-white bg-primary rounded-lg hover:bg-primary-darker transition-colors disabled:bg-gray-400">دخول</button>
+            </form>
+            <form id="signup-form" class="space-y-6 hidden">
+                <input type="text" id="signup-name" placeholder="الاسم الكامل" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                <input type="email" id="signup-email" placeholder="البريد الإلكتروني" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                <div class="relative"><input type="password" id="signup-password" placeholder="كلمة المرور (6 حروف على الأقل)" required class="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"><i class="fas fa-eye password-icon" data-target="signup-password"></i></div>
+                <button type="submit" id="signup-button" class="w-full flex justify-center py-3 font-semibold text-white bg-primary rounded-lg hover:bg-primary-darker transition-colors disabled:bg-gray-400">إنشاء الحساب</button>
+            </form>
+            <p class="text-center"><a href="#" id="toggle-auth-mode" class="font-medium text-primary hover:underline">ليس لديك حساب؟ أنشئ واحدًا</a></p>
+        </div>
+    </div>
+
+    <div id="pending-page" class="hidden flex-col items-center justify-center min-h-screen text-center p-4">
+        <div class="bg-white p-10 rounded-2xl shadow-lg"><i class="fas fa-clock fa-4x text-yellow-500 mb-4"></i><h1 class="text-3xl font-bold text-gray-800">حسابك قيد المراجعة</h1><p class="mt-2 text-gray-600">شكرًا لتسجيلك! سيقوم الأدمن بمراجعة حسابك وتفعيله قريبًا.</p><button id="pending-logout-button" class="mt-6 px-6 py-2 font-semibold text-white bg-red-500 rounded-lg hover:bg-red-600">تسجيل الخروج</button></div>
+    </div>
+    
+    <div id="admin-panel" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 items-center justify-center">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col"><div class="p-4 border-b flex justify-between items-center"><h3 class="text-xl font-bold">لوحة تحكم الأدمن</h3><button id="close-admin-panel" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button></div><div id="admin-users-list" class="p-4 overflow-y-auto"></div></div>
+    </div>
+
+    <div id="app" class="hidden min-h-screen flex-col">
         <header class="header-glass sticky top-0 z-30">
-            <div class="flex items-center justify-center h-20 max-w-7xl mx-auto px-4 sm:px-8 w-full">
-                <div class="relative w-full max-w-sm"><span class="absolute inset-y-0 left-0 flex items-center pl-4"><i class="fas fa-search text-gray-400"></i></span><input id="searchInput" type="text" placeholder="ابحث في كل الأصناف..." class="w-full pl-12 pr-10 py-3 bg-gray-100 border-2 border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-text-dark transition-all duration-300"><button id="clearSearchBtn" class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 hover:text-primary hidden transition-opacity duration-300"><i class="fas fa-times-circle"></i></button></div>
+             <div class="flex items-center justify-between h-20 max-w-7xl mx-auto px-4 sm:px-8 w-full">
+                <div class="flex items-center">
+                    <span id="user-greeting" class="text-gray-700 mr-4 font-semibold"></span>
+                    <button id="nav-dashboard-btn" class="hidden mr-4 px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary rounded-md" title="لوحة القيادة"><i class="fas fa-chart-line fa-lg"></i></button>
+                    <button id="nav-inventory-btn" class="hidden mr-4 px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary rounded-md active" title="المخزون"><i class="fas fa-boxes-stacked fa-lg"></i></button>
+                </div>
+                <div class="relative w-full max-w-sm flex items-center">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-4"><i class="fas fa-search text-gray-400"></i></span>
+                    <input id="searchInput" type="text" placeholder="ابحث في كل الأصناف..." class="w-full pl-12 pr-10 py-3 bg-gray-100 border-2 border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-primary">
+                    <button id="clearSearchBtn" class="absolute inset-y-0 right-10 hidden items-center pr-4 text-gray-500 hover:text-primary"><i class="fas fa-times-circle"></i></button>
+                    <button id="barcodeScannerBtn" class="absolute inset-y-0 right-0 flex items-center pr-2 text-gray-500 hover:text-primary" title="ماسح الباركود"><i class="fas fa-barcode"></i></button>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button id="admin-panel-button" class="hidden text-gray-600 hover:text-primary" title="لوحة التحكم"><i class="fas fa-user-shield fa-lg"></i></button>
+                    <button id="export-data-btn" class="hidden text-gray-600 hover:text-primary" title="تصدير البيانات"><i class="fas fa-file-excel fa-lg"></i></button>
+                    <button id="logout-button" class="text-gray-600 hover:text-red-500" title="تسجيل الخروج"><i class="fas fa-sign-out-alt fa-lg"></i></button>
+                </div>
             </div>
         </header>
-        <div class="bg-white border-b border-border-color sticky top-20 z-20">
+        <div class="bg-white border-b border-gray-200 sticky top-20 z-20">
             <div id="category-tabs-container" class="category-tabs-container max-w-7xl mx-auto px-2 sm:px-6 custom-scrollbar"></div>
         </div>
         <main class="flex-1 w-full max-w-7xl mx-auto p-4 sm:p-8">
-            <div id="home-page">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
-                    <h2 id="current-category-title" class="text-3xl font-extrabold text-text-dark mb-4 sm:mb-0">كل الأصناف</h2>
+             <div id="home-page"> <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+                    <h2 id="current-category-title" class="text-3xl font-extrabold text-dark mb-4 sm:mb-0">كل الأصناف</h2>
                     <div id="sort-container" class="relative">
                         <button id="sort-btn" class="flex items-center gap-2 bg-white border border-border-color rounded-full px-4 py-2 text-sm font-semibold text-text-muted hover:border-primary hover:text-primary transition-colors"><i class="fas fa-sort-amount-down"></i><span id="sort-label">ترتيب حسب</span><i class="fas fa-chevron-down text-xs ml-auto"></i></button>
                         <div id="sort-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-border-color z-40 overflow-hidden">
-                            <a href="#" class="sort-option block px-4 py-2 text-sm text-text-dark hover:bg-gray-100" data-sort="default">افتراضي</a>
-                            <a href="#" class="sort-option block px-4 py-2 text-sm text-text-dark hover:bg-gray-100" data-sort="price-desc">السعر: من الأعلى للأقل</a>
-                            <a href="#" class="sort-option block px-4 py-2 text-sm text-text-dark hover:bg-gray-100" data-sort="price-asc">السعر: من الأقل للأعلى</a>
-                            <a href="#" class="sort-option block px-4 py-2 text-sm text-text-dark hover:bg-gray-100" data-sort="name-asc">الاسم: أ - ي</a>
-                            <a href="#" class="sort-option block px-4 py-2 text-sm text-text-dark hover:bg-gray-100" data-sort="name-desc">الاسم: ي - أ</a>
+                            <a href="#" class="sort-option block px-4 py-2 text-sm text-dark hover:bg-gray-100" data-sort="default">افتراضي</a>
+                            <a href="#" class="sort-option block px-4 py-2 text-sm text-dark hover:bg-gray-100" data-sort="price-desc">السعر: من الأعلى للأقل</a>
+                            <a href="#" class="sort-option block px-4 py-2 text-sm text-dark hover:bg-gray-100" data-sort="price-asc">السعر: من الأقل للأعلى</a>
+                            <a href="#" class="sort-option block px-4 py-2 text-sm text-dark hover:bg-gray-100" data-sort="name-asc">الاسم: أ - ي</a>
+                            <a href="#" class="sort-option block px-4 py-2 text-sm text-dark hover:bg-gray-100" data-sort="name-desc">الاسم: ي - أ</a>
+                            <a href="#" class="sort-option block px-4 py-2 text-sm text-dark hover:bg-gray-100" data-sort="quantity-asc">الكمية: من الأقل للأعلى</a>
+                            <a href="#" class="sort-option block px-4 py-2 text-sm text-dark hover:bg-gray-100" data-sort="quantity-desc">الكمية: من الأعلى للأقل</a>
                         </div>
                     </div>
                 </div>
-                <div id="loader" class="text-center py-20"><i class="fas fa-spinner fa-spin text-primary text-5xl"></i>
-                    <p class="mt-4 text-text-muted text-xl">جاري الاتصال بقاعدة البيانات...</p>
-                </div>
+                <div id="loader" class="text-center py-20"><i class="fas fa-spinner fa-spin text-primary text-5xl"></i><p class="mt-4 text-gray-600 text-xl">جاري مزامنة البيانات...</p></div>
                 <div id="inventory-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6"></div>
-                <div id="no-results" class="hidden text-center text-text-muted py-20"><i class="far fa-surprise text-7xl mb-4"></i>
-                    <p class="text-3xl font-semibold text-gray-500">لا توجد نتائج مطابقة</p>
-                </div>
+                <div id="no-results" class="hidden text-center text-gray-500 py-20"><i class="far fa-surprise text-7xl mb-4"></i><p class="text-3xl font-semibold">لا توجد نتائج مطابقة</p></div>
                 <div id="lazy-loader" class="hidden text-center py-10"><i class="fas fa-spinner fa-spin text-primary text-3xl"></i></div>
                 <div id="sentinel" class="w-full h-10"></div>
             </div>
+
+            <div id="dashboard-page" class="hidden">
+                <h2 class="text-3xl font-extrabold text-dark mb-8">لوحة القيادة</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="dashboard-card">
+                        <i class="fas fa-boxes-stacked icon"></i>
+                        <span id="total-products-count" class="value">0</span>
+                        <span class="label">إجمالي عدد المنتجات</span>
+                    </div>
+                    <div class="dashboard-card">
+                        <i class="fas fa-exclamation-triangle icon text-orange-500"></i>
+                        <span id="low-stock-count" class="value text-orange-500">0</span>
+                        <span class="label">منتجات منخفضة المخزون</span>
+                    </div>
+                    <div class="dashboard-card">
+                        <i class="fas fa-battery-empty icon text-red-500"></i>
+                        <span id="out-of-stock-count" class="value text-red-500">0</span>
+                        <span class="label">منتجات نفدت من المخزون</span>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-dark mb-4">أحدث حركات المخزون</h3>
+                    <div id="recent-transactions" class="space-y-3">
+                        <p class="text-center text-gray-500">جاري التحميل...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="barcode-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center">
+                <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md relative">
+                    <button id="close-barcode-modal" class="absolute top-3 left-3 text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+                    <h3 class="text-xl font-bold mb-4 text-center">ماسح الباركود</h3>
+                    <div id="interactive" class="viewport" style="width: 100%; height: 200px; background-color: #eee; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
+                        <video id="barcode-video" class="w-full h-full object-cover absolute top-0 left-0" style="display: none;"></video>
+                        <div class="drawingBuffer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+                        <p id="barcode-instructions" class="text-gray-500">ضع الباركود أمام الكاميرا</p>
+                    </div>
+                    <input type="text" id="barcode-manual-input" placeholder="أدخل الباركود يدوياً" class="w-full mt-4 px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                    <button id="scan-search-btn" class="w-full flex justify-center py-3 font-semibold text-white bg-primary rounded-lg hover:bg-primary-darker transition-colors mt-4">بحث بالباركود</button>
+                    <div id="barcode-result" class="mt-4 text-center font-bold text-lg"></div>
+                </div>
+            </div>
+
         </main>
+        <button id="addProductBtn" class="hidden fixed bottom-8 right-8 bg-primary hover:bg-primary-darker text-white w-16 h-16 rounded-full shadow-lg items-center justify-center text-3xl z-20 transition-transform transform hover:scale-110"><i class="fas fa-plus"></i></button>
         <footer class="text-center py-6 border-t border-border-color relative">
-            <p class="text-text-muted">صنع بواسطة <span id="footer-brand-link" class="font-bold text-primary cursor-pointer hover:underline">ElLoul</span> &copy; <span id="current-year"></span></p>
-            <div id="social-popup" class="hidden absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 text-right">
+            <p class="text-gray-600">صنع بواسطة <span id="footer-brand-link" class="font-bold text-primary cursor-pointer hover:underline">ElLoul</span> &copy; <span id="current-year"></span></p>
+             <div id="social-popup" class="hidden absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 text-right">
                 <div class="p-2">
                     <ul class="space-y-1">
                         <li><a href="https://www.facebook.com/AliMamdouhh369?mibextid=ZbWKwL" target="_blank" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"><i class="fab fa-facebook text-2xl w-8 text-center" style="color: #1877F2;"></i><span class="mr-3 font-semibold">فيسبوك</span></a></li>
@@ -113,23 +252,15 @@
                 </div>
             </div>
         </footer>
-        <button id="addProductBtn" class="fixed bottom-8 right-8 bg-primary hover:bg-primary-darker text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-3xl z-40 transition-transform transform hover:scale-110"><i class="fas fa-plus"></i></button>
-        <div id="install-toast" class="hidden fixed bottom-4 right-4 lg:bottom-8 lg:right-8 bg-white rounded-2xl shadow-2xl p-4 w-[calc(100%-2rem)] max-w-sm z-50 items-start gap-4"><img src="https://placehold.co/64x64/4f46e5/ffffff?text=ElLoul" alt="App Icon" class="w-12 h-12 rounded-lg flex-shrink-0">
-            <div class="flex-1">
-                <p class="font-bold text-text-dark">ثبّت تطبيق المخزن</p>
-                <p class="text-sm text-text-muted mt-1">وصول سريع للتطبيق من شاشتك الرئيسية.</p>
-                <div class="mt-4 flex gap-2"><button id="install-btn" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold w-full">تثبيت</button><button id="dismiss-install-btn" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold w-full">لاحقًا</button></div>
-            </div>
-        </div>
+        <div id="install-toast" class="hidden fixed bottom-4 right-4 lg:bottom-8 lg:right-8 bg-white rounded-2xl shadow-2xl p-4 w-[calc(100%-2rem)] max-w-sm z-50 items-start gap-4"><img src="https://placehold.co/64x64/4f46e5/ffffff?text=ElLoul" alt="App Icon" class="w-12 h-12 rounded-lg flex-shrink-0"><div class="flex-1"><p class="font-bold text-text-dark">ثبّت تطبيق المخزن</p><p class="text-sm text-text-muted mt-1">وصول سريع للتطبيق من شاشتك الرئيسية.</p><div class="mt-4 flex gap-2"><button id="install-btn" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold w-full">تثبيت</button><button id="dismiss-install-btn" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold w-full">لاحقًا</button></div></div></div>
     </div>
-    
-    <script type="module">
-        // Import Firebase modules
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, addDoc, doc, setDoc, deleteDoc, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
-        // Your web app's Firebase configuration
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, deleteDoc, enableIndexedDbPersistence, writeBatch, getDocs, deleteField, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
+
         const firebaseConfig = {
             apiKey: "AIzaSyBgzhSlzeVlqTrqefTP0rqAnlzBEKEDm6o",
             authDomain: "elloul-e82d8.firebaseapp.com",
@@ -138,506 +269,879 @@
             messagingSenderId: "190409612659",
             appId: "1:190409612659:web:cffcb1c4615502ee347906"
         };
-
-        // Initialize Firebase
+        
         const firebaseApp = initializeApp(firebaseConfig);
-        const db = getFirestore(firebaseApp);
         const auth = getAuth(firebaseApp);
+        const db = getFirestore(firebaseApp);
+        const storage = getStorage(firebaseApp); // Initialize Firebase Storage
+        enableIndexedDbPersistence(db).catch(console.error);
 
-        // --- PWA Service Worker (No Changes) ---
-        if ('serviceWorker' in navigator) {
-            // Service worker logic remains the same
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const App = {
-                db: db, // Use Firestore instance
-                productsCollection: collection(db, "products"), // Reference to 'products' collection
-                observer: null,
-                state: {
-                    fullInventory: [],
-                    categorizedProducts: {},
-                    currentFilteredList: [],
-                    displayOffset: 0,
-                    currentSort: 'default',
-                    deferredPrompt: null,
-                    unsubscribe: null, // To stop listening for updates when needed
+        const App = {
+            state: {
+                user: { isLoggedIn: false, isPending: false, data: null, uid: null, role: null, unsubscribe: null },
+                inventory: { 
+                    productsCollection: collection(db, "products"),
+                    transactionsCollection: collection(db, "transactions"), // New: Transactions collection
+                    isLoading: true, fullInventory: [], categorizedProducts: {}, currentFilteredList: [], 
+                    unsubscribeProducts: null, unsubscribeTransactions: null, // New: Unsubscribe for transactions
+                    displayOffset: 0, currentSort: 'default', observer: null,
+                    lowStockThreshold: 5 // New: Configurable low stock threshold
                 },
-                config: {
-                    // This URL is now only for the very first time data population
-                    INITIAL_DATA_URL: 'https://elloul1.github.io/elloul-bit.github.io/json.json',
-                    CARD_COLORS: ['#3b82f6', '#22c55e', '#ef4444', '#a855f7', '#ec4899', '#f97316', '#14b8a6', '#6366f1'],
-                    BATCH_SIZE: 40,
-                    CATEGORY_KEYWORDS: { 'العناية بالشعر': ['شامبو', 'بلسم', 'زيت', 'كريم شعر', 'صبغه', 'جل', 'جيل', 'حمام كريم', 'سيرم', 'هير', 'فاتيكا', 'صانسيلk', 'لوريال', 'بانتين', 'كلير', 'دابر املا', 'ترزمي', 'باليت', 'فرد شعر', 'ملمع', 'اي كرياتين', 'هيربال ايسنز', 'تريشوب', 'كازانوفا'], 'العناية بالبشرة': ['كريم', 'غسول', 'ماسك', 'صابون', 'لوشن', 'مرطب', 'تفتيح', 'واقي', 'صنفره', 'جلسرين', 'نيفيا', 'دوف', 'ايفا', 'غارنيه', 'فازلين', 'اسیتون', 'مزيل مكياج', 'بي وايت', 'سكين كلينيك', 'كولاجين', 'جليسوليد', 'سبوتليس', 'ديرما'], 'العناية بالطفل': ['بيبي', 'اطفال', 'نونو', 'بامبرز', 'مولفكس', 'فاين بيبي', 'ببرونه', 'سكاته', 'حفاضه', 'جونسون', 'بندولين', 'اي باتش اطفال', 'سانوسان', 'كيدز', 'سيتي بيبي'], 'العناية الشخصية': ['مزيل', 'سبراي', 'معجون', 'فرشاة اسنان', 'شفره', 'حلاقه', 'جيليت', 'لورد', 'اكس', 'ريكسونا', 'فا', 'سويت', 'واكس', 'فوط', 'الويز', 'سوفي', 'برايفت', 'مولبيد', 'بودره', 'ديتول', 'معطر فم', 'سيجنال', 'سنسوداين', 'كلوس اب', 'خيط اسنان', 'عازل طبي'], 'مستلزمات طبية': ['بلاستر', 'شاش', 'قطن', 'رباط', 'سرنجة', 'جهاز ضغط', 'ترمومتر', 'كمامة', 'كحول', 'بيتادين', 'قسطرة', 'جبيرة', 'حزام', 'انكل', 'ركبه', 'كوع', 'فيكريل', 'برولين', 'كانيولا', 'دريسنج', 'قربة', 'مبوله'], 'العطور': ['برفان', 'كولونيا', 'عطر', 'اسبلاش', 'فوج'], 'المنزل والمبيدات': ['بايجون', 'ريد', 'جليد', 'ملمع', 'مناديل', 'ديتول', 'راجون', 'كيروكس', 'لزقة فار', 'صراصير'] },
-                    CATEGORY_ICONS: {'كل الأصناف':'fa-boxes-stacked','العناية بالشعر':'fa-cut','العناية بالبشرة':'fa-spa','العناية بالطفل':'fa-baby','العناية الشخصية':'fa-user-shield','مستلزمات طبية':'fa-briefcase-medical','العطور':'fa-spray-can-sparkles','المنزل والمبيدات':'fa-bug-slash','متنوع':'fa-shapes'},
-                },
-                elements: { categoryTabsContainer: document.getElementById('category-tabs-container'), inventoryGrid: document.getElementById('inventory-grid'), searchInput: document.getElementById('searchInput'), clearSearchBtn: document.getElementById('clearSearchBtn'), noResults: document.getElementById('no-results'), loader: document.getElementById('loader'), lazyLoader: document.getElementById('lazy-loader'), sentinel: document.getElementById('sentinel'), currentCategoryTitle: document.getElementById('current-category-title'), addProductBtn: document.getElementById('addProductBtn'), footerBrandLink: document.getElementById('footer-brand-link'), socialPopup: document.getElementById('social-popup'), currentYear: document.getElementById('current-year'), sortBtn: document.getElementById('sort-btn'), sortLabel: document.getElementById('sort-label'), sortDropdown: document.getElementById('sort-dropdown'), installToast: document.getElementById('install-toast'), installBtn: document.getElementById('install-btn'), dismissInstallBtn: document.getElementById('dismiss-install-btn'), },
-                
-                async init() {
-                    this.setupEventListeners();
-                    try {
-                        await signInAnonymously(auth);
-                        this.listenForData();
-                    } catch (error) {
-                        console.error("Firebase Auth Error:", error);
-                        if (error.code === 'auth/configuration-not-found') {
-                            this.elements.loader.classList.add('hidden'); // Hide the loader spinner
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'خطأ في الإعدادات',
-                                html: `
-                                    <div class="text-right text-gray-700" style="text-align: right;">
-                                        <p class="mb-3">يبدو أن ميزة "تسجيل الدخول المجهول" غير مُفعّلة في مشروع Firebase.</p>
-                                        <p class="font-bold mb-2">لحل المشكلة، اتبع الخطوات التالية:</p>
-                                        <ol class="list-decimal list-inside space-y-2">
-                                            <li>اذهب إلى لوحة تحكم مشروعك على Firebase.</li>
-                                            <li>من القائمة، اختر <strong>Build > Authentication</strong>.</li>
-                                            <li>اضغط على <strong>Get started</strong> ثم اذهب إلى تبويب <strong>Sign-in method</strong>.</li>
-                                            <li>اضغط على <strong>Anonymous</strong> وقم بتفعيلها.</li>
-                                        </ol>
-                                        <p class="mt-4">بعد ذلك، قم بتحديث هذه الصفحة.</p>
-                                    </div>
-                                `,
-                                confirmButtonText: 'حسنًا'
-                            });
-                        } else {
-                            this.elements.loader.innerHTML = '<p class="text-red-500">فشل الاتصال بالخدمة. الرجاء المحاولة مرة أخرى.</p>';
-                        }
-                    }
-                },
-
-                async listenForData() {
-                    // Check if initial data needs to be populated
-                    const snapshot = await getDocs(this.productsCollection);
-                    if (snapshot.empty) {
-                        this.elements.loader.querySelector('p').textContent = 'جاري إعداد قاعدة البيانات لأول مرة...';
-                        try {
-                            const response = await fetch(this.config.INITIAL_DATA_URL);
-                            const initialData = await response.json();
-                            const batch = writeBatch(this.db);
-                            initialData.forEach(item => {
-                                const docRef = doc(this.productsCollection);
-                                batch.set(docRef, item);
-                            });
-                            await batch.commit();
-                        } catch (e) {
-                            console.error("Failed to populate initial data:", e);
-                            this.elements.loader.innerHTML = '<p class="text-red-500">فشل تحميل البيانات الأولية.</p>';
-                            return;
-                        }
-                    }
-
-                    // Now, listen for real-time updates
-                    this.state.unsubscribe = onSnapshot(this.productsCollection, (querySnapshot) => {
-                        const inventory = [];
-                        querySnapshot.forEach((doc) => {
-                            inventory.push({ id: doc.id, ...doc.data() });
-                        });
-                        this.state.fullInventory = inventory;
-                        
-                        if (this.state.fullInventory.length > 0) {
-                            this.processAndCategorize(this.state.fullInventory);
-                            this.updateCategoryTabs();
-                            this.handleFilter(); // Re-apply filters with new data
-                            this.elements.loader.classList.add('hidden');
-                        }
-                         this.setupObserver();
-                    }, (error) => {
-                        console.error("Firestore listen error:", error);
-                        this.elements.loader.innerHTML = '<p class="text-red-500">حدث خطأ أثناء تحميل البيانات.</p>';
-                    });
-                },
-
-                // --- NEW CRUD Operations using Firestore ---
-                async addProduct(newProduct) {
-                    try {
-                        await addDoc(this.productsCollection, newProduct);
-                        // No need to manually update state, onSnapshot will do it automatically
-                    } catch (e) {
-                        console.error("Error adding document: ", e);
-                        Swal.fire('خطأ', 'لم نتمكن من إضافة المنتج.', 'error');
-                    }
-                },
-                async updateProduct(updatedProduct) {
-                    try {
-                        const productRef = doc(this.db, "products", updatedProduct.id);
-                        // We remove the 'id' from the object before sending it to Firestore
-                        const dataToUpdate = { ...updatedProduct };
-                        delete dataToUpdate.id;
-                        await setDoc(productRef, dataToUpdate, { merge: true });
-                    } catch (e) {
-                        console.error("Error updating document: ", e);
-                        Swal.fire('خطأ', 'لم نتمكن من تحديث المنتج.', 'error');
-                    }
-                },
-                async deleteProduct(productId) {
-                    const productToDelete = this.state.fullInventory.find(p => p.id === productId);
-                    const result = await Swal.fire({ title: 'هل أنت متأكد؟', text: `سيتم حذف "${this.escapeHtml(productToDelete['الصنف'])}" بشكل نهائي!`, icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', cancelButtonColor: '#6b7280', confirmButtonText: 'نعم، احذفه!', cancelButtonText: 'إلغاء' });
+                admin: { unsubscribeUsers: null },
+                deferredPrompt: null,
+                currentPage: 'inventory' // 'inventory' or 'dashboard'
+            },
+            config: {
+                INITIAL_DATA_URL: 'https://elloul1.github.io/elloul-bit.github.io/json.json',
+                BATCH_SIZE: 40,
+                CARD_COLORS: ['#3b82f6', '#22c55e', '#ef4444', '#a855f7', '#ec4899', '#f97316', '#14b8a6', '#6366f1'],
+                CATEGORY_KEYWORDS: { 'العناية بالشعر': ['شامبو', 'بلسم', 'زيت', 'كريم شعر', 'صبغه', 'جل', 'جيل', 'حمام كريم', 'سيرم', 'هير', 'فاتيكا', 'صانسيلk', 'لوريال', 'بانتين', 'كلير', 'دابر املا', 'ترزمي', 'باليت', 'فرد شعر', 'ملمع', 'اي كرياتين', 'هيربال ايسنز', 'تريشوب', 'كازانوفا'], 'العناية بالبشرة': ['كريم', 'غسول', 'ماسك', 'صابون', 'لوشن', 'مرطب', 'تفتيح', 'واقي', 'صنفره', 'جلسرين', 'نيفيا', 'دوف', 'ايفا', 'غارنيه', 'فازلين', 'اسیتون', 'مزيل مكياج', 'بي وايت', 'سكين كلينيك', 'كولاجين', 'جليسوليد', 'سبوتليس', 'ديرما'], 'العناية بالطفل': ['بيبي', 'اطفال', 'نونو', 'بامبرز', 'مولفكس', 'فاين بيبي', 'ببرونه', 'سكاته', 'حفاضه', 'جونسون', 'بندولين', 'اي باتش اطفال', 'سانوسان', 'كيدز', 'سيتي بيبي'], 'العناية الشخصية': ['مزيل', 'سبراي', 'معجون', 'فرشاة اسنان', 'شفره', 'حلاقه', 'جيليت', 'لورد', 'اكس', 'ريكسونا', 'فا', 'سويت', 'واكس', 'فوط', 'الويز', 'سوفي', 'برايفت', 'مولبيد', 'بودره', 'ديتول', 'معطر فم', 'سيجنال', 'سنسوداين', 'كلوس اب', 'خيط اسنان', 'عازل طبي'], 'مستلزمات طبية': ['بلاستر', 'شاش', 'قطن', 'رباط', 'سرنجة', 'جهاز ضغط', 'ترمومتر', 'كمامة', 'كحول', 'بيتادين', 'قسطرة', 'جبيرة', 'حزام', 'انكل', 'ركبه', 'كوع', 'فيكريل', 'برولين', 'كانيولا', 'دريسنج', 'قربة', 'مبوله'], 'العطور': ['برفان', 'كولونيا', 'عطر', 'اسبلاش', 'فوج'], 'المنزل والمبيدات': ['بايجون', 'ريد', 'جليد', 'ملمع', 'مناديل', 'ديتول', 'راجون', 'كيروكس', 'لزقة فار', 'صراصير'] },
+                CATEGORY_ICONS: {'كل الأصناف':'fa-boxes-stacked','العناية بالشعر':'fa-cut','العناية بالبشرة':'fa-spa','العناية بالطفل':'fa-baby','العناية الشخصية':'fa-user-shield','مستلزمات طبية':'fa-briefcase-medical','العطور':'fa-spray-can-sparkles','المنزل والمبيدات':'fa-bug-slash','متنوع':'fa-shapes'},
+            },
+            elements: {},
+            init() {
+                this.cacheElements();
+                this.listenForAuthState();
+                this.setupAuthEventListeners();
+            },
+            cacheElements() {
+                this.elements = {
+                    authPage: document.getElementById('auth-page'),
+                    pendingPage: document.getElementById('pending-page'),
+                    appContainer: document.getElementById('app'),
+                    loader: document.getElementById('loader'),
+                    inventoryGrid: document.getElementById('inventory-grid'),
+                    categoryTabsContainer: document.getElementById('category-tabs-container'),
+                    noResults: document.getElementById('no-results'),
+                    searchInput: document.getElementById('searchInput'),
+                    clearSearchBtn: document.getElementById('clearSearchBtn'),
+                    addProductBtn: document.getElementById('addProductBtn'),
+                    currentYear: document.getElementById('current-year'),
+                    userGreeting: document.getElementById('user-greeting'),
+                    adminPanelButton: document.getElementById('admin-panel-button'),
+                    logoutButton: document.getElementById('logout-button'),
+                    currentCategoryTitle: document.getElementById('current-category-title'),
+                    sortBtn: document.getElementById('sort-btn'),
+                    sortDropdown: document.getElementById('sort-dropdown'),
+                    sortLabel: document.getElementById('sort-label'),
+                    lazyLoader: document.getElementById('lazy-loader'),
+                    sentinel: document.getElementById('sentinel'),
+                    socialPopup: document.getElementById('social-popup'),
+                    footerBrandLink: document.getElementById('footer-brand-link'),
+                    installToast: document.getElementById('install-toast'),
+                    installBtn: document.getElementById('install-btn'),
+                    dismissInstallBtn: document.getElementById('dismiss-install-btn'),
                     
-                    if (result.isConfirmed) {
-                        try {
-                            await deleteDoc(doc(this.db, "products", productId));
-                            Swal.fire({ icon: 'success', title: 'تم الحذف!', text: 'تم حذف الصنف بنجاح.', timer: 1500, showConfirmButton: false });
-                        } catch(e) {
-                            console.error("Error deleting document: ", e);
-                            Swal.fire('خطأ', 'لم نتمكن من حذف المنتج.', 'error');
-                        }
-                    }
-                },
-
-                // --- UI and Filtering Logic (mostly unchanged) ---
-                setupEventListeners() {
-                    this.elements.searchInput.addEventListener('input', this.handleSearchInput.bind(this));
-                    this.elements.clearSearchBtn.addEventListener('click', this.clearSearch.bind(this));
-                    this.elements.categoryTabsContainer.addEventListener('click', this.handleCategoryClick.bind(this));
-                    this.elements.inventoryGrid.addEventListener('click', this.handleGridClick.bind(this));
-                    this.elements.addProductBtn.addEventListener('click', () => this.showProductModal());
-                    this.elements.currentYear.textContent = new Date().getFullYear();
-                    this.setupImageDropHandler();
-                    this.setupSocialPopup();
-                    this.elements.sortBtn.addEventListener('click', this.toggleSortDropdown.bind(this));
-                    this.elements.sortDropdown.addEventListener('click', this.handleSortSelection.bind(this));
-                    document.addEventListener('click', (e) => {
-                        if (!this.elements.sortBtn.contains(e.target) && !this.elements.sortDropdown.contains(e.target)) {
-                            this.elements.sortDropdown.classList.add('hidden');
-                        }
-                    });
-                    window.addEventListener('beforeinstallprompt', (e) => {
-                        e.preventDefault();
-                        this.state.deferredPrompt = e;
-                        if (localStorage.getItem('installPromptShown') !== 'true') {
-                            this.elements.installToast.classList.add('install-toast-show');
-                        }
-                    });
-                    this.elements.installBtn.addEventListener('click', this.handleInstallClick.bind(this));
-                    this.elements.dismissInstallBtn.addEventListener('click', this.handleInstallDismiss.bind(this));
-                },
-                handleInstallDismiss() {
-                    this.elements.installToast.classList.remove('install-toast-show');
-                    localStorage.setItem('installPromptShown', 'true');
-                },
-                async handleInstallClick() {
-                    this.handleInstallDismiss();
-                    if (this.state.deferredPrompt) {
-                        this.state.deferredPrompt.prompt();
-                        const { outcome } = await this.state.deferredPrompt.userChoice;
-                        this.state.deferredPrompt = null;
-                    }
-                },
-                renderProductBatch(items) {
-                    const fragment = document.createDocumentFragment();
-                    items.forEach((item, index) => {
-                        const color = this.config.CARD_COLORS[(this.state.displayOffset + index) % this.config.CARD_COLORS.length];
-                        const card = document.createElement('div');
-                        card.className = 'product-card flex flex-col rounded-lg product-card-fade-in';
-                        card.style.borderTopColor = color;
-                        card.style.setProperty('--glow-color', color + '99');
-                        card.dataset.productId = item.id;
-                        const category = this.getCategory(item['الصنف']);
-                        const showCategory = this.elements.searchInput.value.trim().length > 0;
-                        const imagePart = item.صورة ? `<img src="${item.صورة}" class="product-image" alt="${item['الصنف']}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/400x200/eef2ff/4f46e5?text=Invalid%20Image';">` : `<div class="image-placeholder" data-id="${item.id}">
-                                    <div class="text-center text-text-muted pointer-events-none">
-                                        <i class="fas fa-camera text-5xl"></i>
-                                        <p class="mt-2 text-sm font-semibold">إضافة صورة</p>
-                                    </div>
-                               </div>`;
-                        card.innerHTML = `
-                            ${imagePart}
-                            <div class="card-actions">
-                                <button class="action-btn edit-btn" data-id="${item.id}" title="تعديل"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn delete-btn" data-id="${item.id}" title="حذف"><i class="fas fa-trash-alt"></i></button>
-                            </div>
-                            <div class="p-4 flex flex-col flex-grow">
-                                ${showCategory ? `<p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: ${color};">${category}</p>` : ''}
-                                <h3 class="font-bold text-text-dark text-lg h-14 leading-tight flex-grow">${this.escapeHtml(item['الصنف'])}</h3>
-                                <div class="flex justify-between items-center mt-4">
-                                    <p class="text-primary text-2xl font-black">${Number(item['السعر']).toFixed(2)} <span class="text-sm font-medium text-text-muted">جم</span></p>
-                                </div>
-                            </div>`;
-                        fragment.appendChild(card);
-                    });
-                    this.elements.inventoryGrid.appendChild(fragment);
-                },
-                updateCategoryTabs() {
-                    const categoryOrder = ['كل الأصناف', ...Object.keys(this.config.CATEGORY_KEYWORDS), 'متنوع'];
-                    this.elements.categoryTabsContainer.innerHTML = '';
-                    const activeCategory = this.elements.categoryTabsContainer.querySelector('.active')?.dataset.category || 'كل الأصناف';
-                    categoryOrder.forEach(category => {
-                        const products = this.state.categorizedProducts[category];
-                        if (products && products.length > 0) {
-                            const tab = document.createElement('button');
-                            tab.className = 'category-tab';
-                            tab.dataset.category = category;
-                            const iconClass = this.config.CATEGORY_ICONS[category] || 'fa-tag';
-                            tab.innerHTML = `<i class="fas ${iconClass}"></i><span>${category} (${products.length})</span>`;
-                            if (category === activeCategory) {
-                                tab.classList.add('active');
+                    // New Elements
+                    navDashboardBtn: document.getElementById('nav-dashboard-btn'),
+                    navInventoryBtn: document.getElementById('nav-inventory-btn'),
+                    homePage: document.getElementById('home-page'),
+                    dashboardPage: document.getElementById('dashboard-page'),
+                    totalProductsCount: document.getElementById('total-products-count'),
+                    lowStockCount: document.getElementById('low-stock-count'),
+                    outOfStockCount: document.getElementById('out-of-stock-count'),
+                    recentTransactions: document.getElementById('recent-transactions'),
+                    barcodeScannerBtn: document.getElementById('barcodeScannerBtn'),
+                    barcodeModal: document.getElementById('barcode-modal'),
+                    closeBarcodeModal: document.getElementById('close-barcode-modal'),
+                    barcodeManualInput: document.getElementById('barcode-manual-input'),
+                    scanSearchBtn: document.getElementById('scan-search-btn'),
+                    barcodeResult: document.getElementById('barcode-result'),
+                    barcodeVideo: document.getElementById('barcode-video'),
+                    barcodeInstructions: document.getElementById('barcode-instructions'),
+                    exportDataBtn: document.getElementById('export-data-btn')
+                };
+            },
+            listenForAuthState() {
+                onAuthStateChanged(auth, (firebaseUser) => {
+                    if (this.state.user.unsubscribe) this.state.user.unsubscribe();
+                    if (firebaseUser) {
+                        const userDocRef = doc(db, "users", firebaseUser.uid);
+                        this.state.user.unsubscribe = onSnapshot(userDocRef, (userDoc) => {
+                            if (userDoc.exists() && userDoc.data().status === 'approved') {
+                                this.state.user = { isLoggedIn: true, isPending: false, ...userDoc.data(), uid: firebaseUser.uid };
+                                this.showInventoryApp();
+                            } else {
+                                this.state.user = { isLoggedIn: false, isPending: true, data: null };
+                                this.showPendingPage();
                             }
-                            this.elements.categoryTabsContainer.appendChild(tab);
-                        }
-                    });
-                    if (!this.elements.categoryTabsContainer.querySelector('.active')) {
-                        this.elements.categoryTabsContainer.querySelector('.category-tab')?.classList.add('active');
+                        }, (error) => {
+                            console.error("Error listening to user doc:", error);
+                            this.state.user = { isLoggedIn: false, isPending: false, data: null, uid: null, role: null };
+                            this.showAuthPage();
+                        });
+                    } else {
+                        this.state.user = { isLoggedIn: false, isPending: false, data: null, uid: null, role: null };
+                        this.showAuthPage();
                     }
-                },
-                updateCategoryTitle() {
-                    const searchTerm = this.elements.searchInput.value.trim();
-                    const activeTab = this.elements.categoryTabsContainer.querySelector('.category-tab.active');
-                    const activeCategory = activeTab?.dataset.category || 'كل الأصناف';
-                    this.elements.currentCategoryTitle.style.opacity = 0;
-                    setTimeout(() => {
-                        this.elements.currentCategoryTitle.innerHTML = searchTerm ? `نتائج البحث عن: "<span class="text-primary">${this.escapeHtml(searchTerm)}</span>" <span class="text-gray-500 font-normal text-2xl">(${this.state.currentFilteredList.length} منتج)</span>` : `${activeCategory} <span class="text-gray-500 font-normal text-2xl">(${this.state.currentFilteredList.length} منتج)</span>`;
-                        this.elements.currentCategoryTitle.style.opacity = 1;
-                    }, 300);
-                },
-                getCategory(productName) {
-                    const lowerCaseName = productName.toLowerCase();
-                    if (lowerCaseName.includes('كريم') && (lowerCaseName.includes('شعر') || lowerCaseName.includes('هير'))) return 'العناية بالشعر';
-                    if (lowerCaseName.includes('جونسون') || lowerCaseName.includes('بامبرz') || lowerCaseName.includes('مولفكس')) return 'العناية بالطفل';
-                    for (const category in this.config.CATEGORY_KEYWORDS) {
-                        if (this.config.CATEGORY_KEYWORDS[category].some(keyword => lowerCaseName.includes(keyword))) return category;
+                });
+            },
+            setupAuthEventListeners() {
+                document.getElementById('toggle-auth-mode').addEventListener('click', (e) => { e.preventDefault(); document.getElementById('login-form').classList.toggle('hidden'); document.getElementById('signup-form').classList.toggle('hidden'); const isLogin = !document.getElementById('login-form').classList.contains('hidden'); document.getElementById('auth-title').textContent = isLogin ? 'تسجيل الدخول' : 'إنشاء حساب جديد'; e.target.textContent = isLogin ? 'ليس لديك حساب؟ أنشئ واحدًا' : 'لديك حساب بالفعل؟ سجل الدخول'; });
+                document.querySelectorAll('.password-icon').forEach(icon => { icon.addEventListener('click', () => { const targetInput = document.getElementById(icon.dataset.target); targetInput.type = targetInput.type === 'password' ? 'text' : 'password'; icon.classList.toggle('fa-eye'); icon.classList.toggle('fa-eye-slash'); }); });
+                document.getElementById('login-form').addEventListener('submit', this.handleLogin.bind(this));
+                document.getElementById('signup-form').addEventListener('submit', this.handleSignup.bind(this));
+                this.elements.logoutButton.addEventListener('click', () => signOut(auth));
+                document.getElementById('pending-logout-button').addEventListener('click', () => signOut(auth));
+                document.getElementById('forgot-password-link').addEventListener('click', this.handlePasswordReset.bind(this));
+            },
+            async handleLogin(e) { e.preventDefault(); const email = document.getElementById('login-email').value; const password = document.getElementById('login-password').value; const remember = document.getElementById('remember-me').checked; const button = document.getElementById('login-button'); this.setLoading(button, true, 'جاري الدخول...'); try { await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence); await signInWithEmailAndPassword(auth, email, password); } catch (error) { Swal.fire('خطأ', 'البريد الإلكتروني أو كلمة المرور غير صحيحة.', 'error'); } finally { this.setLoading(button, false, 'دخول'); } },
+            async handleSignup(e) { e.preventDefault(); const name = document.getElementById('signup-name').value; const email = document.getElementById('signup-email').value; const password = document.getElementById('signup-password').value; const button = document.getElementById('signup-button'); this.setLoading(button, true, 'جاري الإنشاء...'); try { const cred = await createUserWithEmailAndPassword(auth, email, password); await setDoc(doc(db, "users", cred.user.uid), { name, email, uid: cred.user.uid, role: 'user', status: 'pending', createdAt: new Date() }); } catch (error) { Swal.fire('خطأ', 'حدث خطأ. تأكد أن كلمة المرور 6 حروف على الأقل والإيميل غير مستخدم.', 'error'); } finally { this.setLoading(button, false, 'إنشاء الحساب'); } },
+            async handlePasswordReset(e) { e.preventDefault(); const { value: email } = await Swal.fire({ title: 'إعادة تعيين كلمة المرور', input: 'email', inputLabel: 'البريد الإلكتروني المسجل به', inputPlaceholder: 'ادخل بريدك الإلكتروني', showCancelButton: true, confirmButtonText: 'إرسال رابط الاستعادة', cancelButtonText: 'إلغاء' }); if (email) try { await sendPasswordResetEmail(auth, email); Swal.fire('تم الإرسال!', 'تفقد بريدك الإلكتروني.', 'success'); } catch (error) { Swal.fire('خطأ', 'لم نتمكن من إرسال البريد.', 'error'); } },
+            setLoading(button, isLoading, text) { if (!button) return; button.disabled = isLoading; button.innerHTML = isLoading ? `<i class="fas fa-spinner fa-spin mr-2"></i> ${text}` : text; },
+            showAuthPage() {
+                this.elements.authPage.style.display = 'flex';
+                this.elements.pendingPage.style.display = 'none';
+                this.elements.appContainer.style.display = 'none';
+                if (this.state.inventory.unsubscribeProducts) { this.state.inventory.unsubscribeProducts(); this.state.inventory.unsubscribeProducts = null; }
+                if (this.state.inventory.unsubscribeTransactions) { this.state.inventory.unsubscribeTransactions(); this.state.inventory.unsubscribeTransactions = null; } // New
+            },
+            showPendingPage() {
+                this.elements.authPage.style.display = 'none';
+                this.elements.pendingPage.style.display = 'flex';
+                this.elements.appContainer.style.display = 'none';
+            },
+            showInventoryApp() {
+                this.elements.authPage.style.display = 'none';
+                this.elements.pendingPage.style.display = 'none';
+                this.elements.appContainer.style.display = 'flex';
+                this.initInventory();
+            },
+            initInventory() {
+                if (this.state.inventory.unsubscribeProducts) return;
+                this.elements.userGreeting.textContent = `أهلاً، ${this.state.user.name}`;
+                if (this.state.user.role === 'admin') {
+                    this.elements.adminPanelButton.classList.remove('hidden');
+                    this.elements.addProductBtn.classList.remove('hidden');
+                    this.elements.addProductBtn.classList.add('flex');
+                    this.elements.navDashboardBtn.classList.remove('hidden'); // Show dashboard link
+                    this.elements.navInventoryBtn.classList.remove('hidden'); // Show inventory link
+                    this.elements.exportDataBtn.classList.remove('hidden'); // Show export button
+
+                    this.elements.adminPanelButton.onclick = this.showAdminPanel.bind(this);
+                    this.elements.addProductBtn.onclick = () => this.showProductModal();
+                    this.elements.navDashboardBtn.onclick = () => this.navigateTo('dashboard');
+                    this.elements.navInventoryBtn.onclick = () => this.navigateTo('inventory');
+                    this.elements.exportDataBtn.onclick = this.exportInventoryToCSV.bind(this);
+                } else {
+                    this.elements.adminPanelButton.classList.add('hidden');
+                    this.elements.addProductBtn.classList.add('hidden');
+                    this.elements.addProductBtn.classList.remove('flex');
+                    this.elements.navDashboardBtn.classList.add('hidden');
+                    this.elements.navInventoryBtn.classList.add('hidden');
+                    this.elements.exportDataBtn.classList.add('hidden');
+                }
+                this.elements.inventoryGrid.onclick = this.handleGridClick.bind(this);
+                this.elements.categoryTabsContainer.onclick = this.handleCategoryClick.bind(this);
+                this.elements.searchInput.oninput = this.handleSearchInput.bind(this);
+                this.elements.clearSearchBtn.onclick = this.clearSearch.bind(this);
+                this.elements.currentYear.textContent = new Date().getFullYear();
+                this.elements.sortBtn.onclick = this.toggleSortDropdown.bind(this);
+                this.elements.sortDropdown.onclick = this.handleSortSelection.bind(this);
+                
+                // New: Barcode scanner button listener
+                this.elements.barcodeScannerBtn.onclick = this.showBarcodeScanner.bind(this);
+
+                document.addEventListener('click', (e) => {
+                    if (this.elements.sortBtn && !this.elements.sortBtn.contains(e.target) && this.elements.sortDropdown && !this.elements.sortDropdown.contains(e.target)) {
+                        this.elements.sortDropdown.classList.add('hidden');
                     }
-                    return 'متنوع';
-                },
-                processAndCategorize(data) {
-                    const categories = { 'كل الأصناف': [...data] };
-                    Object.keys(this.config.CATEGORY_KEYWORDS).forEach(cat => categories[cat] = []);
-                    categories['متنوع'] = [];
-                    data.forEach(product => {
-                        const category = this.getCategory(product['الصنف']);
-                        categories[category].push(product);
-                    });
-                    this.state.categorizedProducts = categories;
-                },
-                handleFilter() {
-                    const searchTerm = this.elements.searchInput.value.toLowerCase().trim();
-                    const activeTab = this.elements.categoryTabsContainer.querySelector('.category-tab.active');
-                    const activeCategory = activeTab?.dataset.category || 'كل الأصناف';
-                    let sourceList = searchTerm ? this.state.fullInventory.filter(item => item['الصنف'].toLowerCase().includes(searchTerm)) : this.state.categorizedProducts[activeCategory] || [];
-                    let sortedList = [...sourceList];
-                    switch (this.state.currentSort) {
-                        case 'price-desc': sortedList.sort((a, b) => Number(b['السعر']) - Number(a['السعر'])); break;
-                        case 'price-asc': sortedList.sort((a, b) => Number(a['السعر']) - Number(b['السعر'])); break;
-                        case 'name-asc': sortedList.sort((a, b) => a['الصنف'].localeCompare(b['الصنف'], 'ar')); break;
-                        case 'name-desc': sortedList.sort((a, b) => b['الصنف'].localeCompare(a['الصنف'], 'ar')); break;
-                        default: sortedList.sort((a, b) => a.id.localeCompare(b.id)); // Sort by Firestore ID
+                });
+
+                this.setupSocialPopup();
+                this.listenForProducts();
+                this.listenForTransactions(); // New: Listen for transactions
+                this.setupObserver();
+                this.navigateTo(this.state.currentPage); // Initial page load
+                
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    this.state.deferredPrompt = e;
+                    if (localStorage.getItem('installPromptShown') !== 'true' && this.elements.installToast) {
+                        this.elements.installToast.classList.add('install-toast-show');
                     }
-                    this.state.currentFilteredList = sortedList;
-                    this.elements.inventoryGrid.innerHTML = '';
-                    this.state.displayOffset = 0;
-                    this.elements.noResults.classList.toggle('hidden', this.state.currentFilteredList.length > 0);
-                    this.updateCategoryTitle();
-                    if (this.observer) {
-                        this.observer.unobserve(this.elements.sentinel);
-                        if (this.state.currentFilteredList.length > this.config.BATCH_SIZE) {
-                            this.observer.observe(this.elements.sentinel);
-                        }
-                    }
-                    this.loadMoreItems();
-                },
-                loadMoreItems() {
-                    if (this.state.displayOffset >= this.state.currentFilteredList.length) {
-                        this.elements.lazyLoader.classList.add('hidden');
+                });
+                if(this.elements.installBtn) this.elements.installBtn.addEventListener('click', this.handleInstallClick.bind(this));
+                if(this.elements.dismissInstallBtn) this.elements.dismissInstallBtn.addEventListener('click', this.handleInstallDismiss.bind(this));
+            },
+            navigateTo(page) {
+                this.state.currentPage = page;
+                if (page === 'inventory') {
+                    this.elements.homePage.classList.remove('hidden');
+                    this.elements.dashboardPage.classList.add('hidden');
+                    this.elements.navInventoryBtn.classList.add('active');
+                    this.elements.navDashboardBtn.classList.remove('active');
+                    this.elements.categoryTabsContainer.classList.remove('hidden'); // Show category tabs
+                    this.elements.searchInput.parentElement.classList.remove('hidden'); // Show search input
+                } else if (page === 'dashboard') {
+                    this.elements.homePage.classList.add('hidden');
+                    this.elements.dashboardPage.classList.remove('hidden');
+                    this.elements.navDashboardBtn.classList.add('active');
+                    this.elements.navInventoryBtn.classList.remove('active');
+                    this.elements.categoryTabsContainer.classList.add('hidden'); // Hide category tabs
+                    this.elements.searchInput.parentElement.classList.add('hidden'); // Hide search input
+                    this.updateDashboard();
+                }
+            },
+            async listenForProducts() {
+                this.state.inventory.isLoading = true;
+                this.elements.loader.style.display = 'block';
+                const snapshot = await getDocs(this.state.inventory.productsCollection);
+                if (snapshot.empty) await this.populateInitialData();
+                
+                this.state.inventory.unsubscribeProducts = onSnapshot(this.state.inventory.productsCollection, (querySnapshot) => {
+                    this.state.inventory.fullInventory = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    this.processAndCategorize();
+                    this.filterAndRender();
+                    this.state.inventory.isLoading = false;
+                    this.elements.loader.style.display = 'none';
+                    this.updateDashboard(); // Update dashboard after products change
+                }, (error) => {
+                    console.error("Firestore listen error:", error);
+                    this.elements.loader.innerHTML = '<p class="text-red-500">حدث خطأ أثناء تحميل البيانات. قد تكون الأذونات غير صحيحة.</p>';
+                });
+            },
+            async listenForTransactions() { // New: Listen for recent transactions
+                if (this.state.inventory.unsubscribeTransactions) this.state.inventory.unsubscribeTransactions();
+                const q = query(this.state.inventory.transactionsCollection, orderBy("timestamp", "desc"), limit(5));
+                this.state.inventory.unsubscribeTransactions = onSnapshot(q, (querySnapshot) => {
+                    const transactions = querySnapshot.docs.map(doc => doc.data());
+                    this.renderRecentTransactions(transactions);
+                }, (error) => {
+                    console.error("Error listening to transactions:", error);
+                    this.elements.recentTransactions.innerHTML = `<p class="text-red-500">خطأ في تحميل الحركات: ${error.message}</p>`;
+                });
+            },
+            renderRecentTransactions(transactions) {
+                if (this.elements.recentTransactions) {
+                    this.elements.recentTransactions.innerHTML = '';
+                    if (transactions.length === 0) {
+                        this.elements.recentTransactions.innerHTML = '<p class="text-center text-gray-500">لا توجد حركات مخزون حديثة.</p>';
                         return;
                     }
-                    this.elements.lazyLoader.classList.remove('hidden');
-                    const batch = this.state.currentFilteredList.slice(this.state.displayOffset, this.state.displayOffset + this.config.BATCH_SIZE);
-                    if (batch.length > 0) {
-                        this.renderProductBatch(batch);
-                        this.state.displayOffset += this.config.BATCH_SIZE;
+                    transactions.forEach(t => {
+                        const product = this.state.inventory.fullInventory.find(p => p.id === t.productId);
+                        const productName = product ? this.escapeHtml(product['الصنف']) : 'منتج غير معروف';
+                        const type = t.type === 'sale' ? 'بيع' : 'شراء';
+                        const color = t.type === 'sale' ? 'text-red-500' : 'text-green-500';
+                        const icon = t.type === 'sale' ? 'fa-arrow-down' : 'fa-arrow-up';
+                        const date = t.timestamp ? new Date(t.timestamp.toDate()).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' }) : 'غير معروف';
+
+                        this.elements.recentTransactions.innerHTML += `
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas ${icon} ${color}"></i>
+                                    <p class="text-sm text-text-dark">
+                                        <span class="font-bold">${type}</span> عدد ${t.quantity} من <span class="font-semibold">${productName}</span>
+                                    </p>
+                                </div>
+                                <span class="text-xs text-gray-500">${date}</span>
+                            </div>
+                        `;
+                    });
+                }
+            },
+            async populateInitialData() {
+                try {
+                    const response = await fetch(this.config.INITIAL_DATA_URL);
+                    if (!response.ok) return;
+                    const initialData = await response.json();
+                    const batch = writeBatch(db);
+                    initialData.forEach(item => {
+                        // Add default quantity if not present
+                        const productWithQuantity = { ...item, الكمية: item.الكمية !== undefined ? Number(item.الكمية) : 10 };
+                        batch.set(doc(this.state.inventory.productsCollection), productWithQuantity);
+                    });
+                    await batch.commit();
+                } catch (e) { console.error("Failed to populate initial data:", e); }
+            },
+            processAndCategorize() {
+                const data = this.state.inventory.fullInventory;
+                const categories = { 'كل الأصناف': [...data] };
+                Object.keys(this.config.CATEGORY_KEYWORDS).forEach(cat => { categories[cat] = []; });
+                categories['متنوع'] = [];
+                data.forEach(product => {
+                    const category = this.getCategory(product['الصنف']);
+                    if (!categories[category]) categories[category] = [];
+                    categories[category].push(product);
+                });
+                this.state.inventory.categorizedProducts = categories;
+            },
+            filterAndRender() {
+                const searchTerm = this.elements.searchInput.value.toLowerCase().trim();
+                const activeCategory = this.state.inventory.activeCategory || 'كل الأصناف';
+                let sourceList = searchTerm ? this.state.inventory.fullInventory.filter(item => (item['الصنف'] || '').toLowerCase().includes(searchTerm)) : (this.state.inventory.categorizedProducts[activeCategory] || []);
+                let sortedList = [...sourceList];
+                switch (this.state.inventory.currentSort) {
+                    case 'price-desc': sortedList.sort((a, b) => Number(b['السعر']) - Number(a['السعر'])); break;
+                    case 'price-asc': sortedList.sort((a, b) => Number(a['السعر']) - Number(b['السعر'])); break;
+                    case 'name-asc': sortedList.sort((a, b) => (a['الصنف']||'').localeCompare(b['الصنف']||'', 'ar')); break;
+                    case 'name-desc': sortedList.sort((a, b) => (b['الصنف']||'').localeCompare(a['الصنف']||'', 'ar')); break;
+                    case 'quantity-asc': sortedList.sort((a, b) => (Number(a['الكمية']) || 0) - (Number(b['الكمية']) || 0)); break; // New sort
+                    case 'quantity-desc': sortedList.sort((a, b) => (Number(b['الكمية']) || 0) - (Number(a['الكمية']) || 0)); break; // New sort
+                }
+                this.state.inventory.currentFilteredList = sortedList;
+                this.elements.inventoryGrid.innerHTML = '';
+                this.state.inventory.displayOffset = 0;
+                this.loadMoreItems();
+                this.updateCategoryTabs();
+                this.elements.noResults.style.display = sortedList.length === 0 ? 'flex' : 'none';
+                this.elements.currentCategoryTitle.textContent = searchTerm ? `نتائج البحث عن: "${searchTerm}"` : activeCategory;
+            },
+            loadMoreItems() {
+                const offset = this.state.inventory.displayOffset;
+                const batchSize = this.config.BATCH_SIZE;
+                const items = this.state.inventory.currentFilteredList.slice(offset, offset + batchSize);
+                if(this.elements.lazyLoader) this.elements.lazyLoader.style.display = items.length > 0 && this.state.inventory.currentFilteredList.length > offset + batchSize ? 'block' : 'none';
+                if (items.length > 0) {
+                    this.renderProductBatch(items);
+                    this.state.inventory.displayOffset += items.length;
+                }
+            },
+            renderProductBatch(items) {
+                const fragment = document.createDocumentFragment();
+                items.forEach((item, index) => {
+                    const color = this.config.CARD_COLORS[(this.state.inventory.displayOffset + index) % this.config.CARD_COLORS.length];
+                    const card = document.createElement('div');
+                    let stockClass = '';
+                    if (item['الكمية'] !== undefined && item['الكمية'] <= 0) {
+                        stockClass = 'out-of-stock-alert';
+                    } else if (item['الكمية'] !== undefined && item['الكمية'] <= this.state.inventory.lowStockThreshold) {
+                        stockClass = 'low-stock-alert';
                     }
-                    if (this.state.displayOffset >= this.state.currentFilteredList.length && this.observer) {
-                        this.observer.unobserve(this.elements.sentinel);
-                    }
-                    this.elements.lazyLoader.classList.add('hidden');
-                },
-                setupObserver() {
-                    const observerCallback = (entries) => {
-                        if (entries[0].isIntersecting) {
-                            this.loadMoreItems();
-                        }
-                    };
-                    this.observer = new IntersectionObserver(observerCallback, { rootMargin: '0px 0px 400px 0px' });
-                    if (this.state.currentFilteredList.length > this.config.BATCH_SIZE) {
-                        this.observer.observe(this.elements.sentinel);
-                    }
-                },
-                handleSearchInput(e) {
-                    this.elements.clearSearchBtn.classList.toggle('hidden', e.target.value === '');
-                    this.elements.categoryTabsContainer.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
-                    this.handleFilter();
-                },
-                clearSearch() {
-                    this.elements.searchInput.value = '';
-                    this.elements.clearSearchBtn.classList.add('hidden');
-                    this.elements.categoryTabsContainer.querySelector('.category-tab[data-category="كل الأصناف"]')?.classList.add('active');
-                    this.handleFilter();
-                },
-                handleCategoryClick(e) {
-                    const target = e.target.closest('.category-tab');
-                    if (target) {
-                        this.elements.categoryTabsContainer.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
-                        target.classList.add('active');
-                        target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                        this.elements.searchInput.value = '';
-                        this.elements.clearSearchBtn.classList.add('hidden');
-                        this.handleFilter();
-                    }
-                },
-                handleGridClick(e) {
-                    const editBtn = e.target.closest('.edit-btn');
-                    const deleteBtn = e.target.closest('.delete-btn');
-                    const imgPlaceholder = e.target.closest('.image-placeholder');
-                    const id = editBtn?.dataset.id || deleteBtn?.dataset.id || imgPlaceholder?.dataset.id;
-                    if (!id) return;
-                    const product = this.state.fullInventory.find(p => p.id === id);
-                    if (!product) return;
-                    if (editBtn) this.showProductModal(product);
-                    else if (deleteBtn) this.deleteProduct(product.id);
-                    else if (imgPlaceholder) this.showImageModal(product);
-                },
-                toggleSortDropdown() { this.elements.sortDropdown.classList.toggle('hidden'); },
-                handleSortSelection(e) {
-                    e.preventDefault();
-                    const target = e.target.closest('.sort-option');
-                    if (target) {
-                        this.state.currentSort = target.dataset.sort;
-                        this.elements.sortLabel.textContent = target.textContent;
-                        this.elements.sortDropdown.classList.add('hidden');
-                        this.handleFilter();
-                    }
-                },
-                setupImageDropHandler() {
-                    ['dragover', 'dragleave', 'drop'].forEach(eventName => {
-                        this.elements.inventoryGrid.addEventListener(eventName, e => {
-                            const imgPlaceholder = e.target.closest('.image-placeholder');
-                            if (!imgPlaceholder) return;
-                            e.preventDefault();
-                            if (eventName === 'dragover') imgPlaceholder.classList.add('dragover');
-                            if (eventName === 'dragleave' || eventName === 'drop') imgPlaceholder.classList.remove('dragover');
-                            if (eventName === 'drop') {
-                                const product = this.state.fullInventory.find(p => p.id === imgPlaceholder.dataset.id);
-                                if (product && e.dataTransfer.files.length) {
-                                    const file = e.dataTransfer.files[0];
-                                    if (file && file.type.startsWith('image/')) {
-                                        const reader = new FileReader();
-                                        reader.onload = async (event) => {
-                                            const updatedProduct = { ...product, صورة: event.target.result };
-                                            await this.updateProduct(updatedProduct);
-                                            Swal.fire({ icon: 'success', title: 'تم!', text: 'تمت إضافة الصورة بنجاح.', timer: 1500, showConfirmButton: false });
-                                        };
-                                        reader.readAsDataURL(file);
-                                    }
-                                }
+
+                    card.className = `product-card flex flex-col rounded-lg product-card-fade-in ${stockClass}`;
+                    card.style.borderTopColor = color;
+                    card.style.setProperty('--glow-color', color + '99');
+
+                    const imagePart = item.صورة ? `<img src="${item.صورة}" class="product-image" alt="${this.escapeHtml(item['الصنف'])}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/400x200/eef2ff/4f46e5?text=Invalid%20Image';">` : `<div class="image-placeholder" data-id="${item.id}"><div class="text-center text-text-muted pointer-events-none"><i class="fas fa-camera text-5xl"></i><p class="mt-2 text-sm font-semibold">إضافة صورة</p></div></div>`;
+                    card.innerHTML = `
+                        <div class="relative">
+                            ${imagePart}
+                            ${this.state.user.role === 'admin' ? 
+                                `<div class="card-actions">
+                                    <button class="action-btn edit-btn" data-id="${item.id}" title="تعديل"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete-btn" data-id="${item.id}" title="حذف"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn qty-btn-minus" data-id="${item.id}" data-type="sale" title="بيع / خصم"><i class="fas fa-minus"></i></button>
+                                    <button class="qty-btn qty-btn-plus" data-id="${item.id}" data-type="purchase" title="شراء / إضافة"><i class="fas fa-plus"></i></button>
+                                </div>` : ''
                             }
-                        });
-                    });
-                },
-                setupSocialPopup() {
-                    this.elements.footerBrandLink.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        this.elements.socialPopup.classList.toggle('hidden');
-                    });
-                    window.addEventListener('click', (e) => {
-                        if (!this.elements.socialPopup.classList.contains('hidden') && e.target.id !== 'footer-brand-link' && !this.elements.socialPopup.contains(e.target)) {
-                            this.elements.socialPopup.classList.add('hidden');
-                        }
-                    });
-                },
-                async showProductModal(product = null) {
-                    const isEditing = product !== null;
-                    const { value: formValues } = await Swal.fire({
-                        title: isEditing ? 'تعديل الصنف' : 'إضافة صنف جديد',
-                        html: `<input id="swal-input-name" class="swal2-input" placeholder="اسم الصنف" value="${isEditing ? this.escapeHtml(product['الصنف']) : ''}"><input id="swal-input-price" class="swal2-input" type="number" step="0.01" placeholder="السعر" value="${isEditing ? product['السعر'] : ''}">`,
-                        focusConfirm: false,
-                        showCancelButton: true,
-                        confirmButtonText: isEditing ? 'حفظ التعديلات' : 'إضافة',
-                        cancelButtonText: 'إلغاء',
-                        preConfirm: () => ({ "الصنف": document.getElementById('swal-input-name').value, "السعر": parseFloat(document.getElementById('swal-input-price').value) })
-                    });
-                    if (formValues) {
-                        if (!formValues['الصنف'] || isNaN(formValues['السعر']) || formValues['السعر'] < 0) {
-                            Swal.fire('خطأ', 'الرجاء إدخال اسم وسعر صحيحين.', 'error');
+                        </div>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <h3 class="font-bold text-lg h-14">${this.escapeHtml(item['الصنف'])}</h3>
+                            <p class="text-primary text-2xl font-black mt-4">${Number(item['السعر']).toFixed(2)} جم</p>
+                            <p class="text-gray-600 mt-2 font-semibold">الكمية: <span class="${item['الكمية'] <= 0 ? 'text-red-500' : (item['الكمية'] <= this.state.inventory.lowStockThreshold ? 'text-orange-500' : 'text-green-500')}">${item['الكمية'] !== undefined ? item['الكمية'] : 'غير محدد'}</span></p>
+                        </div>`;
+                    fragment.appendChild(card);
+                });
+                this.elements.inventoryGrid.appendChild(fragment);
+            },
+            updateCategoryTabs() {
+                this.elements.categoryTabsContainer.innerHTML = '';
+                const categoryOrder = ['كل الأصناف', ...Object.keys(this.config.CATEGORY_KEYWORDS), 'متنوع'];
+                categoryOrder.forEach(category => {
+                    const products = this.state.inventory.categorizedProducts[category];
+                    if (products && products.length > 0) {
+                        const tab = document.createElement('button');
+                        tab.className = `category-tab ${this.state.inventory.activeCategory === category ? 'active' : ''}`;
+                        tab.dataset.category = category;
+                        tab.innerHTML = `<i class="fas ${this.config.CATEGORY_ICONS[category] || 'fa-tag'} mr-2"></i><span>${category} (${products.length})</span>`;
+                        this.elements.categoryTabsContainer.appendChild(tab);
+                    }
+                });
+            },
+            getCategory(productName) {
+                const lowerCaseName = String(productName || '').toLowerCase();
+                if (lowerCaseName.includes('كريم') && (lowerCaseName.includes('شعر') || lowerCaseName.includes('هير'))) return 'العناية بالشعر';
+                if (lowerCaseName.includes('جونسون') || lowerCaseName.includes('بامبرz') || lowerCaseName.includes('مولفكس')) return 'العناية بالطفل';
+                for (const category in this.config.CATEGORY_KEYWORDS) {
+                    if (this.config.CATEGORY_KEYWORDS[category].some(keyword => lowerCaseName.includes(keyword))) return category;
+                }
+                return 'متنوع';
+            },
+            handleSearchInput(e) { this.state.inventory.searchTerm = e.target.value; this.elements.clearSearchBtn.style.display = e.target.value ? 'flex' : 'none'; this.state.inventory.activeCategory = 'كل الأصناف'; this.filterAndRender(); },
+            clearSearch() { this.elements.searchInput.value = ''; this.handleSearchInput({target: this.elements.searchInput}); },
+            handleCategoryClick(e) {
+                const target = e.target.closest('.category-tab');
+                if (target) {
+                    this.state.inventory.activeCategory = target.dataset.category;
+                    this.state.inventory.searchTerm = '';
+                    this.elements.searchInput.value = '';
+                    this.filterAndRender();
+                }
+            },
+            handleGridClick(e) {
+                const editBtn = e.target.closest('.edit-btn');
+                const deleteBtn = e.target.closest('.delete-btn');
+                const imgPlaceholder = e.target.closest('.image-placeholder');
+                const qtyMinusBtn = e.target.closest('.qty-btn-minus'); // New
+                const qtyPlusBtn = e.target.closest('.qty-btn-plus'); // New
+
+                const id = editBtn?.dataset.id || deleteBtn?.dataset.id || imgPlaceholder?.dataset.id || qtyMinusBtn?.dataset.id || qtyPlusBtn?.dataset.id;
+                if (!id) return;
+                const product = this.state.inventory.fullInventory.find(p => p.id === id);
+                if (!product) return;
+
+                if (imgPlaceholder) {
+                    this.showImageModal(product);
+                    return; 
+                }
+                if (this.state.user.role === 'admin') {
+                    if (editBtn) this.showProductModal(product);
+                    else if (deleteBtn) this.deleteProduct(product);
+                    else if (qtyMinusBtn) this.updateProductQuantity(product, -1, 'sale'); // New: Decrease quantity
+                    else if (qtyPlusBtn) this.updateProductQuantity(product, 1, 'purchase'); // New: Increase quantity
+                }
+            },
+            handleSortSelection(e) {
+                e.preventDefault();
+                const target = e.target.closest('.sort-option');
+                if (target) {
+                    this.state.inventory.currentSort = target.dataset.sort;
+                    this.elements.sortLabel.textContent = target.textContent;
+                    this.elements.sortDropdown.classList.add('hidden');
+                    this.filterAndRender();
+                }
+            },
+            setupObserver() {
+                if (this.state.inventory.observer) this.state.inventory.observer.disconnect();
+                const observerCallback = (entries) => {
+                    if (entries[0].isIntersecting) this.loadMoreItems();
+                };
+                this.state.inventory.observer = new IntersectionObserver(observerCallback, { rootMargin: '400px' });
+                if (this.elements.sentinel) this.state.inventory.observer.observe(this.elements.sentinel);
+            },
+            setupSocialPopup() {
+                if (!this.elements.footerBrandLink || !document.getElementById('social-popup')) return;
+                this.elements.footerBrandLink.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    document.getElementById('social-popup').classList.toggle('hidden');
+                });
+                window.addEventListener('click', (e) => {
+                    const socialPopup = document.getElementById('social-popup');
+                    if (socialPopup && !socialPopup.classList.contains('hidden') && e.target.id !== 'footer-brand-link' && !socialPopup.contains(e.target)) {
+                        socialPopup.classList.add('hidden');
+                    }
+                });
+            },
+            async handleInstallClick() {
+                this.handleInstallDismiss();
+                if (this.state.deferredPrompt) {
+                    this.state.deferredPrompt.prompt();
+                    await this.state.deferredPrompt.userChoice;
+                    this.state.deferredPrompt = null;
+                }
+            },
+            handleInstallDismiss() {
+                if(this.elements.installToast) this.elements.installToast.classList.remove('install-toast-show');
+                localStorage.setItem('installPromptShown', 'true');
+            },
+            toggleSortDropdown() { this.elements.sortDropdown.classList.toggle('hidden'); },
+            async showProductModal(product = null) {
+                const isEditing = !!product;
+                const { value: formValues } = await Swal.fire({
+                    title: isEditing ? 'تعديل الصنف' : 'إضافة صنف جديد',
+                    html: `<input id="swal-input-name" class="swal2-input" placeholder="اسم الصنف" value="${isEditing ? this.escapeHtml(product['الصنف']) : ''}">
+                           <input id="swal-input-price" class="swal2-input" type="number" step="0.01" placeholder="السعر" value="${isEditing ? product['السعر'] : ''}">
+                           <input id="swal-input-quantity" class="swal2-input" type="number" step="1" placeholder="الكمية" value="${isEditing ? (product['الكمية'] !== undefined ? product['الكمية'] : 1) : 1}">
+                           <input id="swal-input-barcode" class="swal2-input" placeholder="الباركود (اختياري)" value="${isEditing ? (product['الباركود'] || '') : ''}">`, // New: Barcode field
+                    focusConfirm: false, showCancelButton: true, confirmButtonText: isEditing ? 'حفظ التعديلات' : 'إضافة', cancelButtonText: 'إلغاء',
+                    preConfirm: () => ({ 
+                        "الصنف": document.getElementById('swal-input-name').value, 
+                        "السعر": parseFloat(document.getElementById('swal-input-price').value),
+                        "الكمية": parseInt(document.getElementById('swal-input-quantity').value) || 0, // New: Quantity field
+                        "الباركود": document.getElementById('swal-input-barcode').value || '' // New: Barcode field
+                    })
+                });
+                if (!formValues || !formValues['الصنف'] || isNaN(formValues['السعر'])) {
+                    Swal.fire('خطأ', 'الرجاء إدخال اسم الصنف والسعر بشكل صحيح.', 'error');
+                    return;
+                }
+                Swal.fire({ title: 'جاري الحفظ...', didOpen: () => Swal.showLoading(), allowOutsideClick: false, showConfirmButton: false });
+                if (isEditing) await this.updateProduct({ ...product, ...formValues });
+                else await this.addProduct({ ...formValues, 'صورة': '' });
+                Swal.close();
+            },
+            async showImageModal(product) {
+                const canEdit = this.state.user.role === 'admin';
+                const { isConfirmed, isDenied, value: result } = await Swal.fire({
+                    title: `صورة: ${this.escapeHtml(product['الصنف'])}`,
+                    html: `<div class="mb-4"><img id="image-preview" src="${product.صورة || 'https://placehold.co/400x200/eef2ff/4f46e5?text=No%20Image'}" class="w-full h-48 object-contain rounded-lg mx-auto" alt="Preview"></div><div id="drop-zone" class="p-4 border-2 border-dashed border-gray-300 rounded-lg text-center ${canEdit ? 'cursor-pointer hover:border-primary hover:bg-gray-50' : ''} transition-colors"><p class="text-text-muted pointer-events-none">${canEdit ? 'اسحب وأفلت صورة هنا أو انقر للاختيار' : 'صورة المنتج'}</p><input type="file" id="swal-file" class="hidden" accept="image/*" ${!canEdit ? 'disabled' : ''}></div><p class="my-3 text-gray-400">${canEdit ? 'أو أدخل رابط الصورة' : ''}</p><input id="swal-url" class="swal2-input" placeholder="https://example.com/image.png" value="${product.صورة?.startsWith('http') ? product.صورة : ''}" ${!canEdit ? 'disabled' : ''}>`,
+                    showCancelButton: true,
+                    showDenyButton: canEdit && !!product.صورة,
+                    confirmButtonText: canEdit ? '<i class="fas fa-save mr-2"></i>حفظ الصورة' : 'حسنًا',
+                    cancelButtonText: 'إلغاء',
+                    denyButtonText: '<i class="fas fa-trash-alt mr-2"></i>إزالة الصورة',
+                    didOpen: () => {
+                        if (!canEdit) return; 
+                        const dropZone = document.getElementById('drop-zone');
+                        const fileInput = document.getElementById('swal-file');
+                        const urlInput = document.getElementById('swal-url');
+                        const preview = document.getElementById('image-preview');
+                        
+                        let uploadedFile = null; // Store file object temporarily
+
+                        const handleFile = (file) => {
+                            if (!file || !file.type.startsWith('image/')) return;
+                            uploadedFile = file; // Store the file
+                            const reader = new FileReader();
+                            reader.onload = (e) => { preview.src = e.target.result; urlInput.value = ''; };
+                            reader.readAsDataURL(file);
+                        };
+                        dropZone.onclick = () => fileInput.click();
+                        dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('border-primary', 'bg-indigo-50'); };
+                        dropZone.ondragleave = () => dropZone.classList.remove('border-primary', 'bg-indigo-50');
+                        dropZone.ondrop = (e) => { e.preventDefault(); dropZone.classList.remove('border-primary', 'bg-indigo-50'); if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); };
+                        fileInput.onchange = () => handleFile(fileInput.files[0]);
+                        urlInput.oninput = () => { preview.src = urlInput.value || 'https://placehold.co/400x200/eef2ff/4f46e5?text=No%20Image'; uploadedFile = null; }; // Clear file if URL is typed
+                        
+                        Swal.getPopup().dataset.uploadedFile = uploadedFile; // Attach to popup for preConfirm
+                    },
+                    preConfirm: () => {
+                        const file = Swal.getPopup().dataset.uploadedFile;
+                        const url = document.getElementById('swal-url').value;
+                        return { file, url };
+                    }
+                });
+                
+                if (!canEdit) return;
+
+                if (isConfirmed && result) {
+                    Swal.fire({ title: 'جاري رفع الصورة...', didOpen: () => Swal.showLoading(), allowOutsideClick: false, showConfirmButton: false });
+                    let newImage = '';
+                    if (result.file) {
+                        try {
+                            const storageRef = ref(storage, `product_images/${product.id}/${result.file.name}`);
+                            const snapshot = await uploadBytes(storageRef, result.file);
+                            newImage = await getDownloadURL(snapshot.ref);
+                        } catch (error) {
+                            console.error("Error uploading image:", error);
+                            Swal.fire('خطأ', 'فشل رفع الصورة.', 'error');
                             return;
                         }
-                         Swal.fire({ title: 'جاري الحفظ...', didOpen: () => { Swal.showLoading() }, allowOutsideClick: false });
-                        if (isEditing) {
-                            await this.updateProduct({ ...product, ...formValues });
-                            Swal.fire({ icon: 'success', title: 'تم!', text: 'تم تحديث بيانات الصنف بنجاح.', timer: 1500, showConfirmButton: false });
+                    } else if (result.url) {
+                        newImage = result.url;
+                    }
+
+                    if (newImage && newImage !== product.صورة) {
+                        await this.updateProduct({ ...product, صورة: newImage });
+                        Swal.fire({ icon: 'success', title: 'تم!', text: 'تم تحديث الصورة بنجاح.', timer: 1500, showConfirmButton: false });
+                    } else if (!newImage && product.صورة) { // If user clears both and there was an old image
+                         await this.updateProduct({ ...product, صورة: '' });
+                         Swal.fire({ icon: 'success', title: 'تمت إزالة الصورة بنجاح.', timer: 1500, showConfirmButton: false });
+                    } else {
+                         Swal.close(); // No change, just close
+                    }
+                } else if (isDenied) {
+                    await this.updateProduct({ ...product, صورة: '' });
+                    Swal.fire({ icon: 'success', title: 'تمت إزالة الصورة بنجاح.', timer: 1500, showConfirmButton: false });
+                }
+            },
+            async addProduct(newProduct) { 
+                try { 
+                    await addDoc(this.state.inventory.productsCollection, { ...newProduct, createdAt: new Date() });
+                    Swal.fire({ icon: 'success', title: 'تمت الإضافة!', text: 'تمت إضافة الصنف بنجاح.', timer: 1500, showConfirmButton: false });
+                } catch (e) { 
+                    console.error(e);
+                    Swal.fire('خطأ', 'فشل إضافة الصنف.', 'error');
+                } 
+            },
+            async updateProduct(updatedProduct) { 
+                try { 
+                    const data = { ...updatedProduct }; 
+                    delete data.id; 
+                    await setDoc(doc(db, "products", updatedProduct.id), data, { merge: true });
+                    Swal.fire({ icon: 'success', title: 'تم التحديث!', text: 'تم تحديث الصنف بنجاح.', timer: 1500, showConfirmButton: false });
+                } catch (e) { 
+                    console.error(e);
+                    Swal.fire('خطأ', 'فشل تحديث الصنف.', 'error');
+                } 
+            },
+            async deleteProduct(product) {
+                const result = await Swal.fire({ title: 'هل أنت متأكد؟', text: `سيتم حذف "${this.escapeHtml(product['الصنف'])}" بشكل نهائي!`, icon: 'warning', showCancelButton: true, confirmButtonText: 'نعم، احذفه!', cancelButtonText: 'إلغاء' });
+                if (result.isConfirmed) {
+                    try { 
+                        await deleteDoc(doc(db, "products", product.id)); 
+                        Swal.fire({ icon: 'success', title: 'تم الحذف!', text: 'تم حذف الصنف بنجاح.', timer: 1500, showConfirmButton: false });
+                    } catch (e) { 
+                        console.error(e);
+                        Swal.fire('خطأ', 'فشل حذف الصنف.', 'error');
+                    }
+                }
+            },
+            async updateProductQuantity(product, change, type) { // New: Function to update quantity
+                const currentQty = Number(product['الكمية']) || 0;
+                let newQty = currentQty + change;
+                if (newQty < 0) newQty = 0; // Prevent negative stock
+
+                const { value: quantityToChange } = await Swal.fire({
+                    title: type === 'sale' ? 'تسجيل عملية بيع' : 'تسجيل عملية شراء',
+                    html: `<p class="mb-3">الكمية الحالية: ${currentQty}</p>
+                           <input id="swal-input-qty-change" class="swal2-input" type="number" step="1" min="1" placeholder="عدد القطع" value="1">`,
+                    showCancelButton: true,
+                    confirmButtonText: type === 'sale' ? 'تأكيد البيع' : 'تأكيد الشراء',
+                    cancelButtonText: 'إلغاء',
+                    preConfirm: () => parseInt(document.getElementById('swal-input-qty-change').value)
+                });
+
+                if (quantityToChange && !isNaN(quantityToChange) && quantityToChange > 0) {
+                    let finalChange = (type === 'sale' ? -1 : 1) * quantityToChange;
+                    let finalQty = currentQty + finalChange;
+
+                    if (finalQty < 0) {
+                        Swal.fire('خطأ', 'الكمية المراد بيعها أكبر من الكمية المتاحة.', 'error');
+                        return;
+                    }
+
+                    Swal.fire({ title: 'جاري التحديث...', didOpen: () => Swal.showLoading(), allowOutsideClick: false, showConfirmButton: false });
+                    try {
+                        await setDoc(doc(db, "products", product.id), { 'الكمية': finalQty }, { merge: true });
+                        await addDoc(this.state.inventory.transactionsCollection, { // Log transaction
+                            productId: product.id,
+                            productName: product['الصنف'],
+                            type: type, // 'sale' or 'purchase'
+                            quantity: quantityToChange,
+                            previousQuantity: currentQty,
+                            newQuantity: finalQty,
+                            timestamp: new Date(),
+                            userId: this.state.user.uid,
+                            userName: this.state.user.name
+                        });
+                        Swal.fire({ icon: 'success', title: 'تم التحديث!', text: `تم تحديث الكمية بنجاح. الكمية الجديدة: ${finalQty}`, timer: 1500, showConfirmButton: false });
+                    } catch (e) {
+                        console.error("Error updating quantity or adding transaction:", e);
+                        Swal.fire('خطأ', 'فشل تحديث الكمية.', 'error');
+                    }
+                }
+            },
+            escapeHtml(str) { 
+                if (typeof str !== 'string') return '';
+                const div = document.createElement('div'); 
+                div.textContent = str; 
+                return div.innerHTML; 
+            },
+            showAdminPanel() {
+                const panel = document.getElementById('admin-panel');
+                panel.classList.remove('hidden');
+                panel.classList.add('flex');
+                document.getElementById('close-admin-panel').onclick = this.closeAdminPanel.bind(this);
+                panel.onclick = (e) => { if (e.target === panel) this.closeAdminPanel(); };
+                const listContainer = document.getElementById('admin-users-list');
+                listContainer.innerHTML = '<div class="text-center p-4"><i class="fas fa-spinner fa-spin text-primary text-2xl"></i></div>';
+                listContainer.onclick = (e) => {
+                    const button = e.target.closest('button');
+                    if (!button) return;
+                    const uid = button.dataset.uid;
+                    const name = button.dataset.name;
+                    if (button.classList.contains('approve-user')) this.approveUser(uid);
+                    else if (button.classList.contains('promote-user')) this.promoteUser(uid, name);
+                    else if (button.classList.contains('demote-user')) this.demoteUser(uid, name);
+                    else if (button.classList.contains('delete-user')) this.deleteUser(uid, name);
+                };
+                this.state.admin.unsubscribeUsers = onSnapshot(collection(db, 'users'), (snapshot) => {
+                    listContainer.innerHTML = '';
+                    const users = snapshot.docs.map(doc => doc.data());
+                    if (users.length === 0) { listContainer.innerHTML = '<p class="text-center text-gray-500">لا يوجد مستخدمون مسجلون بعد.</p>'; return; }
+                    users.forEach(u => {
+                        const li = document.createElement('li');
+                        li.className = 'flex items-center justify-between p-2 hover:bg-gray-100 rounded';
+                        const roleIcon = u.role === 'admin' ? (!u.promotedBy ? '<i class="fas fa-crown text-yellow-500" title="Super Admin"></i>' : '<i class="fas fa-user-shield text-blue-500" title="Admin"></i>') : '<i class="fas fa-user text-gray-400" title="User"></i>';
+                        const roleText = u.status === 'approved' ? (u.role === 'admin' ? 'أدمن' : 'مستخدم') : 'قيد المراجعة';
+                        let buttons = '';
+                        if (u.uid !== this.state.user.uid) { // Prevent admin from modifying self
+                            if (u.status === 'pending') buttons += `<button data-uid="${u.uid}" class="approve-user px-2 py-1 text-xs text-white bg-green-500 rounded hover:bg-green-600">موافقة</button>`;
+                            if (u.status === 'approved' && u.role !== 'admin') buttons += `<button data-uid="${u.uid}" data-name="${u.name}" class="promote-user px-2 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600">ترقية لأدمن</button>`;
+                            // Only super admin can demote admins they promoted (or any admin if promotedBy is not set for an admin)
+                            // For simplicity, any admin can demote any other admin here. Refine as needed.
+                            if (u.role === 'admin' /* && u.promotedBy === this.state.user.uid */) buttons += `<button data-uid="${u.uid}" data-name="${u.name}" class="demote-user px-2 py-1 text-xs text-white bg-yellow-500 rounded hover:bg-yellow-600">تخفيض لمستخدم</button>`;
+                            buttons += `<button data-uid="${u.uid}" data-name="${u.name}" class="delete-user px-2 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600">حذف</button>`;
                         } else {
-                            await this.addProduct({ ...formValues, 'صورة': '' });
-                            Swal.fire({ icon: 'success', title: 'تم!', text: 'تمت إضافة الصنف الجديد بنجاح.', timer: 1500, showConfirmButton: false });
+                            buttons = '<span class="text-sm text-gray-500">أنت</span>';
                         }
-                    }
-                },
-                async showImageModal(product) {
-                    // This function remains largely the same but will call the new updateProduct
-                    const { isConfirmed, isDenied, value: result } = await Swal.fire({
-                        title: `صورة: ${this.escapeHtml(product['الصنف'])}`,
-                        html: `
-                            <div class="mb-4">
-                                <img id="image-preview" src="${product.صورة || 'https://placehold.co/400x200/eef2ff/4f46e5?text=No%20Image'}" class="w-full h-48 object-contain rounded-lg mx-auto" alt="Preview">
-                            </div>
-                            <div id="drop-zone" class="p-4 border-2 border-dashed border-gray-300 rounded-lg text-center cursor-pointer hover:border-primary hover:bg-gray-50 transition-colors">
-                                <p class="text-text-muted pointer-events-none">اسحب وأفلت صورة هنا أو انقر للاختيار</p>
-                                <input type="file" id="swal-file" class="hidden" accept="image/*">
-                            </div>
-                            <p class="my-3 text-gray-400">أو أدخل رابط الصورة</p>
-                            <input id="swal-url" class="swal2-input" placeholder="https://example.com/image.png" value="${product.صورة?.startsWith('http') ? product.صورة : ''}">`,
-                        showCancelButton: true,
-                        showDenyButton: !!product.صورة,
-                        confirmButtonText: '<i class="fas fa-save mr-2"></i>حفظ الصورة',
-                        cancelButtonText: 'إلغاء',
-                        denyButtonText: '<i class="fas fa-trash-alt mr-2"></i>إزالة الصورة',
-                        didOpen: () => {
-                            const dropZone = document.getElementById('drop-zone');
-                            const fileInput = document.getElementById('swal-file');
-                            const urlInput = document.getElementById('swal-url');
-                            const preview = document.getElementById('image-preview');
-                            const handleFile = (file) => {
-                                if (!file || !file.type.startsWith('image/')) return;
-                                const reader = new FileReader();
-                                reader.onload = (e) => {
-                                    preview.src = e.target.result;
-                                    urlInput.value = '';
-                                };
-                                reader.readAsDataURL(file);
-                            };
-                            dropZone.onclick = () => fileInput.click();
-                            dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('border-primary', 'bg-indigo-50'); };
-                            dropZone.ondragleave = () => dropZone.classList.remove('border-primary', 'bg-indigo-50');
-                            dropZone.ondrop = (e) => {
-                                e.preventDefault();
-                                dropZone.classList.remove('border-primary', 'bg-indigo-50');
-                                if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-                            };
-                            fileInput.onchange = () => handleFile(fileInput.files[0]);
-                            urlInput.oninput = () => {
-                                preview.src = urlInput.value || 'https://placehold.co/400x200/eef2ff/4f46e5?text=No%20Image';
-                            };
-                        },
-                        preConfirm: () => ({ imageSrc: document.getElementById('image-preview').src, url: document.getElementById('swal-url').value })
+                        li.innerHTML = `<div><p class="font-semibold flex items-center gap-2"><span>${u.name}</span><span class="text-xs text-gray-500">(${u.email})</span></p><p class="text-sm flex items-center gap-2">${roleIcon}<span>${roleText}</span></p></div><div class="flex items-center gap-2">${buttons}</div>`;
+                        listContainer.appendChild(li);
                     });
-                    if (isConfirmed && result) {
-                        const newImage = result.imageSrc.startsWith('data:image') ? result.imageSrc : result.url;
-                        if (newImage && newImage !== product.صورة) {
-                            await this.updateProduct({ ...product, صورة: newImage });
-                            Swal.fire({ icon: 'success', title: 'تم!', text: 'تم تحديث الصورة بنجاح.', timer: 1500, showConfirmButton: false });
-                        }
-                    } else if (isDenied) {
-                        await this.updateProduct({ ...product, صورة: '' });
-                        Swal.fire({ icon: 'success', title: 'تمت إزالة الصورة بنجاح.', timer: 1500, showConfirmButton: false });
+                });
+            },
+            closeAdminPanel() { const panel = document.getElementById('admin-panel'); panel.classList.add('hidden'); panel.classList.remove('flex'); if (this.state.admin.unsubscribeUsers) { this.state.admin.unsubscribeUsers(); this.state.admin.unsubscribeUsers = null; } },
+            async approveUser(uid) { 
+                Swal.fire({ title: 'جاري الموافقة...', didOpen: () => Swal.showLoading(), allowOutsideClick: false, showConfirmButton: false });
+                try {
+                    await setDoc(doc(db, "users", uid), { status: 'approved' }, { merge: true });
+                    Swal.fire({ icon: 'success', title: 'تمت الموافقة!', timer: 1500, showConfirmButton: false });
+                } catch (e) {
+                    Swal.fire('خطأ', 'فشل في الموافقة على المستخدم.', 'error');
+                }
+            },
+            async deleteUser(uid, name) { 
+                if (uid === this.state.user.uid) {
+                    Swal.fire('خطأ', 'لا يمكنك حذف حسابك الخاص!', 'error');
+                    return;
+                }
+                const result = await Swal.fire({ title: 'هل أنت متأكد؟', text: `سيتم حذف المستخدم "${name}"!`, icon: 'warning', showCancelButton: true, confirmButtonText: 'نعم، احذفه!', cancelButtonText: 'إلغاء' }); 
+                if (result.isConfirmed) {
+                    Swal.fire({ title: 'جاري الحذف...', didOpen: () => Swal.showLoading(), allowOutsideClick: false, showConfirmButton: false });
+                    try {
+                        await deleteDoc(doc(db, 'users', uid));
+                        Swal.fire({ icon: 'success', title: 'تم الحذف!', timer: 1500, showConfirmButton: false });
+                    } catch (e) {
+                        Swal.fire('خطأ', 'فشل في حذف المستخدم.', 'error');
                     }
-                },
-                escapeHtml(str) {
-                    const div = document.createElement('div');
-                    div.textContent = str;
-                    return div.innerHTML;
-                },
-            };
-            App.init();
-        });
+                }
+            },
+            async promoteUser(uid, name) { 
+                if (uid === this.state.user.uid) {
+                    Swal.fire('خطأ', 'لا يمكنك ترقية حسابك الخاص!', 'error');
+                    return;
+                }
+                Swal.fire({ title: 'جاري الترقية...', didOpen: () => Swal.showLoading(), allowOutsideClick: false, showConfirmButton: false });
+                try {
+                    await setDoc(doc(db, "users", uid), { role: 'admin', promotedBy: this.state.user.uid }, { merge: true }); 
+                    Swal.fire({ icon: 'success', title: 'تمت الترقية!', text: `أصبح ${name} الآن أدمن.`, timer: 2000, showConfirmButton: false }); 
+                } catch (e) {
+                    Swal.fire('خطأ', 'فشل في ترقية المستخدم.', 'error');
+                }
+            },
+            async demoteUser(uid, name) { 
+                if (uid === this.state.user.uid) {
+                    Swal.fire('خطأ', 'لا يمكنك تخفيض صلاحيات حسابك الخاص!', 'error');
+                    return;
+                }
+                 Swal.fire({ title: 'جاري التخفيض...', didOpen: () => Swal.showLoading(), allowOutsideClick: false, showConfirmButton: false });
+                try {
+                    await setDoc(doc(db, "users", uid), { role: 'user', promotedBy: deleteField() }, { merge: true }); 
+                    Swal.fire({ icon: 'info', title: 'تم تخفيض الصلاحية!', text: `أصبح ${name} الآن مستخدمًا عاديًا.`, timer: 2000, showConfirmButton: false }); 
+                } catch (e) {
+                    Swal.fire('خطأ', 'فشل في تخفيض صلاحيات المستخدم.', 'error');
+                }
+            },
+
+            // New: Dashboard functions
+            updateDashboard() {
+                if (this.state.currentPage !== 'dashboard' || !this.state.user.isLoggedIn || this.state.user.role !== 'admin') return;
+
+                const totalProducts = this.state.inventory.fullInventory.length;
+                const lowStockProducts = this.state.inventory.fullInventory.filter(p => p['الكمية'] > 0 && p['الكمية'] <= this.state.inventory.lowStockThreshold).length;
+                const outOfStockProducts = this.state.inventory.fullInventory.filter(p => p['الكمية'] <= 0).length;
+
+                this.elements.totalProductsCount.textContent = totalProducts;
+                this.elements.lowStockCount.textContent = lowStockProducts;
+                this.elements.outOfStockCount.textContent = outOfStockProducts;
+            },
+
+            // New: Barcode scanner functions
+            showBarcodeScanner() {
+                this.elements.barcodeModal.classList.remove('hidden');
+                this.elements.barcodeModal.classList.add('flex');
+                this.elements.closeBarcodeModal.onclick = this.hideBarcodeScanner.bind(this);
+                this.elements.scanSearchBtn.onclick = this.handleBarcodeSearch.bind(this);
+                this.elements.barcodeManualInput.onkeyup = (e) => {
+                    if (e.key === 'Enter') this.handleBarcodeSearch();
+                };
+                this.elements.barcodeResult.textContent = '';
+                this.elements.barcodeManualInput.value = '';
+
+                // Initialize QuaggaJS (or other barcode library)
+                // For demonstration, I'll just show the manual input and mock results.
+                // A real implementation would start the camera here.
+                /*
+                Quagga.init({
+                    inputStream: {
+                        name: "Live",
+                        type: "LiveStream",
+                        target: document.querySelector('#barcode-video'),
+                        constraints: {
+                            facingMode: "environment" // or "user" for front camera
+                        },
+                    },
+                    decoder: {
+                        readers: ["ean_reader", "code_128_reader", "code_39_reader"] // Specify types
+                    }
+                }, (err) => {
+                    if (err) {
+                        console.log(err);
+                        this.elements.barcodeInstructions.textContent = 'فشل تشغيل الكاميرا.';
+                        this.elements.barcodeVideo.style.display = 'none';
+                        return
+                    }
+                    Quagga.start();
+                    this.elements.barcodeInstructions.textContent = 'ضع الباركود أمام الكاميرا';
+                    this.elements.barcodeVideo.style.display = 'block';
+                });
+
+                Quagga.onDetected((data) => {
+                    if (data.codeResult) {
+                        this.elements.barcodeManualInput.value = data.codeResult.code;
+                        this.handleBarcodeSearch();
+                        Quagga.stop();
+                    }
+                });
+                */
+               // Mocking the scanner behavior for now
+               this.elements.barcodeInstructions.textContent = 'أدخل الباركود يدوياً أو استخدم ماسح ضوئي خارجي.';
+            },
+            hideBarcodeScanner() {
+                this.elements.barcodeModal.classList.add('hidden');
+                this.elements.barcodeModal.classList.remove('flex');
+                // if (typeof Quagga !== 'undefined' && Quagga.stop) Quagga.stop(); // Stop scanner
+            },
+            handleBarcodeSearch() {
+                const barcode = this.elements.barcodeManualInput.value.trim();
+                if (!barcode) {
+                    this.elements.barcodeResult.textContent = 'الرجاء إدخال باركود.';
+                    return;
+                }
+                const product = this.state.inventory.fullInventory.find(p => p['الباركود'] === barcode);
+                if (product) {
+                    this.elements.barcodeResult.innerHTML = `تم العثور على: <span class="text-primary font-bold">${this.escapeHtml(product['الصنف'])}</span> (الكمية: ${product['الكمية']})`;
+                    this.hideBarcodeScanner();
+                    this.elements.searchInput.value = product['الصنف']; // Populate search with product name
+                    this.elements.clearSearchBtn.style.display = 'flex';
+                    this.filterAndRender(); // Show the product in inventory view
+                    this.navigateTo('inventory');
+                } else {
+                    this.elements.barcodeResult.textContent = 'المنتج بالباركود هذا غير موجود.';
+                }
+            },
+            
+            // New: Export to CSV (simple Excel alternative)
+            exportInventoryToCSV() {
+                if (this.state.inventory.fullInventory.length === 0) {
+                    Swal.fire('لا توجد بيانات', 'لا توجد منتجات لتصديرها.', 'info');
+                    return;
+                }
+
+                let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // BOM for Arabic support
+                const headers = ['الصنف', 'السعر', 'الكمية', 'الباركود', 'الصورة', 'ID'];
+                csvContent += headers.join(',') + '\n';
+
+                this.state.inventory.fullInventory.forEach(product => {
+                    const row = [
+                        `"${(product['الصنف'] || '').replace(/"/g, '""')}"`,
+                        product['السعر'] || 0,
+                        product['الكمية'] || 0,
+                        `"${(product['الباركود'] || '').replace(/"/g, '""')}"`,
+                        `"${(product['صورة'] || '').replace(/"/g, '""')}"`,
+                        product.id
+                    ];
+                    csvContent += row.join(',') + '\n';
+                });
+
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", "ElLoul_Inventory_Export.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                Swal.fire('تم التصدير!', 'تم تصدير بيانات المخزون إلى ملف CSV.', 'success');
+            }
+        };
+        
+        App.init();
     </script>
 </body>
 </html>
-
