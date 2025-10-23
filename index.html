@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4f46e5">
-    <title>ElLoul Inventory System</title>
-    <link rel="apple-touch-icon" href="https://placehold.co/192x192/4f46e5/ffffff?text=ElLoul">
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRWxMb3VsIEludmVudG9yeSBTeXN0ZW0iLCJzaG9ydF9uYW1lIjoiRWxMb3VsIiwic3RhcnRfdXJsIjoiLi8iLCJkaXNwbGF5Ijoic3RhbmRhbG95ZSIsImJhY2tncm91bmRfY29sb3IiOiIjZjBmMmY1IiwidGhlbWVfY29sb3IiOiIjNGY0NmU1IiwiZGVzY3JpcHRpb24iOiJBIHNpbXBsZSBpbnZlbnRvcnkgbWFuYWdlbWVudCBhcHBsaWNhdGlvbi4iLCJpY29ucyI6W3sic3JjIjoiaHR0cHM6Ly9wbGFjZWhvbGQuY28vMTkyeDE5Mi80ZjQ2ZTgvZmZmZmZmP3RleHQ9RWxMb3VsIiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3BuZyJ9LHsic3JjIjoiaHR0cHM6Ly9wbGFjZWhvbGQuY28vNTEyeDUxMi80ZjQ2ZTgvZmZmZmZmP3RleHQ9RWxMb3VsIiwic2l6ZXMiOiI1MTJ4NTEyIiwidHlwZSI6ImltYWdlL3BuZyJ9XX0=">
+    <meta name="theme-color" content="#4f46e5"> <!-- (تصحيح) رجع اللون الأزرق -->
+    <title>نظام صيدلية د. سيد</title>
+    <!-- (تصحيح) أيقونات PWA باللون الأزرق -->
+    <link rel="apple-touch-icon" href="https://placehold.co/192x192/4f46e5/ffffff?text=Rx">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuiC3cKq2Kgg2YXZhtiv2YjYqSDOoy4g2LPZitivINi52YXYsdarIiwKICAic2hvcnRfbmFtZSI6ICLYldmG2K/ZiNipIM6jLiDYt9mI2KwIiwKICAic3RhcnRfdXJsIjoiLi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmMGYyZjUiLAogICJ0aGVtZV9jb2xvciI6ICIjNGY0NmU1IiwgCiAgImRlc2NyaXB0aW9uIjogItiC3cKq2Kgg2YXYrNin2LHZiiDZhNmF2KfYsdis2YLYrSDZgtmE2YXYp9mEINin2YTYqNiv2YjZhiDZhNmE2LLZitix2KjZhi4iLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL3BsYWNlaG9sZC5jby8xOTJ4MTkyLzRmNDZlNSIvZmZmZmZmP3RleHQ9UngiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9wbGFjZWhvbGQuY28vNTEyeDUxMi80ZjQ2ZTUvZmZmZmZmP3RleHQ9UngiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -14,7 +15,9 @@
     <style>
         body { font-family: 'Tajawal', sans-serif; background-color: #f0f2f5; }
         :root { 
-            --primary: #4f46e5; --primary-darker: #4338ca; --light-bg: #f0f2f5;
+            --primary: #4f46e5; /* (تصحيح) اللون الأساسي أزرق */
+            --primary-darker: #4338ca; /* (تصحيح) درجة أغمق */
+            --light-bg: #f0f2f5;
             --card-bg: #ffffff; --border-color: #e5e7eb; --text-dark: #111827; --text-muted: #6b7280;
         }
         .text-primary { color: var(--primary); } .bg-primary { background-color: var(--primary); }
@@ -27,19 +30,19 @@
         .product-card:hover .card-actions { opacity: 1; transform: translateY(0); }
         .action-btn { background-color: rgba(255, 255, 255, 0.9); color: var(--text-muted); width: 36px; height: 36px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: color 0.2s, background-color 0.2s; }
         .action-btn:hover { color: white; }
-        .action-btn.edit-btn:hover { background-color: var(--primary); }
+        .action-btn.edit-btn:hover { background-color: #3b82f6; }
         .action-btn.delete-btn:hover { background-color: #ef4444; }
-        .custom-scrollbar::-webkit-scrollbar { height: 4px; } 
+        .custom-scrollbar::-webkit-scrollbar { height: 4px; width: 4px; } 
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; } 
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .product-image { height: 160px; width: 100%; object-fit: cover; }
+        .product-image { height: 160px; width: 100%; object-fit: cover; cursor: pointer; } /* (جديد) إضافة مؤشر للضغط */
         .image-placeholder { height: 160px; display: flex; align-items: center; justify-content: center; background-color: #f9fafb; border-bottom: 1px dashed var(--border-color); cursor: pointer; transition: background-color 0.3s, border-color 0.3s; }
-        .image-placeholder:hover { background-color: #eef2ff; }
+        .image-placeholder:hover { background-color: #eef2ff; } /* (تصحيح) أزرق فاتح */
         .image-placeholder.dragover { border: 2px dashed var(--primary); background-color: #eef2ff; }
         .category-tabs-container { display: flex; overflow-x: auto; padding-bottom: 8px; white-space: nowrap; -webkit-overflow-scrolling: touch; }
         .category-tab { flex-shrink: 0; display: inline-flex; align-items: center; cursor: pointer; padding: 0.5rem 1.25rem; margin: 0.25rem; border-radius: 9999px; background-color: #f3f4f6; color: #374151; font-weight: 600; transition: all 0.2s ease-in-out; }
         .category-tab:hover { background-color: #e5e7eb; color: var(--primary); }
-        .category-tab.active { background-color: var(--primary); color: white; box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39); }
+        .category-tab.active { background-color: var(--primary); color: white; box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39); } /* (تصحيح) ظل أزرق */
         .category-tab i { margin-left: 8px; }
         #current-category-title { transition: opacity 0.3s ease-in-out; }
         @keyframes cardFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -47,190 +50,112 @@
         @keyframes slideInUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .install-toast-show { display: flex !important; animation: slideInUp 0.5s ease-out forwards; }
         
-        /* === تعديل شكل صفحة الدخول === */
-        #auth-page {
-            background: linear-gradient(135deg, var(--primary) 0%, #a855f7 100%);
-        }
-        .auth-card-container {
-            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-        }
-        .auth-card-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
+        #auth-page { background: linear-gradient(135deg, var(--primary) 0%, #a855f7 100%); } /* (تصحيح) تدرج أزرق/بنفسجي */
+        .auth-card-container { transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; }
+        .auth-card-container:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
         .auth-input-group { position: relative; }
-        .auth-input {
-            width: 100%;
-            padding-right: 3.5rem; /* Space for icon */
-            padding-left: 1rem; /* Space for password icon */
-            padding-top: 0.75rem;
-            padding-bottom: 0.75rem;
-            border-radius: 0.5rem;
-            border: 1px solid var(--border-color);
-            background-color: #f9fafb;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        .auth-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-            background-color: white;
-        }
-        .auth-input-icon {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: 1rem;
-            color: #9ca3af;
-        }
-        .auth-button {
-            transition: background-color 0.3s, transform 0.2s;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        .auth-button:hover {
-            transform: translateY(-2px);
-        }
-        .auth-button:disabled {
-            background-color: #9ca3af;
-            transform: translateY(0);
-            box-shadow: none;
-        }
+        .auth-input { width: 100%; padding-right: 3.5rem; padding-left: 1rem; padding-top: 0.75rem; padding-bottom: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border-color); background-color: #f9fafb; transition: border-color 0.2s, box-shadow 0.2s; }
+        .auth-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); background-color: white; } /* (تصحيح) ظل أزرق */
+        .auth-input-icon { position: absolute; top: 50%; transform: translateY(-50%); right: 1rem; color: #9ca3af; }
+        .auth-button { transition: background-color 0.3s, transform 0.2s; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .auth-button:hover { transform: translateY(-2px); }
+        .auth-button:disabled { background-color: #9ca3af; transform: translateY(0); box-shadow: none; }
 
-        /* === تعديل شكل البحث === */
-        .search-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-        }
-        .search-icon {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: 1rem;
-            color: var(--text-muted);
-            pointer-events: none;
-        }
-        #searchInput {
-            width: 100%;
-            padding-right: 3rem; /* Space for icon */
-            padding-left: 1rem;
-            padding-top: 0.875rem; /* 14px */
-            padding-bottom: 0.875rem;
-            border-radius: 9999px;
-            background-color: #f3f4f6;
-            border: 2px solid transparent;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        #searchInput:focus {
-            outline: none;
-            border-color: var(--primary);
-            background-color: white;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
-        }
-        #clearSearchBtn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            left: 0.75rem;
-        }
+        .search-wrapper { position: relative; width: 100%; max-width: 500px; }
+        .search-icon { position: absolute; top: 50%; transform: translateY(-50%); right: 1rem; color: var(--text-muted); pointer-events: none; }
+        #searchInput { width: 100%; padding-right: 3rem; padding-left: 1rem; padding-top: 0.875rem; padding-bottom: 0.875rem; border-radius: 9999px; background-color: #f3f4f6; border: 2px solid transparent; font-weight: 500; transition: all 0.3s ease; }
+        #searchInput:focus { outline: none; border-color: var(--primary); background-color: white; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1); } /* (تصحيح) ظل أزرق */
+        #clearSearchBtn { position: absolute; top: 50%; transform: translateY(-50%); left: 0.75rem; }
 
-        /* === أيقونة المستخدم === */
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: white;
-            font-size: 1.125rem;
-            flex-shrink: 0;
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; font-size: 1.125rem; flex-shrink: 0; }
+        .header-btn { background: #f3f4f6; color: var(--text-muted); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s, color 0.2s; position: relative; }
+        .header-btn:hover { background-color: #e5e7eb; color: var(--primary); }
+        
+        .cart-count { position: absolute; top: -5px; right: -8px; background-color: #ef4444; color: white; font-size: 0.75rem; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
+        .cart-item-quantity { display: flex; align-items: center; gap: 0.5rem; }
+        .cart-item-quantity button { width: 28px; height: 28px; border-radius: 50%; background-color: #f3f4f6; color: var(--text-dark); font-weight: 700; }
+        .cart-item-quantity button:hover { background-color: var(--primary); color: white; }
+        .cart-item-quantity button:disabled { background-color: #e5e7eb; color: #9ca3af; cursor: not-allowed; }
+        .add-to-cart-btn { background-color: var(--primary); color: white; border-radius: 9999px; padding: 0.5rem 1rem; font-weight: 700; font-size: 0.875rem; transition: all 0.2s; width: 100%; }
+        .add-to-cart-btn:hover { background-color: var(--primary-darker); transform: scale(1.05); }
+        .add-to-cart-btn:disabled { background-color: #9ca3af; cursor: not-allowed; transform: scale(1); }
+
+        .settings-form-group { margin-bottom: 1.5rem; }
+        .settings-label { display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; }
+        .settings-input { width: 100%; padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid var(--border-color); background-color: #f9fafb; transition: border-color 0.2s, box-shadow 0.2s; }
+        .settings-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); background-color: white; } /* (تصحيح) ظل أزرق */
+        .settings-button { padding: 0.75rem 1.5rem; font-weight: 700; color: white; background-color: var(--primary); border-radius: 0.5rem; transition: background-color 0.3s; }
+        .settings-button:hover { background-color: var(--primary-darker); }
+
+        @keyframes fa-beat-animation {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.25); }
         }
-        .settings-btn {
-            background: #f3f4f6;
-            color: var(--text-muted);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.2s, color 0.2s;
+        .fa-beat-animation {
+            animation: fa-beat-animation 0.5s ease-in-out;
         }
-        .settings-btn:hover {
-            background-color: #e5e7eb;
-            color: var(--primary);
+        .header-btn:hover i, .action-btn:hover i, #addProductBtn:hover i {
+            animation: fa-beat-animation 0.5s ease-in-out;
         }
+        
+        .sitemap-link { display: flex; align-items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; font-weight: 600; color: var(--text-dark); transition: background-color 0.2s, color 0.2s; cursor: pointer; }
+        .sitemap-link:hover { background-color: #f3f4f6; color: var(--primary); }
+        .sitemap-link i { width: 30px; text-align: center; margin-left: 0.75rem; color: var(--text-muted); }
+        .sitemap-link:hover i { color: var(--primary); }
 
     </style>
 </head>
 <body class="bg-light-bg">
 
+    <!-- Auth Page (Login/Signup) -->
     <div id="auth-page" class="flex items-center justify-center min-h-screen p-4">
         <div class="w-full max-w-md auth-card-container">
             <div class="bg-white p-8 rounded-2xl shadow-lg">
                 <div class="text-center mb-8">
-                    <img src="https://placehold.co/100x100/4f46e5/ffffff?text=ElLoul" alt="Logo" class="w-24 h-24 mx-auto rounded-full shadow-lg -mt-20 border-4 border-white">
+                    <!-- (تصحيح) لوجو الصيدلية بالأزرق -->
+                    <img src="https://placehold.co/100x100/4f46e5/ffffff?text=Rx" alt="Logo" class="w-24 h-24 mx-auto rounded-full shadow-lg -mt-20 border-4 border-white">
                     <h2 id="auth-title" class="text-3xl font-extrabold text-gray-900 mt-4">تسجيل الدخول</h2>
-                    <p class="text-gray-500 mt-2">مرحباً بعودتك!</p>
+                    <p id="auth-subtitle" class="text-gray-500 mt-2">أهلاً بك في صيدلية د. سيد</p>
                 </div>
-                
                 <form id="login-form" class="space-y-6">
-                    <div class="auth-input-group">
-                        <input type="email" id="login-email" placeholder="البريد الإلكتروني" required class="auth-input">
-                        <i class="fas fa-envelope auth-input-icon"></i>
-                    </div>
-                    <div class="auth-input-group">
-                        <input type="password" id="login-password" placeholder="كلمة المرور" required class="auth-input">
-                        <i class="fas fa-eye password-icon" data-target="login-password"></i>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center"><input id="remember-me" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"><label for="remember-me" class="mr-2 block text-sm text-gray-900">تذكرني</label></div>
-                        <div class="text-sm"><a href="#" id="forgot-password-link" class="font-medium text-primary hover:underline">هل نسيت كلمة المرور؟</a></div>
-                    </div>
+                    <div class="auth-input-group"><input type="email" id="login-email" placeholder="البريد الإلكتروني" required class="auth-input"><i class="fas fa-envelope auth-input-icon"></i></div>
+                    <div class="auth-input-group"><input type="password" id="login-password" placeholder="كلمة المرور" required class="auth-input"><i class="fas fa-eye password-icon" data-target="login-password"></i></div>
+                    <div class="flex items-center justify-between"><div class="flex items-center"><input id="remember-me" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"><label for="remember-me" class="mr-2 block text-sm text-gray-900">تذكرني</label></div><div class="text-sm"><a href="#" id="forgot-password-link" class="font-medium text-primary hover:underline">هل نسيت كلمة المرور؟</a></div></div>
                     <button type="submit" id="login-button" class="w-full flex justify-center py-3 font-semibold text-white bg-primary rounded-lg hover:bg-primary-darker auth-button">دخول</button>
                 </form>
-
                 <form id="signup-form" class="space-y-6 hidden">
-                    <div class="auth-input-group">
-                        <input type="text" id="signup-name" placeholder="الاسم الكامل" required class="auth-input">
-                        <i class="fas fa-user auth-input-icon"></i>
-                    </div>
-                    <div class="auth-input-group">
-                        <input type="email" id="signup-email" placeholder="البريد الإلكتروني" required class="auth-input">
-                        <i class="fas fa-envelope auth-input-icon"></i>
-                    </div>
-                    <div class="auth-input-group">
-                        <input type="password" id="signup-password" placeholder="كلمة المرور (6 حروف على الأقل)" required class="auth-input">
-                        <i class="fas fa-eye password-icon" data-target="signup-password"></i>
-                    </div>
+                    <div class="auth-input-group"><input type="text" id="signup-name" placeholder="الاسم الكامل" required class="auth-input"><i class="fas fa-user auth-input-icon"></i></div>
+                    <div class="auth-input-group"><input type="email" id="signup-email" placeholder="البريد الإلكتروني" required class="auth-input"><i class="fas fa-envelope auth-input-icon"></i></div>
+                    <div class="auth-input-group"><input type="tel" id="signup-phone" placeholder="رقم الهاتف (اختياري)" class="auth-input"><i class="fas fa-phone auth-input-icon"></i></div>
+                    <div class="auth-input-group"><input type="password" id="signup-password" placeholder="كلمة المرور (6 حروف على الأقل)" required class="auth-input"><i class="fas fa-eye password-icon" data-target="signup-password"></i></div>
                     <button type="submit" id="signup-button" class="w-full flex justify-center py-3 font-semibold text-white bg-primary rounded-lg hover:bg-primary-darker auth-button">إنشاء الحساب</button>
                 </form>
-
                 <p class="text-center mt-8"><a href="#" id="toggle-auth-mode" class="font-medium text-primary hover:underline">ليس لديك حساب؟ أنشئ واحدًا</a></p>
             </div>
         </div>
     </div>
 
+    <!-- Pending Page -->
     <div id="pending-page" class="hidden flex-col items-center justify-center min-h-screen text-center p-4">
         <div class="bg-white p-10 rounded-2xl shadow-lg"><i class="fas fa-clock fa-4x text-yellow-500 mb-4"></i><h1 class="text-3xl font-bold text-gray-800">حسابك قيد المراجعة</h1><p class="mt-2 text-gray-600">شكرًا لتسجيلك! سيقوم الأدمن بمراجعة حسابك وتفعيله قريبًا.</p><button id="pending-logout-button" class="mt-6 px-6 py-2 font-semibold text-white bg-red-500 rounded-lg hover:bg-red-600">تسجيل الخروج</button></div>
     </div>
     
-    <div id="admin-panel" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col"><div class="p-4 border-b flex justify-between items-center"><h3 class="text-xl font-bold">لوحة تحكم الأدمن</h3><button id="close-admin-panel" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button></div><div id="admin-users-list" class="p-4 overflow-y-auto"></div></div>
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col"><div class="p-4 border-b flex justify-between items-center"><h3 class="text-xl font-bold">لوحة تحكم الأدمن</h3><button id="close-admin-panel" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button></div><div id="admin-users-list" class="p-4 overflow-y-auto custom-scrollbar"></div></div>
     </div>
 
+    <!-- Main App (Inventory) -->
     <div id="app" class="hidden min-h-screen flex-col">
         <header class="header-glass sticky top-0 z-30">
             <div class="flex items-center justify-between h-20 max-w-7xl mx-auto px-4 sm:px-8 w-full">
+                <!-- User Greeting & Settings -->
                 <div class="flex items-center gap-3">
                     <div id="user-avatar-container"></div>
                     <span id="user-greeting-name" class="text-gray-700 font-semibold hidden sm:block"></span>
-                    <button id="settings-btn" class="settings-btn" title="الإعدادات"><i class="fas fa-cog"></i></button>
+                    <button id="settings-btn" class="header-btn" title="الإعدادات"><i class="fas fa-cog"></i></button>
                 </div>
-
+                <!-- Search Bar -->
                 <div class="flex-1 flex justify-center px-4">
                     <div class="search-wrapper">
                         <i class="fas fa-search search-icon"></i>
@@ -238,18 +163,21 @@
                         <button id="clearSearchBtn" class="absolute hidden items-center text-gray-500 hover:text-primary"><i class="fas fa-times-circle"></i></button>
                     </div>
                 </div>
-
+                <!-- Cart, Admin & Logout -->
                 <div class="flex items-center gap-4">
-                    <button id="admin-panel-button" class="hidden settings-btn" title="لوحة التحكم"><i class="fas fa-user-shield"></i></button>
-                    <button id="logout-button" class="settings-btn" title="تسجيل الخروج"><i class="fas fa-sign-out-alt text-red-500"></i></button>
+                    <button id="cart-btn" class="header-btn" title="سلة المشتريات"><i class="fas fa-shopping-cart"></i><span id="cart-count" class="cart-count hidden">0</span></button>
+                    <button id="admin-panel-button" class="hidden header-btn" title="لوحة التحكم"><i class="fas fa-user-shield"></i></button>
+                    <button id="logout-button" class="header-btn" title="تسجيل الخروج"><i class="fas fa-sign-out-alt text-red-500"></i></button>
                 </div>
             </div>
         </header>
 
+        <!-- Category Tabs -->
         <div class="bg-white border-b border-gray-200 sticky top-20 z-20">
             <div id="category-tabs-container" class="category-tabs-container max-w-7xl mx-auto px-2 sm:px-6 custom-scrollbar"></div>
         </div>
 
+        <!-- Main Content -->
         <main class="flex-1 w-full max-w-7xl mx-auto p-4 sm:p-8">
             <div id="home-page">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
@@ -273,27 +201,111 @@
             </div>
         </main>
         
+        <!-- Add Product Button -->
         <button id="addProductBtn" class="hidden fixed bottom-8 right-8 bg-primary hover:bg-primary-darker text-white w-16 h-16 rounded-full shadow-lg items-center justify-center text-3xl z-20 transition-transform transform hover:scale-110"><i class="fas fa-plus"></i></button>
         
+        <!-- Footer (تصحيح) -->
         <footer class="text-center py-6 border-t border-border-color relative">
-            <p class="text-gray-600">صنع بواسطة <span id="footer-brand-link" class="font-bold text-primary cursor-pointer hover:underline">ElLoul</span> &copy; <span id="current-year"></span></p>
+            <p class="text-gray-600">
+                <!-- (تصحيح) إرجاع اسم ElLoul -->
+                صنع بواسطة <span id="footer-brand-link" class="font-bold text-primary cursor-pointer hover:underline">ElLoul</span> &copy; <span id="current-year"></span>
+                <span id="sitemap-link" class="font-medium text-gray-600 cursor-pointer hover:text-primary hover:underline mr-4">خريطة الموقع</span>
+            </p>
+            <!-- (تصحيح) إرجاع روابط التواصل الاجتماعي -->
             <div id="social-popup" class="hidden absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 text-right">
                 <div class="p-2"><ul class="space-y-1"><li><a href="https://www.facebook.com/AliMamdouhh369?mibextid=ZbWKwL" target="_blank" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"><i class="fab fa-facebook text-2xl w-8 text-center" style="color: #1877F2;"></i><span class="mr-3 font-semibold">فيسبوك</span></a></li><li><a href="https://api.WhatsApp.com/send?phone=+201206796831&text=سـجـلـنـي%20『乇ㄥㄥㄖㄥㄥ』بـقـى%20يـصـاحـبـي.%20ᥫ᭡" target="_blank" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"><i class="fab fa-whatsapp text-2xl w-8 text-center" style="color: #25D366;"></i><span class="mr-3 font-semibold">واتساب</span></a></li><li><a href="https://m.me/AliMamdouhh369" target="_blank" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"><i class="fab fa-facebook-messenger text-2xl w-8 text-center" style="color: #00B2FF;"></i><span class="mr-3 font-semibold">مسنجر</span></a></li><li><a href="https://www.instagram.com/alimamdouhhh369/" target="_blank" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"><i class="fab fa-instagram text-2xl w-8 text-center" style="color: #E4405F;"></i><span class="mr-3 font-semibold">انستجرام</span></a></li><li><a href="https://t.me/AliMamdouhh369" target="_blank" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"><i class="fab fa-telegram text-2xl w-8 text-center" style="color: #0088cc;"></i><span class="mr-3 font-semibold">تليجرام</span></a></li><li><a href="https://tiktok.com/@alimamdouhh369" target="_blank" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"><i class="fab fa-tiktok text-2xl w-8 text-center" style="color: #010101;"></i><span class="mr-3 font-semibold">تيك توك</span></a></li></ul></div>
             </div>
         </footer>
         
-        <div id="install-toast" class="hidden fixed bottom-4 right-4 lg:bottom-8 lg:right-8 bg-white rounded-2xl shadow-2xl p-4 w-[calc(100%-2rem)] max-w-sm z-50 items-start gap-4"><img src="https://placehold.co/64x64/4f46e5/ffffff?text=ElLoul" alt="App Icon" class="w-12 h-12 rounded-lg flex-shrink-0"><div class="flex-1"><p class="font-bold text-text-dark">ثبّت تطبيق المخزن</p><p class="text-sm text-text-muted mt-1">وصول سريع للتطبيق من شاشتك الرئيسية.</p><div class="mt-4 flex gap-2"><button id="install-btn" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold w-full">تثبيت</button><button id="dismiss-install-btn" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold w-full">لاحقًا</button></div></div></div>
+        <!-- Install Toast -->
+        <div id="install-toast" class="hidden fixed bottom-4 right-4 lg:bottom-8 lg:right-8 bg-white rounded-2xl shadow-2xl p-4 w-[calc(100%-2rem)] max-w-sm z-50 items-start gap-4">
+            <img src="https://placehold.co/64x64/4f46e5/ffffff?text=Rx" alt="App Icon" class="w-12 h-12 rounded-lg flex-shrink-0">
+            <div class="flex-1">
+                <p class="font-bold text-text-dark">ثبّت تطبيق الصيدلية</p>
+                <p class="text-sm text-text-muted mt-1">وصول سريع للمخزن من شاشتك الرئيسية.</p>
+                <div class="mt-4 flex gap-2">
+                    <button id="install-btn" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold w-full">تثبيت</button>
+                    <button id="dismiss-install-btn" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold w-full">لاحقًا</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="settings-panel" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[80vh] flex flex-col">
+    <!-- Settings Panel -->
+    <div id="settings-panel" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] flex flex-col">
             <div class="p-4 border-b flex justify-between items-center">
                 <h3 class="text-xl font-bold">إعدادات الحساب</h3>
                 <button id="close-settings-panel" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
             </div>
-            <div id="settings-content" class="p-8 overflow-y-auto">
-                <h2 class="text-center text-2xl font-bold mb-6">قريباً...</h2>
-                <p class="text-center text-gray-600">هنا سيتم وضع إعدادات تغيير الاسم، كلمة المرور، الصورة الشخصية، إلخ.</p>
+            <div id="settings-content" class="p-6 overflow-y-auto custom-scrollbar">
+                <form id="profile-settings-form">
+                    <h4 class="text-lg font-semibold text-primary mb-4">الملف الشخصي</h4>
+                    <div class="settings-form-group">
+                        <label for="settings-name" class="settings-label">الاسم الكامل</label>
+                        <input type="text" id="settings-name" class="settings-input" required>
+                    </div>
+                    <div class="settings-form-group">
+                        <label for="settings-phone" class="settings-label">رقم الهاتف</label>
+                        <input type="tel" id="settings-phone" class="settings-input" placeholder="مثال: 01012345678">
+                    </div>
+                    <div class="settings-form-group">
+                        <label for="settings-email" class="settings-label">البريد الإلكتروني (لا يمكن تغييره)</label>
+                        <input type="email" id="settings-email" class="settings-input" disabled>
+                    </div>
+                    <button type="submit" id="save-profile-btn" class="settings-button w-full sm:w-auto">حفظ التغييرات</button>
+                </form>
+                <hr class="my-8">
+                <form id="password-settings-form">
+                    <h4 class="text-lg font-semibold text-primary mb-4">تغيير كلمة المرور</h4>
+                    <div class="settings-form-group">
+                        <label for="settings-new-password" class="settings-label">كلمة المرور الجديدة</label>
+                        <input type="password" id="settings-new-password" class="settings-input" required minlength="6">
+                    </div>
+                    <div class="settings-form-group">
+                        <label for="settings-confirm-password" class="settings-label">تأكيد كلمة المرور</label>
+                        <input type="password" id="settings-confirm-password" class="settings-input" required minlength="6">
+                    </div>
+                    <button type="submit" id="save-password-btn" class="settings-button w-full sm:w-auto">تغيير كلمة المرور</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Panel -->
+    <div id="cart-panel" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-end">
+        <div class="bg-white w-full max-w-md h-full flex flex-col shadow-xl">
+            <div class="p-4 border-b flex justify-between items-center">
+                <h3 class="text-xl font-bold">سلة المشتريات (<span id="cart-panel-count">0</span>)</h3>
+                <button id="close-cart-panel" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            </div>
+            <div id="cart-items-container" class="flex-1 p-4 overflow-y-auto custom-scrollbar">
+                <div id="cart-empty-msg" class="text-center text-gray-500 py-20">
+                    <i class="fas fa-shopping-cart fa-4x mb-4"></i>
+                    <p class="text-xl font-semibold">سلتك فارغة!</p>
+                </div>
+            </div>
+            <div class="p-4 border-t bg-gray-50 space-y-4">
+                <div class="flex justify-between items-center text-xl font-bold">
+                    <span>الإجمالي:</span>
+                    <span id="cart-total-price" class="text-primary">0.00 جم</span>
+                </div>
+                <button id="checkout-btn" class="w-full flex justify-center py-3 font-semibold text-white bg-primary rounded-lg hover:bg-primary-darker auth-button disabled:bg-gray-400">
+                    إتمام الطلب
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sitemap Panel -->
+    <div id="sitemap-panel" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] flex flex-col">
+            <div class="p-4 border-b flex justify-between items-center">
+                <h3 class="text-xl font-bold">خريطة الموقع</h3>
+                <button id="close-sitemap-panel" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            </div>
+            <div id="sitemap-content" class="p-6 overflow-y-auto custom-scrollbar">
+                <!-- سيتم ملؤها بالـ JavaScript -->
             </div>
         </div>
     </div>
@@ -302,10 +314,8 @@
     <script type="module">
         // Import all Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, deleteDoc, enableIndexedDbPersistence, writeBatch, getDocs, deleteField, query, orderBy } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-
-        // === (مهم) استيراد موديول الـ Storage ===
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail, updatePassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, deleteDoc, enableIndexedDbPersistence, writeBatch, getDocs, deleteField, query, orderBy, runTransaction } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
         import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
 
         const firebaseConfig = {
@@ -320,26 +330,28 @@
         const firebaseApp = initializeApp(firebaseConfig);
         const auth = getAuth(firebaseApp);
         const db = getFirestore(firebaseApp);
-        const storage = getStorage(firebaseApp); // === (مهم) تعريف الـ Storage ===
+        const storage = getStorage(firebaseApp);
         
         enableIndexedDbPersistence(db).catch(console.error);
 
         const App = {
             state: {
-                user: { isLoggedIn: false, isPending: false, data: null, uid: null, role: null, unsubscribe: null },
+                user: { isLoggedIn: false, isPending: false, data: null, uid: null, role: null, phone: null, unsubscribe: null },
                 inventory: { 
                     productsCollection: collection(db, "products"),
+                    ordersCollection: collection(db, "orders"),
                     isLoading: true, fullInventory: [], categorizedProducts: {}, currentFilteredList: [], 
                     unsubscribeProducts: null, 
                     displayOffset: 0, currentSort: 'default', observer: null
                 },
+                cart: [],
                 admin: { unsubscribeUsers: null }
             },
             config: {
                 INITIAL_DATA_URL: 'https://elloul1.github.io/elloul-bit.github.io/json.json',
                 BATCH_SIZE: 40,
-                CARD_COLORS: ['#3b82f6', '#22c55e', '#ef4444', '#a855f7', '#ec4899', '#f97316', '#14b8a6', '#6366f1'],
-                AVATAR_COLORS: ['#3b82f6', '#22c55e', '#ef4444', '#a855f7', '#ec4899', '#f97316', '#14b8a6', '#6366f1', '#f59e0b', '#06b6d4'],
+                CARD_COLORS: ['#4f46e5', '#22c55e', '#06b6d4', '#a855f7', '#6366f1', '#f97316', '#14b8a6', '#ef4444'],
+                AVATAR_COLORS: ['#4f46e5', '#22c55e', '#06b6d4', '#a855f7', '#6366f1', '#f97316', '#14b8a6', '#ef4444', '#f59e0b', '#ec4899'],
                 CATEGORY_KEYWORDS: { 'العناية بالشعر': ['شامبو', 'بلسم', 'زيت', 'كريم شعر', 'صبغه', 'جل', 'جيل', 'حمام كريم', 'سيرم', 'هير', 'فاتيكا', 'صانسيلk', 'لوريال', 'بانتين', 'كلير', 'دابر املا', 'ترزمي', 'باليت', 'فرد شعر', 'ملمع', 'اي كرياتين', 'هيربال ايسنز', 'تريشوب', 'كازانوفا'], 'العناية بالبشرة': ['كريم', 'غسول', 'ماسك', 'صابون', 'لوشن', 'مرطب', 'تفتيح', 'واقي', 'صنفره', 'جلسرين', 'نيفيا', 'دوف', 'ايفا', 'غارنيه', 'فازلين', 'اسیتون', 'مزيل مكياج', 'بي وايت', 'سكين كلينيك', 'كولاجين', 'جليسوليد', 'سبوتليس', 'ديرما'], 'العناية بالطفل': ['بيبي', 'اطفال', 'نونو', 'بامبرز', 'مولفكس', 'فاين بيبي', 'ببرونه', 'سكاته', 'حفاضه', 'جونسون', 'بندولين', 'اي باتش اطفال', 'سانوسان', 'كيدز', 'سيتي بيبي'], 'العناية الشخصية': ['مزيل', 'سبراي', 'معجون', 'فرشاة اسنان', 'شفره', 'حلاقه', 'جيليت', 'لورد', 'اكس', 'ريكسونا', 'فا', 'سويت', 'واكس', 'فوط', 'الويز', 'سوفي', 'برايفت', 'مولبيد', 'بودره', 'ديتول', 'معطر فم', 'سيجنال', 'سنسوداين', 'كلوس اب', 'خيط اسنان', 'عازل طبي'], 'مستلزمات طبية': ['بلاستر', 'شاش', 'قطن', 'رباط', 'سرنجة', 'جهاز ضغط', 'ترمومتر', 'كمامة', 'كحول', 'بيتادين', 'قسطرة', 'جبيرة', 'حزام', 'انكل', 'ركبه', 'كوع', 'فيكريل', 'برولين', 'كانيولا', 'دريسنج', 'قربة', 'مبوله'], 'العطور': ['برفان', 'كولونيا', 'عطر', 'اسبلاش', 'فوج'], 'المنزل والمبيدات': ['بايجون', 'ريد', 'جليد', 'ملمع', 'مناديل', 'ديتول', 'راجون', 'كيروكس', 'لزقة فار', 'صراصير'] },
                 CATEGORY_ICONS: {'كل الأصناف':'fa-boxes-stacked','العناية بالشعر':'fa-cut','العناية بالبشرة':'fa-spa','العناية بالطفل':'fa-baby','العناية الشخصية':'fa-user-shield','مستلزمات طبية':'fa-briefcase-medical','العطور':'fa-spray-can-sparkles','المنزل والمبيدات':'fa-bug-slash','متنوع':'fa-shapes'},
             },
@@ -352,7 +364,8 @@
             cacheElements() {
                 this.elements = {
                     authPage: document.getElementById('auth-page'),
-                    authTitle: document.getElementById('auth-title'), // (جديد)
+                    authTitle: document.getElementById('auth-title'),
+                    authSubtitle: document.getElementById('auth-subtitle'),
                     pendingPage: document.getElementById('pending-page'),
                     appContainer: document.getElementById('app'),
                     loader: document.getElementById('loader'),
@@ -363,9 +376,9 @@
                     clearSearchBtn: document.getElementById('clearSearchBtn'),
                     addProductBtn: document.getElementById('addProductBtn'),
                     currentYear: document.getElementById('current-year'),
-                    userAvatarContainer: document.getElementById('user-avatar-container'), // (تعديل)
-                    userGreetingName: document.getElementById('user-greeting-name'), // (جديد)
-                    settingsBtn: document.getElementById('settings-btn'), // (جديد)
+                    userAvatarContainer: document.getElementById('user-avatar-container'),
+                    userGreetingName: document.getElementById('user-greeting-name'),
+                    settingsBtn: document.getElementById('settings-btn'),
                     adminPanelButton: document.getElementById('admin-panel-button'),
                     logoutButton: document.getElementById('logout-button'),
                     currentCategoryTitle: document.getElementById('current-category-title'),
@@ -374,13 +387,40 @@
                     sortLabel: document.getElementById('sort-label'),
                     lazyLoader: document.getElementById('lazy-loader'),
                     sentinel: document.getElementById('sentinel'),
-                    socialPopup: document.getElementById('social-popup'),
-                    footerBrandLink: document.getElementById('footer-brand-link'),
                     installToast: document.getElementById('install-toast'),
                     installBtn: document.getElementById('install-btn'),
                     dismissInstallBtn: document.getElementById('dismiss-install-btn'),
-                    settingsPanel: document.getElementById('settings-panel'), // (جديد)
-                    closeSettingsPanel: document.getElementById('close-settings-panel'), // (جديد)
+                    
+                    settingsPanel: document.getElementById('settings-panel'),
+                    closeSettingsPanel: document.getElementById('close-settings-panel'),
+                    profileSettingsForm: document.getElementById('profile-settings-form'),
+                    settingsName: document.getElementById('settings-name'),
+                    settingsPhone: document.getElementById('settings-phone'),
+                    settingsEmail: document.getElementById('settings-email'),
+                    saveProfileBtn: document.getElementById('save-profile-btn'),
+                    passwordSettingsForm: document.getElementById('password-settings-form'),
+                    settingsNewPassword: document.getElementById('settings-new-password'),
+                    settingsConfirmPassword: document.getElementById('settings-confirm-password'),
+                    savePasswordBtn: document.getElementById('save-password-btn'),
+
+                    cartBtn: document.getElementById('cart-btn'),
+                    cartCount: document.getElementById('cart-count'),
+                    cartPanel: document.getElementById('cart-panel'),
+                    closeCartPanel: document.getElementById('close-cart-panel'),
+                    cartPanelCount: document.getElementById('cart-panel-count'),
+                    cartItemsContainer: document.getElementById('cart-items-container'),
+                    cartEmptyMsg: document.getElementById('cart-empty-msg'),
+                    cartTotalPrice: document.getElementById('cart-total-price'),
+                    checkoutBtn: document.getElementById('checkout-btn'),
+
+                    sitemapLink: document.getElementById('sitemap-link'),
+                    sitemapPanel: document.getElementById('sitemap-panel'),
+                    closeSitemapPanel: document.getElementById('close-sitemap-panel'),
+                    sitemapContent: document.getElementById('sitemap-content'),
+
+                    // (تصحيح) إرجاع عناصر الفوتر
+                    socialPopup: document.getElementById('social-popup'),
+                    footerBrandLink: document.getElementById('footer-brand-link'),
                 };
             },
             listenForAuthState() {
@@ -392,7 +432,6 @@
                             if (userDoc.exists() && userDoc.data().status === 'approved') {
                                 this.state.user = { isLoggedIn: true, isPending: false, ...userDoc.data(), uid: firebaseUser.uid };
                                 this.showInventoryApp();
-                                // (جديد) إظهار رسالة الترحيب
                                 this.showWelcomeMessage(this.state.user.name); 
                             } else {
                                 this.state.user = { isLoggedIn: false, isPending: true, data: null };
@@ -417,8 +456,7 @@
                     const isLogin = !document.getElementById('login-form').classList.contains('hidden'); 
                     this.elements.authTitle.textContent = isLogin ? 'تسجيل الدخول' : 'إنشاء حساب جديد'; 
                     e.target.textContent = isLogin ? 'ليس لديك حساب؟ أنشئ واحدًا' : 'لديك حساب بالفعل؟ سجل الدخول'; 
-                    // (جديد) تعديل النص المساعد
-                    document.querySelector('#auth-page p.text-gray-500').textContent = isLogin ? 'مرحباً بعودتك!' : 'لنبدأ رحلتك معنا!';
+                    this.elements.authSubtitle.textContent = isLogin ? 'مرحباً بعودتك!' : 'لنبدأ رحلتك معنا!';
                 });
                 document.querySelectorAll('.password-icon').forEach(icon => { icon.addEventListener('click', () => { const targetInput = document.getElementById(icon.dataset.target); targetInput.type = targetInput.type === 'password' ? 'text' : 'password'; icon.classList.toggle('fa-eye'); icon.classList.toggle('fa-eye-slash'); }); });
                 document.getElementById('login-form').addEventListener('submit', this.handleLogin.bind(this));
@@ -428,9 +466,29 @@
                 document.getElementById('forgot-password-link').addEventListener('click', this.handlePasswordReset.bind(this));
             },
             async handleLogin(e) { e.preventDefault(); const email = document.getElementById('login-email').value; const password = document.getElementById('login-password').value; const remember = document.getElementById('remember-me').checked; const button = document.getElementById('login-button'); this.setLoading(button, true, 'جاري الدخول...'); try { await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence); await signInWithEmailAndPassword(auth, email, password); } catch (error) { Swal.fire('خطأ', 'البريد الإلكتروني أو كلمة المرور غير صحيحة.', 'error'); } finally { this.setLoading(button, false, 'دخول'); } },
-            async handleSignup(e) { e.preventDefault(); const name = document.getElementById('signup-name').value; const email = document.getElementById('signup-email').value; const password = document.getElementById('signup-password').value; const button = document.getElementById('signup-button'); this.setLoading(button, true, 'جاري الإنشاء...'); try { const cred = await createUserWithEmailAndPassword(auth, email, password); await setDoc(doc(db, "users", cred.user.uid), { name, email, uid: cred.user.uid, role: 'user', status: 'pending', createdAt: new Date() }); } catch (error) { Swal.fire('خطأ', 'حدث خطأ. تأكد أن كلمة المرور 6 حروف على الأقل والإيميل غير مستخدم.', 'error'); } finally { this.setLoading(button, false, 'إنشاء الحساب'); } },
+            async handleSignup(e) { 
+                e.preventDefault(); 
+                const name = document.getElementById('signup-name').value; 
+                const email = document.getElementById('signup-email').value; 
+                const phone = document.getElementById('signup-phone').value;
+                const password = document.getElementById('signup-password').value; 
+                const button = document.getElementById('signup-button'); 
+                this.setLoading(button, true, 'جاري الإنشاء...'); 
+                try { 
+                    const cred = await createUserWithEmailAndPassword(auth, email, password); 
+                    await setDoc(doc(db, "users", cred.user.uid), { name, email, phone: phone || "", uid: cred.user.uid, role: 'user', status: 'pending', createdAt: new Date() }); 
+                } catch (error) { 
+                    Swal.fire('خطأ', 'حدث خطأ. تأكد أن كلمة المرور 6 حروف على الأقل والإيميل غير مستخدم.', 'error'); 
+                } finally { 
+                    this.setLoading(button, false, 'إنشاء الحساب'); 
+                } 
+            },
             async handlePasswordReset(e) { e.preventDefault(); const { value: email } = await Swal.fire({ title: 'إعادة تعيين كلمة المرور', input: 'email', inputLabel: 'البريد الإلكتروني المسجل به', inputPlaceholder: 'ادخل بريدك الإلكتروني', showCancelButton: true, confirmButtonText: 'إرسال رابط الاستعادة', cancelButtonText: 'إلغاء' }); if (email) try { await sendPasswordResetEmail(auth, email); Swal.fire('تم الإرسال!', 'تفقد بريدك الإلكتروني.', 'success'); } catch (error) { Swal.fire('خطأ', 'لم نتمكن من إرسال البريد.', 'error'); } },
-            setLoading(button, isLoading, text) { if (!button) return; button.disabled = isLoading; button.innerHTML = isLoading ? `<i class="fas fa-spinner fa-spin mr-2"></i> ${text}` : text; },
+            setLoading(button, isLoading, text) { 
+                if (!button) return; 
+                button.disabled = isLoading; 
+                button.innerHTML = isLoading ? `<i class="fas fa-spinner fa-spin mr-2"></i> ${text}` : text; 
+            },
             showAuthPage() {
                 this.elements.authPage.style.display = 'flex';
                 this.elements.pendingPage.style.display = 'none';
@@ -451,9 +509,8 @@
             initInventory() {
                 if (this.state.inventory.unsubscribeProducts) return;
                 
-                // (جديد) إعداد الأيقونة والاسم
                 this.renderUserAvatar();
-                this.elements.userGreetingName.textContent = this.state.user.name.split(' ')[0]; // الاسم الأول فقط
+                this.elements.userGreetingName.textContent = this.state.user.name.split(' ')[0];
 
                 if (this.state.user.role === 'admin') {
                     this.elements.adminPanelButton.classList.remove('hidden');
@@ -474,10 +531,22 @@
                 this.elements.sortBtn.onclick = this.toggleSortDropdown.bind(this);
                 this.elements.sortDropdown.onclick = this.handleSortSelection.bind(this);
                 
-                // (جديد) ربط زر الإعدادات
                 this.elements.settingsBtn.onclick = this.showSettingsPanel.bind(this);
                 this.elements.closeSettingsPanel.onclick = this.closeSettingsPanel.bind(this);
                 this.elements.settingsPanel.onclick = (e) => { if (e.target === this.elements.settingsPanel) this.closeSettingsPanel(); };
+                this.elements.profileSettingsForm.onsubmit = this.handleUpdateProfile.bind(this);
+                this.elements.passwordSettingsForm.onsubmit = this.handleUpdatePassword.bind(this);
+
+                this.elements.cartBtn.onclick = this.showCartPanel.bind(this);
+                this.elements.closeCartPanel.onclick = this.closeCartPanel.bind(this);
+                this.elements.cartPanel.onclick = (e) => { if (e.target === this.elements.cartPanel) this.closeCartPanel(); };
+                this.elements.cartItemsContainer.onclick = this.handleCartClick.bind(this);
+                this.elements.checkoutBtn.onclick = this.handleCheckout.bind(this);
+                
+                this.elements.sitemapLink.onclick = this.showSitemapPanel.bind(this);
+                this.elements.closeSitemapPanel.onclick = this.closeSitemapPanel.bind(this);
+                this.elements.sitemapPanel.onclick = (e) => { if (e.target === this.elements.sitemapPanel) this.closeSitemapPanel(); };
+                this.elements.sitemapContent.onclick = this.handleSitemapClick.bind(this);
 
                 document.addEventListener('click', (e) => {
                     if (this.elements.sortBtn && !this.elements.sortBtn.contains(e.target) && this.elements.sortDropdown && !this.elements.sortDropdown.contains(e.target)) {
@@ -485,7 +554,7 @@
                     }
                 });
 
-                this.setupSocialPopup();
+                this.setupSocialPopup(); // (تصحيح) إرجاع الدالة
                 this.listenForProducts();
                 this.setupObserver();
                 
@@ -500,14 +569,13 @@
                 if(this.elements.dismissInstallBtn) this.elements.dismissInstallBtn.addEventListener('click', this.handleInstallDismiss.bind(this));
             },
             
-            // === (جديد) دالة لرسالة الترحيب ===
             showWelcomeMessage(name) {
                 const welcomeKey = `welcome_${this.state.user.uid}`;
                 if (!localStorage.getItem(welcomeKey)) {
                     Swal.fire({
                         icon: 'success',
-                        title: `أهلاً بعودتك، ${name.split(' ')[0]}!`,
-                        text: 'سعداء برؤيتك مرة أخرى في مخزن اللول.',
+                        title: `أهلاً بك، ${name.split(' ')[0]}!`,
+                        text: 'سعداء بإنضمامك لصيدلية د. سيد.',
                         timer: 2500,
                         showConfirmButton: false,
                         toast: true,
@@ -517,7 +585,6 @@
                 }
             },
 
-            // === (جديد) دالة لإنشاء أيقونة المستخدم ===
             renderUserAvatar() {
                 const name = this.state.user.name || 'User';
                 const firstLetter = name[0].toUpperCase();
@@ -530,14 +597,64 @@
                     </div>
                 `;
             },
+            
+            // --- دوال المخزون (Inventory Functions) ---
+            listenForProducts() {
+                this.state.inventory.isLoading = true;
+                this.elements.loader.style.display = 'block';
 
-            listenForProducts() { /* ... (نفس الكود بدون تغيير) ... */ },
-            populateInitialData() { /* ... (نفس الكود بدون تغيير) ... */ },
-            processAndCategorize() { /* ... (نفس الكود بدون تغيير) ... */ },
-            filterAndRender() { /* ... (نفس الكود بدون تغيير) ... */ },
-            loadMoreItems() { /* ... (نفس الكود بدون تغيير) ... */ },
-
-            // === (تعديل) إضافة الكمية لكارت المنتج ===
+                this.state.inventory.unsubscribeProducts = onSnapshot(this.state.inventory.productsCollection, (querySnapshot) => {
+                    this.state.inventory.fullInventory = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    this.processAndCategorize();
+                    this.filterAndRender();
+                    this.state.inventory.isLoading = false;
+                    this.elements.loader.style.display = 'none';
+                }, (error) => {
+                    console.error("Firestore listen error:", error);
+                    this.elements.loader.innerHTML = '<p class="text-red-500">حدث خطأ أثناء تحميل البيانات.</p>';
+                });
+            },
+            processAndCategorize() {
+                const data = this.state.inventory.fullInventory;
+                const categories = { 'كل الأصناف': [...data] };
+                Object.keys(this.config.CATEGORY_KEYWORDS).forEach(cat => { categories[cat] = []; });
+                categories['متنوع'] = [];
+                data.forEach(product => {
+                    const category = this.getCategory(product['الصنف']);
+                    if (!categories[category]) categories[category] = [];
+                    categories[category].push(product);
+                });
+                this.state.inventory.categorizedProducts = categories;
+            },
+            filterAndRender() {
+                const searchTerm = this.elements.searchInput.value.toLowerCase().trim();
+                const activeCategory = this.state.inventory.activeCategory || 'كل الأصناف';
+                let sourceList = searchTerm ? this.state.inventory.fullInventory.filter(item => (item['الصنف'] || '').toLowerCase().includes(searchTerm)) : (this.state.inventory.categorizedProducts[activeCategory] || []);
+                let sortedList = [...sourceList];
+                switch (this.state.inventory.currentSort) {
+                    case 'price-desc': sortedList.sort((a, b) => Number(b['السعر']) - Number(a['السعر'])); break;
+                    case 'price-asc': sortedList.sort((a, b) => Number(a['السعر']) - Number(b['السعر'])); break;
+                    case 'name-asc': sortedList.sort((a, b) => (a['الصنف']||'').localeCompare(b['الصنف']||'', 'ar')); break;
+                    case 'name-desc': sortedList.sort((a, b) => (b['الصنف']||'').localeCompare(a['الصنف']||'', 'ar')); break;
+                }
+                this.state.inventory.currentFilteredList = sortedList;
+                this.elements.inventoryGrid.innerHTML = '';
+                this.state.inventory.displayOffset = 0;
+                this.loadMoreItems();
+                this.updateCategoryTabs();
+                this.elements.noResults.style.display = sortedList.length === 0 ? 'block' : 'none';
+                this.elements.currentCategoryTitle.textContent = searchTerm ? `نتائج البحث عن: "${searchTerm}"` : activeCategory;
+            },
+            loadMoreItems() {
+                const offset = this.state.inventory.displayOffset;
+                const batchSize = this.config.BATCH_SIZE;
+                const items = this.state.inventory.currentFilteredList.slice(offset, offset + batchSize);
+                if(this.elements.lazyLoader) this.elements.lazyLoader.style.display = items.length > 0 && this.state.inventory.currentFilteredList.length > offset + batchSize ? 'block' : 'none';
+                if (items.length > 0) {
+                    this.renderProductBatch(items);
+                    this.state.inventory.displayOffset += items.length;
+                }
+            },
             renderProductBatch(items) {
                 const fragment = document.createDocumentFragment();
                 items.forEach((item, index) => {
@@ -547,20 +664,23 @@
                     card.style.borderTopColor = color;
                     card.style.setProperty('--glow-color', color + '99');
 
-                    const imagePart = item.صورة ? `<img src="${item.صورة}" class="product-image" alt="${this.escapeHtml(item['الصنف'])}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/400x200/eef2ff/4f46e5?text=Invalid%20Image';">` : `<div class="image-placeholder" data-id="${item.id}"><div class="text-center text-text-muted pointer-events-none"><i class="fas fa-camera text-5xl"></i><p class="mt-2 text-sm font-semibold">إضافة صورة</p></div></div>`;
+                    // (تصحيح) صورة المنتج الآن قابلة للضغط لتفتح مودال الصورة
+                    const imagePart = item.صورة 
+                        ? `<img src="${item.صورة}" class="product-image product-image-btn" data-id="${item.id}" alt="${this.escapeHtml(item['الصنف'])}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/400x200/eef2ff/4f46e5?text=No%20Image';">` 
+                        : `<div class="image-placeholder" data-id="${item.id}"><div class="text-center text-text-muted pointer-events-none"><i class="fas fa-camera text-5xl"></i><p class="mt-2 text-sm font-semibold">إضافة صورة</p></div></div>`;
                     
-                    // (جديد) تحديد الكمية ولونها
-                    const quantity = item['الكمية'] !== undefined ? parseInt(item['الكمية']) : 'N/A';
+                    const quantity = item['الكمية'] !== undefined ? parseInt(item['الكمية']) : -1;
                     let quantityText = '';
-                    if (quantity === 'N/A') {
-                        quantityText = `<p class="text-sm font-semibold text-gray-400">الكمية: غير محدد</p>`;
-                    } else if (quantity <= 0) {
-                        quantityText = `<p class="text-sm font-bold text-red-600">نفدت الكمية</p>`;
-                    } else if (quantity <= 10) {
-                        quantityText = `<p class="text-sm font-semibold text-yellow-600">الكمية: ${quantity} (قليلة)</p>`;
-                    } else {
-                        quantityText = `<p class="text-sm font-semibold text-green-600">الكمية: ${quantity}</p>`;
-                    }
+                    if (quantity === -1) { quantityText = `<p class="text-sm font-semibold text-gray-400">الكمية: غير محدد</p>`; }
+                    else if (quantity <= 0) { quantityText = `<p class="text-sm font-bold text-red-600">نفدت الكمية</p>`; }
+                    else if (quantity <= 10) { quantityText = `<p class="text-sm font-semibold text-yellow-600">الكمية: ${quantity} (قليلة)</p>`; }
+                    else { quantityText = `<p class="text-sm font-semibold text-green-600">الكمية: ${quantity}</p>`; }
+                    
+                    const isOutOfStock = quantity === 0;
+                    // (تصحيح) إظهار زر "أضف للسلة" للجميع (بما فيهم الأدمن)
+                    const addToCartBtn = `<button class="add-to-cart-btn mt-3" data-id="${item.id}" ${isOutOfStock ? 'disabled' : ''}>
+                                            ${isOutOfStock ? 'نفدت الكمية' : 'أضف للسلة <i class="fas fa-cart-plus mr-2"></i>'}
+                                        </button>`;
 
                     card.innerHTML = `
                         <div class="relative">
@@ -578,43 +698,118 @@
                                 <p class="text-primary text-2xl font-black">${Number(item['السعر']).toFixed(2)} جم</p>
                             </div>
                             <div class="mt-2 pt-2 border-t border-gray-100">
-                                ${quantityText} </div>
+                                ${quantityText}
+                            </div>
+                            ${addToCartBtn}
                         </div>`;
                     fragment.appendChild(card);
                 });
                 this.elements.inventoryGrid.appendChild(fragment);
             },
-
-            updateCategoryTabs() { /* ... (نفس الكود بدون تغيير) ... */ },
-            getCategory(productName) { /* ... (نفس الكود بدون تغيير) ... */ },
+            updateCategoryTabs() {
+                this.elements.categoryTabsContainer.innerHTML = '';
+                const categoryOrder = ['كل الأصناف', ...Object.keys(this.config.CATEGORY_KEYWORDS), 'متنوع'];
+                categoryOrder.forEach(category => {
+                    const products = this.state.inventory.categorizedProducts[category];
+                    if (products && products.length > 0) {
+                        const tab = document.createElement('button');
+                        tab.className = `category-tab ${this.state.inventory.activeCategory === category ? 'active' : ''}`;
+                        tab.dataset.category = category;
+                        tab.innerHTML = `<i class="fas ${this.config.CATEGORY_ICONS[category] || 'fa-tag'} mr-2"></i><span>${category} (${products.length})</span>`;
+                        this.elements.categoryTabsContainer.appendChild(tab);
+                    }
+                });
+            },
+            getCategory(productName) {
+                const lowerCaseName = String(productName || '').toLowerCase();
+                if (lowerCaseName.includes('كريم') && (lowerCaseName.includes('شعر') || lowerCaseName.includes('هير'))) return 'العناية بالشعر';
+                if (lowerCaseName.includes('جونسون') || lowerCaseName.includes('بامبرz') || lowerCaseName.includes('مولفكس')) return 'العناية بالطفل';
+                for (const category in this.config.CATEGORY_KEYWORDS) {
+                    if (this.config.CATEGORY_KEYWORDS[category].some(keyword => lowerCaseName.includes(keyword))) return category;
+                }
+                return 'متنوع';
+            },
             handleSearchInput(e) { this.state.inventory.searchTerm = e.target.value; this.elements.clearSearchBtn.style.display = e.target.value ? 'flex' : 'none'; this.state.inventory.activeCategory = 'كل الأصناف'; this.filterAndRender(); },
             clearSearch() { this.elements.searchInput.value = ''; this.handleSearchInput({target: this.elements.searchInput}); },
-            handleCategoryClick(e) { /* ... (نفس الكود بدون تغيير) ... */ },
+            handleCategoryClick(e) {
+                const target = e.target.closest('.category-tab');
+                if (target) {
+                    this.state.inventory.activeCategory = target.dataset.category;
+                    this.state.inventory.searchTerm = '';
+                    this.elements.searchInput.value = '';
+                    this.filterAndRender();
+                }
+            },
             handleGridClick(e) {
                 const editBtn = e.target.closest('.edit-btn');
                 const deleteBtn = e.target.closest('.delete-btn');
                 const imgPlaceholder = e.target.closest('.image-placeholder');
-                const id = editBtn?.dataset.id || deleteBtn?.dataset.id || imgPlaceholder?.dataset.id;
+                const addToCartBtn = e.target.closest('.add-to-cart-btn');
+                const productImage = e.target.closest('.product-image-btn'); // (جديد)
+
+                const id = editBtn?.dataset.id || deleteBtn?.dataset.id || imgPlaceholder?.dataset.id || addToCartBtn?.dataset.id || productImage?.dataset.id;
                 if (!id) return;
+                
                 const product = this.state.inventory.fullInventory.find(p => p.id === id);
                 if (!product) return;
-                if (imgPlaceholder) {
-                    this.showImageModal(product);
+                
+                // (تصحيح) الضغط على الصورة أو البلايسهولدر يفتح مودال الصورة
+                if (imgPlaceholder || productImage) { 
+                    this.showImageModal(product); 
                     return; 
                 }
+                if (addToCartBtn) { this.addToCart(product); return; }
                 if (this.state.user.role === 'admin') {
                     if (editBtn) this.showProductModal(product);
                     else if (deleteBtn) this.deleteProduct(product);
                 }
             },
-            handleSortSelection(e) { /* ... (نفس الكود بدون تغيير) ... */ },
-            setupObserver() { /* ... (نفس الكود بدون تغيير) ... */ },
-            setupSocialPopup() { /* ... (نفس الكود بدون تغيير) ... */ },
-            handleInstallClick() { /* ... (نفس الكود بدون تغيير) ... */ },
-            handleInstallDismiss() { /* ... (نفس الكود بدون تغيير) ... */ },
+            handleSortSelection(e) {
+                e.preventDefault();
+                const target = e.target.closest('.sort-option');
+                if (target) {
+                    this.state.inventory.currentSort = target.dataset.sort;
+                    this.elements.sortLabel.textContent = target.textContent;
+                    this.elements.sortDropdown.classList.add('hidden');
+                    this.filterAndRender();
+                }
+            },
+            setupObserver() {
+                if (this.state.inventory.observer) this.state.inventory.observer.disconnect();
+                const observerCallback = (entries) => {
+                    if (entries[0].isIntersecting) this.loadMoreItems();
+                };
+                this.state.inventory.observer = new IntersectionObserver(observerCallback, { rootMargin: '400px' });
+                if (this.elements.sentinel) this.state.inventory.observer.observe(this.elements.sentinel);
+            },
+            // (تصحيح) إرجاع دالة السوشيال ميديا
+            setupSocialPopup() {
+                if (!this.elements.footerBrandLink || !this.elements.socialPopup) return;
+                this.elements.footerBrandLink.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.elements.socialPopup.classList.toggle('hidden');
+                });
+                window.addEventListener('click', (e) => {
+                    if (!this.elements.socialPopup.classList.contains('hidden') && e.target.id !== 'footer-brand-link' && !this.elements.socialPopup.contains(e.target)) {
+                        this.elements.socialPopup.classList.add('hidden');
+                    }
+                });
+            },
+            handleInstallClick() {
+                this.handleInstallDismiss();
+                if (this.state.deferredPrompt) {
+                    this.state.deferredPrompt.prompt();
+                    this.state.deferredPrompt.userChoice.then(() => {
+                        this.state.deferredPrompt = null;
+                    });
+                }
+            },
+            handleInstallDismiss() {
+                if(this.elements.installToast) this.elements.installToast.classList.remove('install-toast-show');
+                localStorage.setItem('installPromptShown', 'true');
+            },
             toggleSortDropdown() { this.elements.sortDropdown.classList.toggle('hidden'); },
-
-            // === (تعديل) إضافة خانة الكمية للمودال ===
+            // (تصحيح) إضافة خانة "رابط الصورة"
             async showProductModal(product = null) {
                 const isEditing = !!product;
                 const { value: formValues } = await Swal.fire({
@@ -623,28 +818,28 @@
                         <input id="swal-input-name" class="swal2-input" placeholder="اسم الصنف" value="${isEditing ? this.escapeHtml(product['الصنف']) : ''}">
                         <input id="swal-input-price" class="swal2-input" type="number" step="0.01" placeholder="السعر" value="${isEditing ? product['السعر'] : ''}">
                         <input id="swal-input-quantity" class="swal2-input" type="number" step="1" placeholder="الكمية المتاحة (Stock)" value="${isEditing ? (product['الكمية'] || 0) : ''}">
+                        <input id="swal-input-image" class="swal2-input" placeholder="رابط الصورة (اختياري)" value="${isEditing ? (product['صورة'] || '') : ''}">
+                        <p class="text-sm text-gray-500 mt-2">ملاحظة: القسم يتم تحديده أوتوماتيكياً بناءً على الاسم.</p>
                     `,
                     focusConfirm: false, showCancelButton: true, confirmButtonText: isEditing ? 'حفظ التعديلات' : 'إضافة', cancelButtonText: 'إلغاء',
                     preConfirm: () => ({ 
                         "الصنف": document.getElementById('swal-input-name').value, 
                         "السعر": parseFloat(document.getElementById('swal-input-price').value),
-                        "الكمية": parseInt(document.getElementById('swal-input-quantity').value) // (جديد)
+                        "الكمية": parseInt(document.getElementById('swal-input-quantity').value),
+                        "صورة": document.getElementById('swal-input-image').value // (تصحيح)
                     })
                 });
                 
                 if (!formValues || !formValues['الصنف'] || isNaN(formValues['السعر']) || isNaN(formValues['الكمية'])) {
-                    if (formValues) Swal.fire('خطأ', 'يرجى ملء جميع الخانات بأرقام صحيحة.', 'error');
+                    if (formValues) Swal.fire('خطأ', 'يرجى ملء الاسم والسعر والكمية بشكل صحيح.', 'error');
                     return;
                 }
 
                 Swal.fire({ title: 'جاري الحفظ...', didOpen: () => Swal.showLoading(), allowOutsideClick: false, showConfirmButton: false });
                 if (isEditing) await this.updateProduct({ ...product, ...formValues });
-                else await this.addProduct({ ...formValues, 'صورة': '' });
+                else await this.addProduct({ ...formValues }); // (تصحيح)
                 Swal.close();
             },
-
-            // === (تعديل) دالة رفع الصور ===
-            // (مهم جداً) دي الدالة اللي اتكلمنا عليها اللي بتستخدم Storage بدل الداتا بيز
             async showImageModal(product) {
                 const canEdit = this.state.user.role === 'admin';
                 const { isConfirmed, isDenied, value: result } = await Swal.fire({
@@ -682,20 +877,14 @@
                 if (isConfirmed && result) {
                     const newImageSrc = result.imageSrc;
                     
-                    // (جديد) التحقق إذا كانت الصورة مرفوعة (Base64) أم رابط
                     if (newImageSrc.startsWith('data:image')) {
                         Swal.fire({ title: 'جاري رفع الصورة...', text: 'قد يستغرق هذا بعض الوقت...', didOpen: () => Swal.showLoading(), allowOutsideClick: false });
                         try {
-                            // 1. إنشاء مرجع للصورة في Storage
                             const storageRef = ref(storage, `products/${product.id}-${Date.now()}`);
-                            // 2. رفع الصورة
                             const uploadResult = await uploadString(storageRef, newImageSrc, 'data_url');
-                            // 3. جلب رابط التحميل
                             const downloadURL = await getDownloadURL(uploadResult.ref);
-                            // 4. تحديث المنتج بالرابط الجديد
                             await this.updateProduct({ ...product, صورة: downloadURL });
                             
-                            // (جديد) حذف الصورة القديمة من Storage لو موجودة
                             if (product.صورة && product.صورة.includes('firebasestorage')) {
                                 const oldImageRef = ref(storage, product.صورة);
                                 await deleteObject(oldImageRef).catch(e => console.warn("Could not delete old image", e));
@@ -707,7 +896,6 @@
                             Swal.fire('خطأ', 'فشل رفع الصورة. تأكد أن حجمها أقل من 1 ميجا.', 'error');
                         }
                     } else {
-                        // هذا في حالة لو المستخدم وضع رابط بنفسه
                         const newUrl = result.url;
                         if (newUrl !== product.صورة) {
                             await this.updateProduct({ ...product, صورة: newUrl });
@@ -716,7 +904,6 @@
                     }
 
                 } else if (isDenied) {
-                    // (جديد) حذف الصورة من Storage عند الضغط على "إزالة"
                     if (product.صورة && product.صورة.includes('firebasestorage')) {
                         const imageRef = ref(storage, product.صورة);
                         await deleteObject(imageRef).catch(e => console.error("Could not delete image", e));
@@ -725,13 +912,11 @@
                     Swal.fire({ icon: 'success', title: 'تمت إزالة الصورة بنجاح.', timer: 1500, showConfirmButton: false });
                 }
             },
-
             async addProduct(newProduct) { try { await addDoc(this.state.inventory.productsCollection, newProduct); } catch (e) { console.error(e); } },
             async updateProduct(updatedProduct) { try { const data = { ...updatedProduct }; delete data.id; await setDoc(doc(db, "products", updatedProduct.id), data, { merge: true }); } catch (e) { console.error(e); } },
             async deleteProduct(product) {
                 const result = await Swal.fire({ title: 'هل أنت متأكد؟', text: `سيتم حذف "${this.escapeHtml(product['الصنف'])}" بشكل نهائي!`, icon: 'warning', showCancelButton: true, confirmButtonText: 'نعم، احذفه!', cancelButtonText: 'إلغاء' });
                 if (result.isConfirmed) try { 
-                    // (جديد) حذف الصورة من Storage قبل حذف المنتج
                     if (product.صورة && product.صورة.includes('firebasestorage')) {
                         const imageRef = ref(storage, product.صورة);
                         await deleteObject(imageRef).catch(e => console.error("Could not delete image", e));
@@ -746,7 +931,7 @@
                 return div.innerHTML; 
             },
             
-            // === دوال لوحة الأدمن (بدون تغيير) ===
+            // --- دوال لوحة الأدمن (Admin Panel) ---
             showAdminPanel() {
                 const panel = document.getElementById('admin-panel');
                 panel.classList.remove('hidden');
@@ -792,19 +977,366 @@
             async promoteUser(uid, name) { if (uid === this.state.user.uid) return; await setDoc(doc(db, "users", uid), { role: 'admin', promotedBy: this.state.user.uid }, { merge: true }); Swal.fire({ icon: 'success', title: 'تمت الترقية!', text: `أصبح ${name} الآن أدمن.`, timer: 2000, showConfirmButton: false }); },
             async demoteUser(uid, name) { if (uid === this.state.user.uid) return; await setDoc(doc(db, "users", uid), { role: 'user', promotedBy: deleteField() }, { merge: true }); Swal.fire({ icon: 'info', title: 'تم تخفيض الصلاحية!', text: `أصبح ${name} الآن مستخدمًا عاديًا.`, timer: 2000, showConfirmButton: false }); },
 
-            // === (جديد) دوال صفحة الإعدادات ===
+            // --- دوال الإعدادات (Settings Panel) ---
             showSettingsPanel() {
+                this.loadSettings();
                 this.elements.settingsPanel.classList.remove('hidden');
                 this.elements.settingsPanel.classList.add('flex');
-                // هنا مستقبلاً هنحط كود يملأ بيانات المستخدم
             },
             closeSettingsPanel() {
                 this.elements.settingsPanel.classList.add('hidden');
                 this.elements.settingsPanel.classList.remove('flex');
             },
+            loadSettings() {
+                const { name, email, phone } = this.state.user;
+                this.elements.settingsName.value = name || '';
+                this.elements.settingsEmail.value = email || '';
+                this.elements.settingsPhone.value = phone || '';
+            },
+            async handleUpdateProfile(e) {
+                e.preventDefault();
+                const newName = this.elements.settingsName.value;
+                const newPhone = this.elements.settingsPhone.value;
+                if (!newName) {
+                    Swal.fire('خطأ', 'الاسم لا يمكن أن يكون فارغاً.', 'error');
+                    return;
+                }
+                this.setLoading(this.elements.saveProfileBtn, true, 'جاري الحفظ...');
+                try {
+                    const userDocRef = doc(db, "users", this.state.user.uid);
+                    await setDoc(userDocRef, { name: newName, phone: newPhone }, { merge: true });
+                    Swal.fire('تم!', 'تم تحديث بياناتك بنجاح.', 'success');
+                    this.closeSettingsPanel();
+                } catch (error) {
+                    Swal.fire('خطأ', 'لم نتمكن من تحديث بياناتك.', 'error');
+                } finally {
+                    this.setLoading(this.elements.saveProfileBtn, false, 'حفظ التغييرات');
+                }
+            },
+            async handleUpdatePassword(e) {
+                e.preventDefault();
+                const newPassword = this.elements.settingsNewPassword.value;
+                const confirmPassword = this.elements.settingsConfirmPassword.value;
+                
+                if (newPassword.length < 6) {
+                    Swal.fire('خطأ', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل.', 'error');
+                    return;
+                }
+                if (newPassword !== confirmPassword) {
+                    Swal.fire('خطأ', 'كلمتا المرور غير متطابقتين.', 'error');
+                    return;
+                }
+
+                this.setLoading(this.elements.savePasswordBtn, true, 'جاري التغيير...');
+                try {
+                    await updatePassword(auth.currentUser, newPassword);
+                    Swal.fire('تم!', 'تم تغيير كلمة المرور بنجاح.', 'success');
+                    this.elements.passwordSettingsForm.reset();
+                    this.closeSettingsPanel();
+                } catch (error) {
+                    console.error("Password Update Error:", error);
+                    Swal.fire('خطأ', 'فشلت العملية. قد تحتاج لإعادة تسجيل الدخول أولاً.', 'error');
+                } finally {
+                    this.setLoading(this.elements.savePasswordBtn, false, 'تغيير كلمة المرور');
+                }
+            },
+
+            // --- دوال سلة المشتريات (Cart) ---
+            showCartPanel() {
+                this.renderCartPanel();
+                this.elements.cartPanel.classList.remove('hidden');
+                this.elements.cartPanel.classList.add('flex');
+            },
+            closeCartPanel() {
+                this.elements.cartPanel.classList.add('hidden');
+                this.elements.cartPanel.classList.remove('flex');
+            },
+            addToCart(product) {
+                const stock = product['الكمية'] !== undefined ? parseInt(product['الكمية']) : -1;
+                if (stock === 0) {
+                    Swal.fire('عذراً', 'هذا المنتج نفد من المخزون.', 'warning');
+                    return;
+                }
+
+                const existingItem = this.state.cart.find(item => item.id === product.id);
+                
+                if (existingItem) {
+                    if (stock !== -1 && existingItem.quantity >= stock) {
+                        Swal.fire('الحد الأقصى', 'لقد وصلت للكمية المتاحة من هذا المنتج.', 'info');
+                        return;
+                    }
+                    existingItem.quantity++;
+                } else {
+                    this.state.cart.push({
+                        id: product.id,
+                        name: product['الصنف'],
+                        price: Number(product['السعر']),
+                        quantity: 1,
+                        stock: stock,
+                        image: product['صورة'] || null
+                    });
+                }
+                
+                this.elements.cartBtn.classList.add('fa-beat-animation');
+                setTimeout(() => this.elements.cartBtn.classList.remove('fa-beat-animation'), 600);
+
+                this.updateCartUI();
+            },
+            updateCartQuantity(productId, newQuantity) {
+                const item = this.state.cart.find(item => item.id === productId);
+                if (!item) return;
+
+                if (newQuantity <= 0) {
+                    this.removeFromCart(productId);
+                    return;
+                }
+
+                if (item.stock !== -1 && newQuantity > item.stock) {
+                    Swal.fire('الحد الأقصى', 'الكمية المطلوبة أكبر من المتاح بالمخزون.', 'info');
+                    item.quantity = item.stock;
+                } else {
+                    item.quantity = newQuantity;
+                }
+                this.updateCartUI();
+            },
+            removeFromCart(productId) {
+                this.state.cart = this.state.cart.filter(item => item.id !== productId);
+                this.updateCartUI();
+            },
+            updateCartUI() {
+                this.renderCartHeaderIcon();
+                if (!this.elements.cartPanel.classList.contains('hidden')) {
+                    this.renderCartPanel();
+                }
+            },
+            renderCartHeaderIcon() {
+                const totalItems = this.state.cart.reduce((sum, item) => sum + item.quantity, 0);
+                if (totalItems > 0) {
+                    this.elements.cartCount.textContent = totalItems;
+                    this.elements.cartCount.classList.remove('hidden');
+                } else {
+                    this.elements.cartCount.classList.add('hidden');
+                }
+            },
+            renderCartPanel() {
+                const totalItems = this.state.cart.reduce((sum, item) => sum + item.quantity, 0);
+                this.elements.cartPanelCount.textContent = totalItems;
+
+                if (this.state.cart.length === 0) {
+                    this.elements.cartItemsContainer.innerHTML = ''; // مسح أي عناصر قديمة
+                    this.elements.cartEmptyMsg.style.display = 'block';
+                    this.elements.checkoutBtn.disabled = true;
+                    this.elements.cartTotalPrice.textContent = '0.00 جم';
+                    return;
+                }
+
+                this.elements.cartEmptyMsg.style.display = 'none';
+                this.elements.cartItemsContainer.innerHTML = '';
+                let totalPrice = 0;
+
+                this.state.cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    totalPrice += itemTotal;
+                    
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'flex items-center gap-4 py-4 border-b';
+                    itemElement.innerHTML = `
+                        <img src="${item.image || 'https://placehold.co/80x80/eef2ff/4f46e5?text=Img'}" alt="${this.escapeHtml(item.name)}" class="w-20 h-20 object-cover rounded-lg border">
+                        <div class="flex-1">
+                            <h4 class="font-bold">${this.escapeHtml(item.name)}</h4>
+                            <p class="text-sm text-text-muted">${item.price.toFixed(2)} جم</p>
+                            <div class="cart-item-quantity mt-2">
+                                <button class="cart-quantity-decrease" data-id="${item.id}">-</button>
+                                <span class="font-bold w-8 text-center">${item.quantity}</span>
+                                <button class="cart-quantity-increase" data-id="${item.id}" ${item.stock !== -1 && item.quantity >= item.stock ? 'disabled' : ''}>+</button>
+                            </div>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold text-primary">${itemTotal.toFixed(2)} جم</p>
+                            <button class="cart-remove-item text-red-500 text-sm hover:underline mt-1" data-id="${item.id}">إزالة</button>
+                        </div>
+                    `;
+                    this.elements.cartItemsContainer.appendChild(itemElement);
+                });
+
+                this.elements.cartTotalPrice.textContent = `${totalPrice.toFixed(2)} جم`;
+                this.elements.checkoutBtn.disabled = false;
+            },
+            handleCartClick(e) {
+                const decreaseBtn = e.target.closest('.cart-quantity-decrease');
+                const increaseBtn = e.target.closest('.cart-quantity-increase');
+                const removeBtn = e.target.closest('.cart-remove-item');
+                
+                if (decreaseBtn) {
+                    const id = decreaseBtn.dataset.id;
+                    const item = this.state.cart.find(i => i.id === id);
+                    if(item) this.updateCartQuantity(id, item.quantity - 1);
+                } else if (increaseBtn) {
+                    const id = increaseBtn.dataset.id;
+                    const item = this.state.cart.find(i => i.id === id);
+                    if(item) this.updateCartQuantity(id, item.quantity + 1);
+                } else if (removeBtn) {
+                    const id = removeBtn.dataset.id;
+                    this.removeFromCart(id);
+                }
+            },
+            handleCheckout() {
+                if (this.state.cart.length === 0) return;
+
+                Swal.fire({
+                    title: 'تأكيد الطلب',
+                    text: 'سيتم إرسال طلبك الآن، هل أنت متأكد؟',
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: 'نعم، إتمام الطلب!',
+                    cancelButtonText: 'إلغاء'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        this.processCheckout();
+                    }
+                });
+            },
+            async processCheckout() {
+                this.setLoading(this.elements.checkoutBtn, true, 'جاري معالجة الطلب...');
+                
+                try {
+                    await runTransaction(db, async (transaction) => {
+                        const itemsToOrder = [...this.state.cart];
+                        const productRefs = {};
+                        const productDocs = {};
+
+                        for (const item of itemsToOrder) {
+                            const productRef = doc(db, "products", item.id);
+                            productRefs[item.id] = productRef;
+                            const productDoc = await transaction.get(productRef);
+                            if (!productDoc.exists()) {
+                                throw new Error(`المنتج ${item.name} لم يعد متاحاً.`);
+                            }
+                            productDocs[item.id] = productDoc.data();
+                        }
+                        
+                        for (const item of itemsToOrder) {
+                            const productData = productDocs[item.id];
+                            const currentStock = productData['الكمية'] !== undefined ? parseInt(productData['الكمية']) : -1;
+                            
+                            if (currentStock === -1) continue; 
+
+                            if (currentStock < item.quantity) {
+                                throw new Error(`الكمية المتاحة من ${item.name} هي ${currentStock} فقط.`);
+                            }
+                        }
+                        
+                        const total = itemsToOrder.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                        const orderData = {
+                            userId: this.state.user.uid,
+                            userName: this.state.user.name,
+                            userPhone: this.state.user.phone || '',
+                            items: itemsToOrder.map(i => ({ id: i.id, name: i.name, quantity: i.quantity, price: i.price })),
+                            totalPrice: total,
+                            status: 'pending',
+                            createdAt: new Date()
+                        };
+                        
+                        const newOrderRef = doc(collection(db, "orders"));
+                        transaction.set(newOrderRef, orderData);
+
+                        for (const item of itemsToOrder) {
+                            const productRef = productRefs[item.id];
+                            const productData = productDocs[item.id];
+                            const currentStock = productData['الكمية'] !== undefined ? parseInt(productData['الكمية']) : -1;
+                            
+                            if (currentStock !== -1) {
+                                const newStock = currentStock - item.quantity;
+                                transaction.update(productRef, { "الكمية": newStock });
+                            }
+                        }
+                    });
+                    
+                    Swal.fire('تم!', 'تم إرسال طلبك بنجاح! سيتم التواصل معك قريباً.', 'success');
+                    this.state.cart = [];
+                    this.updateCartUI();
+                    this.closeCartPanel();
+
+                } catch (error) {
+                    console.error("Checkout Error:", error);
+                    Swal.fire('خطأ في الطلب', error.message, 'error');
+                } finally {
+                    this.setLoading(this.elements.checkoutBtn, false, 'إتمام الطلب');
+                }
+            },
+
+            // --- دوال خريطة الموقع (Sitemap) ---
+            showSitemapPanel() {
+                this.renderSitemap();
+                this.elements.sitemapPanel.classList.remove('hidden');
+                this.elements.sitemapPanel.classList.add('flex');
+            },
+            closeSitemapPanel() {
+                this.elements.sitemapPanel.classList.add('hidden');
+                this.elements.sitemapPanel.classList.remove('flex');
+            },
+            renderSitemap() {
+                let content = '<nav class="space-y-2">';
+                
+                content += `<a class="sitemap-link" data-action="go-home"><i class="fas fa-home"></i> الصفحة الرئيسية (كل الأصناف)</a>`;
+                
+                content += '<h4 class="text-lg font-semibold text-primary mt-6 mb-2">الأقسام</h4>';
+                const categoryOrder = ['كل الأصناف', ...Object.keys(this.config.CATEGORY_KEYWORDS), 'متنوع'];
+                categoryOrder.forEach(category => {
+                    const products = this.state.inventory.categorizedProducts[category];
+                    if (category !== 'كل الأصناف' && products && products.length > 0) {
+                        content += `<a class="sitemap-link" data-action="go-category" data-category="${category}">
+                                        <i class="fas ${this.config.CATEGORY_ICONS[category] || 'fa-tag'}"></i> ${category}
+                                    </a>`;
+                    }
+                });
+                
+                content += '<h4 class="text-lg font-semibold text-primary mt-6 mb-2">الحساب والطلبات</h4>';
+                content += `<a class="sitemap-link" data-action="go-cart"><i class="fas fa-shopping-cart"></i> سلة المشتريات</a>`;
+                content += `<a class="sitemap-link" data-action="go-settings"><i class="fas fa-cog"></i> إعدادات الحساب</a>`;
+                
+                if (this.state.user.role === 'admin') {
+                    content += '<h4 class="text-lg font-semibold text-primary mt-6 mb-2">الإدارة</h4>';
+                    content += `<a class="sitemap-link" data-action="go-admin"><i class="fas fa-user-shield"></i> لوحة تحكم الأدمن</a>`;
+                }
+                
+                content += '</nav>';
+                this.elements.sitemapContent.innerHTML = content;
+            },
+            handleSitemapClick(e) {
+                const link = e.target.closest('.sitemap-link');
+                if (!link) return;
+                
+                const action = link.dataset.action;
+                
+                this.closeSitemapPanel(); 
+
+                switch (action) {
+                    case 'go-home':
+                        document.querySelector('.category-tab[data-category="كل الأصناف"]')?.click();
+                        break;
+                    case 'go-category':
+                        const category = link.dataset.category;
+                        document.querySelector(`.category-tab[data-category="${category}"]`)?.click();
+                        break;
+                    case 'go-cart':
+                        this.showCartPanel();
+                        break;
+                    case 'go-settings':
+                        this.showSettingsPanel();
+                        break;
+                    case 'go-admin':
+                        if (this.state.user.role === 'admin') {
+                            this.showAdminPanel();
+                        }
+                        break;
+                }
+            }
         };
         
         App.init();
     </script>
 </body>
 </html>
+
+
